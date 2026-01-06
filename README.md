@@ -93,11 +93,11 @@ Before setting up the project, ensure your environment meets the following requi
 
 ## Design Philosophy
 
-D-BOOST adopts a **modern, darkness-themed UI** optimized for visual comfort and professional aesthetics.
-- **Glassmorphism**: Elegant translucent cards and overlays.
-- **Primary Accent**: Lightning Green (#00FF9C) for high-visibility actions.
-- **Typography**: Inter/Poppins for maximum readability.
-- **Mobile-First**: Fully responsive layouts that work seamlessly on desktop, tablet, and mobile devices.
+D-BOOST adopts a **modern, clean, and professional UI** optimized for visual comfort and usability.
+- **Glassmorphism**: Elegant translucent cards and overlays, especially in mobile views.
+- **Primary Accent**: Royal Blue (`#006BFF`) for high-visibility actions and branding.
+- **Typography**: Inter & Figtree for maximum readability across devices.
+- **Mobile-First**: Fully responsive layouts with "app-like" experience (bottom navigation, touch-optimized).
 
 ## Contributing
 
