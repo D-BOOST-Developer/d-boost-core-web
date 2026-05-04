@@ -467,7 +467,7 @@ function startWelcomeTour() {
     const steps = [
         {
             element: 'header.dashboard-header',
-            title: '🎉 Selamat Datang di SDA UMKM!',
+            title: '🎉 Selamat Datang di DBOOST!',
             description: 'Selamat! Anda telah berhasil menyelesaikan onboarding. Ini adalah dashboard utama Anda - pusat kendali untuk mengelola seluruh aspek bisnis UMKM Anda dengan lebih efisien dan terorganisir.',
             position: 'bottom',
             badge: 'Langkah 1 dari 15',
@@ -584,7 +584,7 @@ function startWelcomeTour() {
         },
         {
             element: 'header.dashboard-header',
-            title: '💡 Tips Menggunakan SDA UMKM',
+            title: '💡 Tips Menggunakan DBOOST',
             description: 'Beberapa tips: 1) Update data secara rutin untuk insight yang akurat, 2) Manfaatkan DEBY AI untuk analisis cepat, 3) Cek dashboard setiap hari untuk monitor bisnis, 4) Gunakan fitur export untuk backup data, 5) Jelajahi setiap modul untuk temukan fitur tersembunyi!',
             position: 'bottom',
             badge: 'Best Practices',
@@ -594,7 +594,7 @@ function startWelcomeTour() {
         {
             element: 'header.dashboard-header',
             title: '🚀 Siap Memulai!',
-            description: 'Selamat! Anda sekarang sudah familiar dengan semua fitur utama SDA UMKM. Mulai eksplorasi dashboard, kelola bisnis Anda dengan lebih efisien, dan jangan ragu untuk bertanya ke DEBY AI kapan saja. Sukses untuk bisnis Anda! 🎉',
+            description: 'Selamat! Anda sekarang sudah familiar dengan semua fitur utama DBOOST. Mulai eksplorasi dashboard, kelola bisnis Anda dengan lebih efisien, dan jangan ragu untuk bertanya ke DEBY AI kapan saja. Sukses untuk bisnis Anda! 🎉',
             position: 'center',
             badge: 'Selesai!',
             icon: '<svg class="w-10 h-10 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M14 10h4.764a2 2 0 011.789 2.894l-3.5 7A2 2 0 0115.263 21h-4.017c-.163 0-.326-.02-.485-.06L7 20m7-10V5a2 2 0 00-2-2h-.095c-.5 0-.905.405-.905.905 0 .714-.211 1.412-.608 2.006L7 11v9m7-10h-2M7 20H5a2 2 0 01-2-2v-6a2 2 0 012-2h2.5"></path></svg>',

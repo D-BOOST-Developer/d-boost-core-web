@@ -89,21 +89,17 @@ Route::middleware('auth:sanctum')->group(function () {
     Route::patch('/storefront/links/{id}/toggle', [App\Http\Controllers\Api\MarketplaceLinkController::class, 'toggleStatus']);
     Route::post('/storefront/links/reorder', [App\Http\Controllers\Api\MarketplaceLinkController::class, 'reorder']);
 
-    // Deby AI Assistant API Routes (Mobile App)
-    // Uses /mobile prefix to avoid conflict with web.php routes
+    // Deby AI v2 API Routes (Mobile App) — single AI endpoint + DB-only quick actions
     Route::post('/mobile/deby-ai/chat', [App\Http\Controllers\DebyAIController::class, 'chat']);
-    Route::post('/mobile/deby-ai/chatgpt', [App\Http\Controllers\DebyAIController::class, 'chatgpt']);
-    Route::post('/mobile/deby-ai/thinking', [App\Http\Controllers\DebyAIController::class, 'callThinkingAPI']);
-    Route::get('/mobile/deby-ai/history', [App\Http\Controllers\DebyAIController::class, 'history']);
-    Route::get('/mobile/deby-ai/quick-tips', [App\Http\Controllers\DebyAIController::class, 'quickTips']);
-    Route::get('/mobile/deby-ai/onboarding-tutorial', [App\Http\Controllers\DebyAIController::class, 'onboardingTutorial']);
-    Route::get('/mobile/deby-ai/search-faq', [App\Http\Controllers\DebyAIController::class, 'searchFAQ']);
-    Route::get('/mobile/deby-ai/faq-by-category', [App\Http\Controllers\DebyAIController::class, 'faqByCategory']);
-    Route::post('/mobile/deby-ai/confirm-action', [App\Http\Controllers\DebyAIController::class, 'confirmAction']);
-    Route::post('/mobile/deby-ai/reset', [App\Http\Controllers\DebyAIController::class, 'resetConversation']);
-    Route::post('/mobile/deby-ai/save-log', [App\Http\Controllers\DebyAIController::class, 'saveChatLog']);
     Route::get('/mobile/deby-ai/chat-history', [App\Http\Controllers\DebyAIController::class, 'getChatHistory']);
     Route::delete('/mobile/deby-ai/chat-history', [App\Http\Controllers\DebyAIController::class, 'deleteChatHistory']);
+
+    Route::get('/mobile/deby-ai/quick/revenue',     [App\Http\Controllers\DebyAIController::class, 'quickRevenue']);
+    Route::get('/mobile/deby-ai/quick/expenses',    [App\Http\Controllers\DebyAIController::class, 'quickExpenses']);
+    Route::get('/mobile/deby-ai/quick/stock',       [App\Http\Controllers\DebyAIController::class, 'quickStock']);
+    Route::get('/mobile/deby-ai/quick/sales-today', [App\Http\Controllers\DebyAIController::class, 'quickSalesToday']);
+    Route::get('/mobile/deby-ai/quick/products',    [App\Http\Controllers\DebyAIController::class, 'quickProducts']);
+    Route::get('/mobile/deby-ai/quick/low-stock',   [App\Http\Controllers\DebyAIController::class, 'quickLowStock']);
     // Reports API Routes
     Route::get('/reports/profit-loss', [App\Http\Controllers\Api\ReportController::class, 'profitLoss']);
     Route::get('/reports/profit-loss/download', [App\Http\Controllers\Api\ReportController::class, 'downloadProfitLoss']);

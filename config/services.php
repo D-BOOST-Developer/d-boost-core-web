@@ -42,9 +42,13 @@ return [
     ],
 
     'groq' => [
-        'api_key' => env('GROQ_API_KEY'),
-        'model'   => env('GROQ_MODEL', 'llama-3.1-8b-instant'),
-        'base_url'=> 'https://api.groq.com/openai/v1',
+        'api_key'     => env('GROQ_API_KEY'),
+        'model'       => env('GROQ_MODEL', 'llama-3.1-8b-instant'),
+        'base_url'    => env('GROQ_BASE_URL', 'https://api.groq.com/openai/v1'),
+        'timeout'     => (int) env('GROQ_TIMEOUT', 45),
+        'max_tokens'  => (int) env('GROQ_MAX_TOKENS', 1024),
+        'temperature' => (float) env('GROQ_TEMPERATURE', 0.6),
+        'history_limit' => (int) env('GROQ_HISTORY_LIMIT', 10),
     ],
 
 ];

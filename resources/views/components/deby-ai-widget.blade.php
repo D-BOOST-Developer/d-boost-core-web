@@ -91,40 +91,28 @@
             </div>
         </div>
 
-        <!-- Recommendation Buttons - Horizontal Scrollable with Smart Context -->
-        <div x-show="!thinkingMode" class="border-t border-gray-100 px-4 py-3 bg-white overflow-x-auto">
+        <!-- Quick Actions - Pure DB queries, no AI involvement -->
+        <div class="border-t border-gray-100 px-4 py-3 bg-white overflow-x-auto">
             <div class="flex gap-2 pb-2" style="min-width: min-content;">
-                <button @click="sendQuickQuestion('Berapa pendapatan hari ini?')" class="px-3 py-1.5 bg-blue-100 hover:bg-blue-200 text-blue-700 text-xs rounded-full whitespace-nowrap transition-all active:scale-95 font-medium shadow-sm hover:shadow-md" title="Lihat total pendapatan hari ini">
+                <button @click="quickAction('revenue', '💰 Pemasukan hari ini')" class="px-3 py-1.5 bg-blue-100 hover:bg-blue-200 text-blue-700 text-xs rounded-full whitespace-nowrap transition-all active:scale-95 font-medium shadow-sm hover:shadow-md" title="Lihat total pendapatan hari ini">
                     💰 Pemasukan
                 </button>
-                <button @click="sendQuickQuestion('Berapa pengeluaran hari ini?')" class="px-3 py-1.5 bg-red-100 hover:bg-red-200 text-red-700 text-xs rounded-full whitespace-nowrap transition-all active:scale-95 font-medium shadow-sm hover:shadow-md" title="Lihat total pengeluaran hari ini">
+                <button @click="quickAction('expenses', '💸 Pengeluaran hari ini')" class="px-3 py-1.5 bg-red-100 hover:bg-red-200 text-red-700 text-xs rounded-full whitespace-nowrap transition-all active:scale-95 font-medium shadow-sm hover:shadow-md" title="Lihat total pengeluaran hari ini">
                     💸 Pengeluaran
                 </button>
-                <button @click="sendQuickQuestion('Bagaimana posisi stok saat ini?')" class="px-3 py-1.5 bg-green-100 hover:bg-green-200 text-green-700 text-xs rounded-full whitespace-nowrap transition-all active:scale-95 font-medium shadow-sm hover:shadow-md" title="Lihat status stok produk">
+                <button @click="quickAction('stock', '📦 Posisi stok saat ini')" class="px-3 py-1.5 bg-green-100 hover:bg-green-200 text-green-700 text-xs rounded-full whitespace-nowrap transition-all active:scale-95 font-medium shadow-sm hover:shadow-md" title="Lihat status stok produk">
                     📦 Stok
                 </button>
-                <button @click="sendQuickQuestion('Lihat transaksi penjualan hari ini')" class="px-3 py-1.5 bg-purple-100 hover:bg-purple-200 text-purple-700 text-xs rounded-full whitespace-nowrap transition-all active:scale-95 font-medium shadow-sm hover:shadow-md" title="Lihat daftar penjualan hari ini">
+                <button @click="quickAction('sales-today', '🛍️ Transaksi hari ini')" class="px-3 py-1.5 bg-purple-100 hover:bg-purple-200 text-purple-700 text-xs rounded-full whitespace-nowrap transition-all active:scale-95 font-medium shadow-sm hover:shadow-md" title="Lihat daftar penjualan hari ini">
                     🛍️ Transaksi
                 </button>
-
-                <button @click="sendQuickQuestion('Tunjukkan daftar semua produk')" class="px-3 py-1.5 bg-indigo-100 hover:bg-indigo-200 text-indigo-700 text-xs rounded-full whitespace-nowrap transition-all active:scale-95 font-medium shadow-sm hover:shadow-md" title="Lihat semua produk yang tersedia">
+                <button @click="quickAction('products', '📋 Daftar produk')" class="px-3 py-1.5 bg-indigo-100 hover:bg-indigo-200 text-indigo-700 text-xs rounded-full whitespace-nowrap transition-all active:scale-95 font-medium shadow-sm hover:shadow-md" title="Lihat semua produk yang tersedia">
                     📋 Produk
                 </button>
-                <button @click="sendQuickQuestion('Produk mana yang stok rendah?')" class="px-3 py-1.5 bg-yellow-100 hover:bg-yellow-200 text-yellow-700 text-xs rounded-full whitespace-nowrap transition-all active:scale-95 font-medium shadow-sm hover:shadow-md" title="Lihat produk dengan stok rendah">
+                <button @click="quickAction('low-stock', '⚠️ Produk stok rendah')" class="px-3 py-1.5 bg-yellow-100 hover:bg-yellow-200 text-yellow-700 text-xs rounded-full whitespace-nowrap transition-all active:scale-95 font-medium shadow-sm hover:shadow-md" title="Lihat produk dengan stok rendah">
                     ⚠️ Alert
                 </button>
             </div>
-        </div>
-
-        <!-- Thinking Mode Active Indicator -->
-        <div x-show="thinkingMode" class="border-t border-purple-200 px-4 py-3 bg-gradient-to-r from-purple-50 to-purple-100">
-            <div class="flex items-center gap-2 mb-2">
-                <div class="w-2 h-2 bg-purple-600 rounded-full animate-pulse"></div>
-                <span class="text-xs font-semibold text-purple-700">🧠 SMART MODE AKTIF</span>
-            </div>
-            <p class="text-xs text-purple-600 leading-relaxed">
-                Mode smart diaktifkan. Semua pertanyaan Anda akan diproses dengan AI standart tinggi untuk hasil yang lebih mendalam dan akurat.
-            </p>
         </div>
 
         <!-- Input Area - Modern Design -->
@@ -155,17 +143,7 @@
                     </svg>
                 </button>
             </div>
-            <div class="flex items-center justify-between gap-3 mt-2">
-                <button 
-                    @click="thinkingMode = !thinkingMode"
-                    :class="{ 'bg-purple-600 text-white': thinkingMode, 'bg-gray-200 text-gray-700': !thinkingMode }"
-                    class="px-3 py-1.5 rounded-full text-xs font-semibold transition-all hover:shadow-md active:scale-95 whitespace-nowrap"
-                    title="Toggle Smart Mode - Mengaktifkan advanced AI processing"
-                >
-                    🧠 Smart
-                </button>
-                <p class="text-xs text-gray-500 text-right">💡 Tip: Gunakan bahasa Indonesia untuk hasil terbaik</p>
-            </div>
+            <p class="text-xs text-gray-500 text-right mt-2">💡 Deby AI sudah otomatis tahu data bisnismu — tanyakan apa saja!</p>
         </div>
     </div>
 
@@ -216,17 +194,12 @@ document.addEventListener('alpine:init', () => {
         isDeleting: false,
         isHistoryLoading: false,
         messages: [],
-        historyLoaded: false,
         chatHistoryLoaded: false,
-        thinkingMode: false,
         showDeleteConfirm: false,
 
         init() {
             console.log('DEBY AI Widget initialized');
-            // Popup default tertutup
             this.isOpen = false;
-            this.historyLoaded = false;
-            // Don't load history on init, load it when user opens the chat
         },
 
         toggleChat() {
@@ -249,128 +222,55 @@ document.addEventListener('alpine:init', () => {
         async sendMessage() {
             const input = document.getElementById('messageInput');
             if (!input) return;
-            
-            const message = input.value.trim();
 
+            const message = input.value.trim();
             if (!message || this.isLoading || this.isHistoryLoading) return;
 
             this.isLoading = true;
             input.value = '';
 
             this.addMessageToUI('user', message);
-            await this.saveChatLog('user', message, this.thinkingMode, null);
 
             try {
                 const csrfToken = document.querySelector('meta[name="csrf-token"]');
                 const token = csrfToken ? csrfToken.content : '';
 
-                // Show typing indicator
                 this.isTyping = true;
                 this.addTypingIndicator();
 
-                // Jika thinking mode aktif, langsung call ChatGPT API
-                if (this.thinkingMode) {
-                    console.log('🧠 Thinking Mode: ON - Calling ChatGPT API directly...');
+                const baseDelay = 800;
+                const adaptiveDelay = Math.min(message.length * 20, 2500);
+                const typingDelay = baseDelay + adaptiveDelay;
 
-                    const response = await fetch('/api/deby-ai/chatgpt', {
-                        method: 'POST',
-                        headers: {
-                            'Content-Type': 'application/json',
-                            'X-CSRF-TOKEN': token,
-                        },
-                        body: JSON.stringify({ 
-                            message: message,
-                            thinkingMode: true
-                        }),
-                    });
+                const response = await fetch('/api/deby-ai/chat', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                        'X-CSRF-TOKEN': token,
+                    },
+                    body: JSON.stringify({ message: message }),
+                });
 
-                    const data = await response.json();
+                const data = await response.json();
 
-                    // Adaptive typing delay untuk ChatGPT
-                    const baseDelay = 1500; // Minimum delay untuk ChatGPT
-                    const messageLength = message.length;
-                    const adaptiveDelay = Math.min(messageLength * 30, 4000); // Max 4 detik
-                    const typingDelay = baseDelay + adaptiveDelay + (Math.random() * 1000);
+                await new Promise(resolve => setTimeout(resolve, typingDelay));
+                this.removeTypingIndicator();
+                this.isTyping = false;
 
-                    // Wait untuk typing animation
-                    await new Promise(resolve => setTimeout(resolve, typingDelay));
+                if (data.success) {
+                    const meta = data.metadata || {};
+                    this.addMessageToUI(
+                        'assistant',
+                        data.message,
+                        meta.table_data || null,
+                        meta.action_link || null,
+                        meta.action_label || null
+                    );
 
-                    // Remove typing indicator
-                    this.removeTypingIndicator();
-                    this.isTyping = false;
-
-                    if (data.success) {
-                        // Add ChatGPT response to UI
-                        this.addMessageToUI('assistant', data.message);
-                        
-                        await this.saveChatLog('assistant', data.message, true, { thinking_mode: true });
-                        
-                        // Store in messages array
-                        this.messages.push({
-                            role: 'user',
-                            message: message,
-                        });
-                        this.messages.push({
-                            role: 'assistant',
-                            message: data.message,
-                            metadata: { thinking_mode: true },
-                        });
-                    } else {
-                        this.addMessageToUI('assistant', data.message || 'Terjadi kesalahan pada ChatGPT API. Silakan coba lagi.');
-                    }
+                    this.messages.push({ role: 'user', message: message });
+                    this.messages.push({ role: 'assistant', message: data.message, metadata: meta });
                 } else {
-                    // Normal NLP mode - use regular chat API
-                    console.log('📝 Normal Mode: Using NLP processing...');
-
-                    // Adaptive typing delay berdasarkan panjang message
-                    const baseDelay = 1500; // Minimum delay
-                    const messageLength = message.length;
-                    const adaptiveDelay = Math.min(messageLength * 30, 4000); // Max 4 detik
-                    const typingDelay = baseDelay + adaptiveDelay + (Math.random() * 1000);
-
-                    const response = await fetch('/api/deby-ai/chat', {
-                        method: 'POST',
-                        headers: {
-                            'Content-Type': 'application/json',
-                            'X-CSRF-TOKEN': token,
-                        },
-                        body: JSON.stringify({ 
-                            message: message,
-                            thinkingMode: false
-                        }),
-                    });
-
-                    const data = await response.json();
-
-                    // Wait untuk typing animation
-                    await new Promise(resolve => setTimeout(resolve, typingDelay));
-
-                    // Remove typing indicator
-                    this.removeTypingIndicator();
-                    this.isTyping = false;
-
-                    if (data.success) {
-                        // Add AI response to UI with table data if available
-                        const tableData = data.metadata && data.metadata.table_data ? data.metadata.table_data : null;
-                        const actionLink = data.metadata && data.metadata.action_link ? data.metadata.action_link : null;
-                        const actionLabel = data.metadata && data.metadata.action_label ? data.metadata.action_label : null;
-                        this.addMessageToUI('assistant', data.message, tableData, actionLink, actionLabel);
-                        
-                        await this.saveChatLog('assistant', data.message, false, data.metadata);
-                        
-                        // Store in messages array
-                        this.messages.push({
-                            role: 'user',
-                            message: message,
-                        });
-                        this.messages.push({
-                            role: 'assistant',
-                            message: data.message,
-                            metadata: data.metadata,
-                        });
-                    } else {
-                        this.addMessageToUI('assistant', data.message || 'Terjadi kesalahan. Silakan coba lagi.');
-                    }
+                    this.addMessageToUI('assistant', data.message || 'Maaf, terjadi kesalahan. Silakan coba lagi.');
                 }
             } catch (error) {
                 console.error('DEBY AI Error:', error);
@@ -383,6 +283,52 @@ document.addEventListener('alpine:init', () => {
                     const input = document.getElementById('messageInput');
                     if (input) input.focus();
                 }, 100);
+            }
+        },
+
+        async quickAction(type, userLabel) {
+            if (this.isLoading || this.isHistoryLoading) return;
+
+            this.isLoading = true;
+            this.addMessageToUI('user', userLabel);
+
+            try {
+                this.isTyping = true;
+                this.addTypingIndicator();
+
+                const response = await fetch(`/api/deby-ai/quick/${type}`, {
+                    method: 'GET',
+                    headers: { 'Accept': 'application/json' },
+                });
+
+                await new Promise(resolve => setTimeout(resolve, 400));
+                const data = await response.json();
+
+                this.removeTypingIndicator();
+                this.isTyping = false;
+
+                if (data.success) {
+                    const meta = data.metadata || {};
+                    this.addMessageToUI(
+                        'assistant',
+                        data.message,
+                        meta.table_data || null,
+                        meta.action_link || null,
+                        meta.action_label || null
+                    );
+
+                    this.messages.push({ role: 'user', message: userLabel });
+                    this.messages.push({ role: 'assistant', message: data.message, metadata: meta });
+                } else {
+                    this.addMessageToUI('assistant', data.message || 'Tidak dapat memuat data.');
+                }
+            } catch (error) {
+                console.error('Quick Action Error:', error);
+                this.removeTypingIndicator();
+                this.isTyping = false;
+                this.addMessageToUI('assistant', 'Maaf, gagal mengambil data. Silakan coba lagi.');
+            } finally {
+                this.isLoading = false;
             }
         },
 
@@ -517,30 +463,6 @@ document.addEventListener('alpine:init', () => {
             formatted = formatted.replace(/^• (.*?)$/gm, '<span class="block ml-2">• $1</span>');
             
             return formatted;
-        },
-
-        sendQuickQuestion(question) {
-            const input = document.getElementById('messageInput');
-            if (input) {
-                input.value = question;
-                this.sendMessage();
-            }
-        },
-
-        async loadHistory() {
-            try {
-                const response = await fetch('/api/deby-ai/history');
-                const data = await response.json();
-                
-                if (data.success && data.history && data.history.length > 0) {
-                    // Load previous messages
-                    data.history.forEach(msg => {
-                        this.addMessageToUI(msg.role, msg.message);
-                    });
-                }
-            } catch (error) {
-                console.error('Error loading DEBY AI history:', error);
-            }
         },
 
         async loadChatHistory() {

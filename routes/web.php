@@ -154,24 +154,21 @@ Route::middleware(['auth', 'verified', 'onboarding.completed'])->group(function 
         Route::resource('users', \App\Http\Controllers\Settings\UserController::class);
     });
     
-    // DEBY AI - Business Assistant (Web Dashboard)
+    // DEBY AI v2 - Single AI endpoint (auto-context) + DB-only quick actions
     // Note: Mobile app uses routes in api.php with Sanctum auth
     Route::prefix('api/deby-ai')->name('deby-ai.')->group(function () {
         Route::post('/chat', [DebyAIController::class, 'chat'])->name('chat');
-        Route::post('/chatgpt', [DebyAIController::class, 'chatgpt'])->name('chatgpt');
-        Route::post('/thinking', [DebyAIController::class, 'callThinkingAPI'])->name('thinking');
-        Route::get('/history', [DebyAIController::class, 'history'])->name('history');
-        Route::get('/quick-tips', [DebyAIController::class, 'quickTips'])->name('quick-tips');
-        Route::get('/onboarding-tutorial', [DebyAIController::class, 'onboardingTutorial'])->name('onboarding-tutorial');
-        Route::get('/search-faq', [DebyAIController::class, 'searchFAQ'])->name('search-faq');
-        Route::get('/faq-by-category', [DebyAIController::class, 'faqByCategory'])->name('faq-by-category');
-        Route::post('/confirm-action', [DebyAIController::class, 'confirmAction'])->name('confirm-action');
-        Route::post('/reset', [DebyAIController::class, 'resetConversation'])->name('reset');
-        
-        // Chat Log Management
-        Route::post('/save-log', [DebyAIController::class, 'saveChatLog'])->name('save-log');
         Route::get('/chat-history', [DebyAIController::class, 'getChatHistory'])->name('chat-history');
         Route::delete('/chat-history', [DebyAIController::class, 'deleteChatHistory'])->name('delete-history');
+
+        Route::prefix('quick')->name('quick.')->group(function () {
+            Route::get('/revenue',     [DebyAIController::class, 'quickRevenue'])->name('revenue');
+            Route::get('/expenses',    [DebyAIController::class, 'quickExpenses'])->name('expenses');
+            Route::get('/stock',       [DebyAIController::class, 'quickStock'])->name('stock');
+            Route::get('/sales-today', [DebyAIController::class, 'quickSalesToday'])->name('sales-today');
+            Route::get('/products',    [DebyAIController::class, 'quickProducts'])->name('products');
+            Route::get('/low-stock',   [DebyAIController::class, 'quickLowStock'])->name('low-stock');
+        });
     });
     
     // Profile

@@ -8,6 +8,7 @@ use App\Models\StorefrontConfig;
 use App\Models\MarketplaceLink;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Storage;
+use Illuminate\Validation\Rule;
 
 class StorefrontBuilderController extends Controller
 {
@@ -59,10 +60,16 @@ class StorefrontBuilderController extends Controller
     public function update(Request $request)
     {
         $request->merge(['template_type' => null]);
+        $config = auth()->user()->storefrontConfig;
+
         $validated = $request->validate([
             'storefront_title' => 'required|string|max:255',
             'tagline' => 'nullable|string|max:255',
-            'slug' => 'nullable|string|max:100|regex:/^[a-z0-9-]+$/',
+            'slug' => [
+                'nullable', 'string', 'max:100', 'regex:/^[a-z0-9-]+$/',
+                Rule::notIn(StorefrontConfig::RESERVED_SLUGS),
+                Rule::unique('storefront_configs', 'slug')->ignore($config?->id),
+            ],
             'primary_color' => 'required|regex:/^#[0-9A-Fa-f]{6}$/',
             'secondary_color' => 'nullable|regex:/^#[0-9A-Fa-f]{6}$/',
             'text_color' => 'nullable|regex:/^#[0-9A-Fa-f]{6}$/',
@@ -73,8 +80,6 @@ class StorefrontBuilderController extends Controller
             'cta_text' => 'nullable|string|max:255',
             'footer_content' => 'nullable|string|max:500',
         ]);
-
-        $config = auth()->user()->storefrontConfig;
 
         if (!$config) {
             // Create new config

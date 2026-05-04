@@ -82,14 +82,50 @@ class StorefrontConfig extends Model
         return $this->hasMany(ClientReview::class);
     }
 
+    public const RESERVED_SLUGS = [
+        'admin', 'api', 'dashboard', 'login', 'register', 'store', 'public',
+        'assets', 'storage', 'onboarding', 'profile', 'create', 'edit',
+        'preview', 'builder', 'logout', 'home', 'auth', 'settings',
+    ];
+
     /**
-     * Generate unique slug from user name
+     * Generate unique slug for the user's storefront.
+     *
+     * Priority: explicit customSlug → business_name from UserBusinessProfile →
+     * user name → fallback "store-{userId}". Slug is NOT auto-regenerated when
+     * business_name changes later — that would break shared/SEO links.
      */
     public static function generateUniqueSlug(User $user, ?string $customSlug = null): string
     {
-        $baseSlug = $customSlug ? Str::slug($customSlug) : Str::slug($user->name);
+        $user->loadMissing('businessProfile');
+
+        $sources = [
+            $customSlug,
+            $user->businessProfile?->business_name,
+            $user->name,
+        ];
+
+        $baseSlug = '';
+        foreach ($sources as $source) {
+            if (filled($source)) {
+                $candidate = Str::slug($source);
+                if ($candidate !== '') {
+                    $baseSlug = $candidate;
+                    break;
+                }
+            }
+        }
+
+        if ($baseSlug === '') {
+            $baseSlug = 'store-' . $user->id;
+        }
+
+        if (in_array($baseSlug, self::RESERVED_SLUGS, true)) {
+            $baseSlug .= '-store';
+        }
+
         $slug = $baseSlug;
-        $counter = 1;
+        $counter = 2;
 
         while (self::where('slug', $slug)->where('user_id', '!=', $user->id)->exists()) {
             $slug = $baseSlug . '-' . $counter;
