@@ -6,6 +6,7 @@ use App\Http\Requests\OnboardingRequest;
 use App\Services\OnboardingService;
 use App\Services\PersonalizationService;
 use App\Models\Module;
+use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use Illuminate\View\View;
 use Illuminate\Http\JsonResponse;

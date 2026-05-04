@@ -12,9 +12,6 @@ composer install --no-dev --optimize-autoloader --no-interaction
 echo "==> Run migrations"
 php artisan migrate --force
 
-echo "==> Seed master data (idempotent)"
-php artisan db:seed --class=ProductionSeeder --force
-
 echo "==> Refresh caches"
 php artisan config:clear
 php artisan cache:clear
