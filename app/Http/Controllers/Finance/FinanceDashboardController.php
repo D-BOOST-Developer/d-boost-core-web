@@ -130,18 +130,16 @@ class FinanceDashboardController extends Controller
             ->get();
         
         // Recent transactions (last 10)
-        $recentSales = Sale::with('customer')
-            ->latest('sale_date')
+        $recentSales = Sale::latest('sale_date')
             ->limit(5)
             ->get();
-        
+
         $recentExpenses = Expense::latest('expense_date')
             ->limit(5)
             ->get();
-        
+
         // Pending payments (accounts receivable details)
-        $pendingPayments = Sale::with('customer')
-            ->where('status', 'pending')
+        $pendingPayments = Sale::where('status', 'pending')
             ->orderBy('sale_date')
             ->get();
         
@@ -313,8 +311,7 @@ class FinanceDashboardController extends Controller
      */
     public function accountsReceivable(Request $request)
     {
-        $query = Sale::with('customer')
-            ->where('status', 'pending')
+        $query = Sale::where('status', 'pending')
             ->orderBy('sale_date');
         
         // Filter by customer

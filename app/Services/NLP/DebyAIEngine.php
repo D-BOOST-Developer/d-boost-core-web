@@ -213,7 +213,7 @@ class DebyAIEngine
         return $this->generateResponse('data', $message, [
             'type' => 'stock_only',
             'table_data' => $tableData,
-            'action_link' => '/products',
+            'action_link' => '/inventory/products',
             'action_label' => 'Lihat Semua Produk',
         ]);
     }
@@ -257,7 +257,7 @@ class DebyAIEngine
         return $this->generateResponse('data', $message, [
             'type' => 'product_list',
             'table_data' => $tableData,
-            'action_link' => '/products',
+            'action_link' => '/inventory/products',
             'action_label' => 'Lihat Semua Produk',
         ]);
     }
@@ -360,7 +360,7 @@ class DebyAIEngine
         return $this->generateResponse('alert', $message, [
             'type' => 'low_stock_alert',
             'table_data' => $tableData,
-            'action_link' => '/products',
+            'action_link' => '/inventory/products',
             'action_label' => 'Lihat Semua Produk',
         ]);
     }
@@ -433,7 +433,7 @@ class DebyAIEngine
             return $this->generateResponse('data', $message, [
                 'type' => 'revenue_check',
                 'table_data' => $tableData,
-                'action_link' => '/sales',
+                'action_link' => '/finance/sales',
                 'action_label' => 'Lihat Semua Penjualan',
             ]);
         } catch (\Exception $e) {
@@ -523,7 +523,7 @@ class DebyAIEngine
             return $this->generateResponse('data', $message, [
                 'type' => 'expense_list',
                 'table_data' => $tableData,
-                'action_link' => '/expenses',
+                'action_link' => '/finance/expenses',
                 'action_label' => 'Lihat Semua Pengeluaran',
             ]);
         } catch (\Exception $e) {
@@ -568,7 +568,7 @@ class DebyAIEngine
             return $this->generateResponse('data', $message, [
                 'type' => 'sales_list',
                 'table_data' => $tableData,
-                'action_link' => '/sales',
+                'action_link' => '/finance/sales',
                 'action_label' => 'Lihat Semua Penjualan',
             ]);
         } catch (\Exception $e) {
@@ -770,13 +770,7 @@ class DebyAIEngine
 
     private function handleCRM(string $intent, array $entities): array
     {
-        return match ($intent) {
-            'crm.search_customer' => $this->handleSearchCustomer($entities),
-            'crm.customer_list' => $this->handleCustomerList($entities),
-            'crm.send_broadcast' => $this->handleSendBroadcast($entities),
-            'crm.add_followup' => $this->handleAddFollowup($entities),
-            default => $this->handleUnknown($intent),
-        };
+        return $this->generateResponse('info', "Maaf, fitur manajemen pelanggan (CRM) saat ini telah dinonaktifkan dari sistem. 😊", ['type' => 'crm_disabled']);
     }
 
     private function handleSearchCustomer(array $entities): array

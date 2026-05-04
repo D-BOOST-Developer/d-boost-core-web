@@ -13,8 +13,8 @@
             <div class="flex items-center space-x-3">
                 @php
                     $sidebarProfile = Auth::user()->businessProfile;
-                    $sidebarLogo = $sidebarProfile && $sidebarProfile->business_logo_path 
-                        ? asset('storage/' . $sidebarProfile->business_logo_path)
+                    $sidebarLogo = $sidebarProfile && $sidebarProfile->business_logo_url 
+                        ? $sidebarProfile->business_logo_url
                         : asset('images/D-BOOST.png');
                 @endphp
                 

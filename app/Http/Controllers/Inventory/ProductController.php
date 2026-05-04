@@ -72,6 +72,7 @@ class ProductController extends Controller
             'category' => 'required|string|max:255',
             'image' => 'nullable|image|mimes:jpeg,png,jpg,gif|max:2048',
             'is_active' => 'boolean',
+            'is_published_to_storefront' => 'nullable|boolean',
         ]);
 
         if ($request->hasFile('image')) {
@@ -95,6 +96,7 @@ class ProductController extends Controller
         }
 
         $validated['is_active'] = $request->has('is_active');
+        $validated['is_published_to_storefront'] = $request->has('is_published_to_storefront');
 
         Product::create($validated);
 
@@ -141,6 +143,7 @@ class ProductController extends Controller
             'category' => 'required|string|max:255',
             'image' => 'nullable|image|mimes:jpeg,png,jpg,gif|max:2048',
             'is_active' => 'boolean',
+            'is_published_to_storefront' => 'nullable|boolean',
         ]);
 
         if ($request->hasFile('image')) {
@@ -175,6 +178,7 @@ class ProductController extends Controller
         }
 
         $validated['is_active'] = $request->has('is_active');
+        $validated['is_published_to_storefront'] = $request->has('is_published_to_storefront');
 
         $product->update($validated);
 
@@ -207,6 +211,19 @@ class ProductController extends Controller
 
         $status = $product->is_active ? 'activated' : 'deactivated';
         return back()->with('success', "Product {$status} successfully.");
+    }
+
+    /**
+     * Toggle whether the product is published to the public storefront.
+     */
+    public function togglePublishedToStorefront(Product $product)
+    {
+        $product->update([
+            'is_published_to_storefront' => !$product->is_published_to_storefront,
+        ]);
+
+        $state = $product->is_published_to_storefront ? 'published to' : 'removed from';
+        return back()->with('success', "Product {$state} the storefront.");
     }
 }
 

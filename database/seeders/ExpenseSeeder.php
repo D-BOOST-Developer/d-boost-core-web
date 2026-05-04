@@ -71,9 +71,12 @@ class ExpenseSeeder extends Seeder
                 
                 $amount = rand($categoryData['amount_range'][0], $categoryData['amount_range'][1]);
                 $isRecurring = $categoryData['recurring'];
+                $description = $expenseDescriptions[$category];
+                $title = $description ?: ucfirst(str_replace('_', ' ', $category));
                 
                 Expense::create([
-                    'description' => $expenseDescriptions[$category],
+                    'title' => $title,
+                    'description' => $description,
                     'amount' => $amount,
                     'expense_date' => $expenseDate->format('Y-m-d'),
                     'category' => $category,

@@ -19,7 +19,7 @@ class DebyAIController extends Controller
         ]);
 
         try {
-            $url = 'https://chatgpt-42.p.rapidapi.com/aitohuman';
+            $url = 'https://chatgpt-42.p.rapidapi.com/chat';
             $apiKey = env('RAPIDAPI_KEY', '18c4b2fd16msh32d393319e95b02p1ebdb6jsncda25d8eb8d3');
             $apiHost = env('RAPIDAPI_HOST', 'chatgpt-42.p.rapidapi.com');
 

@@ -187,34 +187,52 @@ class UserBusinessProfile extends Model
     /**
      * Get Google Maps embed URL from link
      */
+    /**
+     * Get Google Maps embed URL from link
+     */
     public function getGoogleMapsEmbedUrlAttribute(): ?string
     {
-        if (!$this->google_maps_link) {
+        $url = $this->google_maps_link;
+        if (!$url) {
+            // Fallback to address if no link
+            if ($this->business_address) {
+                return "https://maps.google.com/maps?q=" . urlencode($this->business_address) . "&z=15&output=embed";
+            }
             return null;
         }
 
-        // If it's already an embed URL
-        if (str_contains($this->google_maps_link, 'google.com/maps/embed')) {
-            return $this->google_maps_link;
+        // 1. If it's already an embed URL, return as is
+        if (str_contains($url, 'output=embed') || str_contains($url, '/embed?')) {
+            return $url;
         }
 
-        // Extract coordinates or place ID from various Google Maps URL formats
-        $url = $this->google_maps_link;
-        
-        // Try to extract coordinates from @lat,lng format
+        // 2. Try to extract coordinates (@lat,lng)
         if (preg_match('/@(-?\d+\.\d+),(-?\d+\.\d+)/', $url, $matches)) {
             $lat = $matches[1];
             $lng = $matches[2];
-            return "https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3000!2d{$lng}!3d{$lat}!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x0%3A0x0!2zM!5e0!3m2!1sen!2sid!4v1";
+            return "https://maps.google.com/maps?q={$lat},{$lng}&z=15&output=embed";
         }
 
-        // If URL contains place, convert to embed format
-        if (str_contains($url, 'google.com/maps/place')) {
-            return str_replace('/maps/place/', '/maps/embed/v1/place?q=', $url) . '&key=';
+        // 3. Try to match /maps/place/PLACE_NAME
+        if (preg_match('/\/maps\/place\/([^\/]+)/', $url, $matches)) {
+            $place = $matches[1];
+            return "https://maps.google.com/maps?q={$place}&z=15&output=embed";
+        }
+        
+        // 4. Try to match /maps/search/QUERY
+        if (preg_match('/\/maps\/search\/([^\/]+)/', $url, $matches)) {
+            $query = $matches[1];
+            return "https://maps.google.com/maps?q={$query}&z=15&output=embed";
         }
 
-        // Return original URL as embed attempt
-        return "https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d15000!2d106.8456!3d-6.2088!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x0%3A0x0!2zM!5e0!3m2!1sen!2sid!4v1";
+        // 5. Short links (maps.app.goo.gl or goo.gl) - hard to parse without expansion
+        // We fallback to address if present, or just try to use the address from the profile
+        if ($this->business_address) {
+            return "https://maps.google.com/maps?q=" . urlencode($this->business_address) . "&z=15&output=embed";
+        }
+
+        // 6. Last resort: default view (Jakarta) to avoid broken iframe
+        return "https://maps.google.com/maps?q=-6.2088,106.8456&z=10&output=embed";
     }
 
     /**
@@ -239,5 +257,57 @@ class UserBusinessProfile extends Model
         }
 
         return asset('storage/' . $this->qris_barcode_path);
+    }
+
+    /**
+     * Extract coordinates from Google Maps link
+     * Returns array ['lat' => ..., 'lng' => ...] or null
+     */
+    public function getExtractedCoordinatesAttribute(): ?array
+    {
+        if (!$this->google_maps_link) {
+            return null;
+        }
+
+        // Try to extract coordinates from @lat,lng format
+        if (preg_match('/@(-?\d+\.\d+),(-?\d+\.\d+)/', $this->google_maps_link, $matches)) {
+            return [
+                'lat' => $matches[1],
+                'lng' => $matches[2],
+            ];
+        }
+
+        return null;
+    }
+
+    /**
+     * Get formatted coordinates string (lat, lng)
+     */
+    public function getFormattedCoordinatesAttribute(): ?string
+    {
+        $coords = $this->extracted_coordinates;
+        if (!$coords) {
+            return null;
+        }
+
+        return "{$coords['lat']}, {$coords['lng']}";
+    }
+
+    /**
+     * Extract place name from Google Maps link
+     */
+    public function getExtractedPlaceNameAttribute(): ?string
+    {
+        if (!$this->google_maps_link) {
+            return null;
+        }
+
+        // Try to match /maps/place/PLACE_NAME
+        if (preg_match('/\/maps\/place\/([^\/]+)/', $this->google_maps_link, $matches)) {
+            // URL decode and replace + with spaces
+            return urldecode(str_replace('+', ' ', $matches[1]));
+        }
+
+        return null;
     }
 }

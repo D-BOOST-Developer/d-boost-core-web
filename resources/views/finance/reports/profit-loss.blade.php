@@ -66,8 +66,8 @@
                         <div class="flex justify-between items-center">
                             <!-- Left: Business Logo -->
                             <div class="w-1/4 flex justify-start">
-                                 @if($businessProfile && $businessProfile->business_logo_path)
-                                    <img src="{{ asset('storage/' . $businessProfile->business_logo_path) }}" alt="Company Logo" class="h-24 w-24 object-cover rounded-xl shadow-sm">
+                                 @if($businessProfile && $businessProfile->business_logo_url)
+                                    <img src="{{ $businessProfile->business_logo_url }}" alt="Company Logo" class="h-24 w-24 object-cover rounded-xl shadow-sm">
                                 @else
                                     <div class="h-24 w-24 bg-gray-100 dark:bg-gray-700 rounded-xl flex items-center justify-center text-gray-400">
                                         <span class="text-xs text-center px-2">No Logo</span>

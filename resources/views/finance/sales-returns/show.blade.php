@@ -40,18 +40,12 @@
                             </span>
                         </div>
 
-                        <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
-                            <div>
-                                <h3 class="text-lg font-semibold text-gray-900 dark:text-white mb-3">Customer</h3>
-                                <p class="text-gray-900 dark:text-white font-medium">{{ $salesReturn->sale->customer->name }}</p>
-                                <p class="text-gray-600 dark:text-gray-400 text-sm">{{ $salesReturn->sale->customer->email }}</p>
-                            </div>
+
                             <div>
                                 <h3 class="text-lg font-semibold text-gray-900 dark:text-white mb-3">Original Sale</h3>
                                 <p class="text-gray-900 dark:text-white font-medium">{{ $salesReturn->sale->invoice_number }}</p>
                                 <p class="text-gray-600 dark:text-gray-400 text-sm">{{ $salesReturn->sale->sale_date->format('M d, Y') }}</p>
                             </div>
-                        </div>
 
                         @if($salesReturn->notes)
                             <div class="mt-6 p-4 bg-gray-100 dark:bg-gray-700/30 rounded-lg">

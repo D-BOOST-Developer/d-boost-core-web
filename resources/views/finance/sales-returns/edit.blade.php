@@ -41,7 +41,7 @@
                                     class="w-full bg-white dark:bg-gray-700 border border-gray-300 dark:border-gray-600 text-gray-900 dark:text-white rounded-lg px-3 py-2 focus:ring-2 focus:ring-[#006BFF]">
                                 <option value="defective" {{ $salesReturn->reason == 'defective' ? 'selected' : '' }}>Defective</option>
                                 <option value="wrong_item" {{ $salesReturn->reason == 'wrong_item' ? 'selected' : '' }}>Wrong Item</option>
-                                <option value="customer_request" {{ $salesReturn->reason == 'customer_request' ? 'selected' : '' }}>Customer Request</option>
+                                <option value="buyer_request" {{ $salesReturn->reason == 'buyer_request' ? 'selected' : '' }}>Buyer Request</option>
                                 <option value="other" {{ $salesReturn->reason == 'other' ? 'selected' : '' }}>Other</option>
                             </select>
                         </div>

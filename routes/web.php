@@ -47,60 +47,17 @@ Route::middleware(['auth', 'verified', 'onboarding.completed'])->group(function 
     Route::prefix('inventory')->name('inventory.')->group(function () {
         Route::resource('products', ProductController::class);
         Route::post('products/{product}/toggle-status', [ProductController::class, 'toggleStatus'])->name('products.toggle-status');
+        Route::post('products/{product}/toggle-storefront', [ProductController::class, 'togglePublishedToStorefront'])->name('products.toggle-storefront');
     });
     
-    // Customer Relations (CRM) - Comprehensive
-    Route::prefix('customers')->name('customers.')->group(function () {
-        // Main customer CRUD
-        Route::get('/', [CustomerController::class, 'index'])->name('index');
-        Route::get('/create', [CustomerController::class, 'create'])->name('create');  
-        Route::post('/', [CustomerController::class, 'store'])->name('store');
-        
-        // Analytics & Reporting (must be before /{customer})
-        Route::get('/analytics/dashboard', [\App\Http\Controllers\CRM\CustomerAnalyticsController::class, 'dashboard'])->name('analytics.dashboard');
-        Route::get('/analytics/rfm', [\App\Http\Controllers\CRM\CustomerAnalyticsController::class, 'rfmAnalysis'])->name('analytics.rfm');
-        Route::get('/analytics/cohort', [\App\Http\Controllers\CRM\CustomerAnalyticsController::class, 'cohortAnalysis'])->name('analytics.cohort');
-        Route::get('/analytics/churn', [\App\Http\Controllers\CRM\CustomerAnalyticsController::class, 'churnAnalysis'])->name('analytics.churn');
-        
-        // Export/Import (must be before /{customer})
-        Route::get('/export/excel', [CustomerController::class, 'export'])->name('export');
-        Route::post('/import', [CustomerController::class, 'import'])->name('import');
-        
-        // Interactions (must be before /{customer})
-        Route::resource('interactions', \App\Http\Controllers\CRM\CustomerInteractionController::class);
-        Route::get('/interactions/calendar/view', [\App\Http\Controllers\CRM\CustomerInteractionController::class, 'calendar'])->name('interactions.calendar');
-        
-        // Segments (must be before /{customer})
-        Route::resource('segments', \App\Http\Controllers\CRM\CustomerSegmentController::class);
-        Route::post('/segments/{segment}/refresh', [\App\Http\Controllers\CRM\CustomerSegmentController::class, 'refresh'])->name('segments.refresh');
-        Route::get('/segments/{segment}/export', [\App\Http\Controllers\CRM\CustomerSegmentController::class, 'export'])->name('segments.export');
-        
-        // Loyalty Program (must be before /{customer})
-        Route::get('/loyalty', [\App\Http\Controllers\CRM\CustomerLoyaltyController::class, 'index'])->name('loyalty.index');
-        Route::get('/loyalty/leaderboard', [\App\Http\Controllers\CRM\CustomerLoyaltyController::class, 'leaderboard'])->name('loyalty.leaderboard');
-        
-        // Feedback (must be before /{customer})
-        Route::resource('feedback', \App\Http\Controllers\CRM\CustomerFeedbackController::class);
-        Route::post('/feedback/{feedback}/respond', [\App\Http\Controllers\CRM\CustomerFeedbackController::class, 'respond'])->name('feedback.respond');
-        Route::patch('/feedback/{feedback}/publish', [\App\Http\Controllers\CRM\CustomerFeedbackController::class, 'togglePublish'])->name('feedback.publish');
-        
-        // Customer detail routes (after all resource routes)
-        Route::get('/{customer}', [CustomerController::class, 'show'])->name('show');
-        Route::get('/{customer}/edit', [CustomerController::class, 'edit'])->name('edit');
-        Route::put('/{customer}', [CustomerController::class, 'update'])->name('update');
-        Route::delete('/{customer}', [CustomerController::class, 'destroy'])->name('destroy');
-        Route::get('/{customer}/loyalty', [\App\Http\Controllers\CRM\CustomerLoyaltyController::class, 'customerPoints'])->name('loyalty.points');
-        Route::post('/{customer}/loyalty/adjust', [\App\Http\Controllers\CRM\CustomerLoyaltyController::class, 'adjustPoints'])->name('loyalty.adjust');
-        Route::post('/{customer}/interactions', [\App\Http\Controllers\CRM\CustomerInteractionController::class, 'storeForCustomer'])->name('interactions.storeForCustomer');
-        Route::post('/{customer}/notes', [CustomerController::class, 'addNote'])->name('notes.store');
-        Route::post('/{customer}/wishlist/{product}', [CustomerController::class, 'addToWishlist'])->name('wishlist.add');
-        Route::delete('/{customer}/wishlist/{wishlist}', [CustomerController::class, 'removeFromWishlist'])->name('wishlist.remove');
-    });
+
     
     // Sales & Expenses (under Finance)
     Route::prefix('finance')->name('finance.')->group(function () {
         Route::resource('sales', SaleController::class);
         Route::get('sales/{sale}/print', [SaleController::class, 'print'])->name('sales.print');
+        Route::post('sales/{sale}/confirm', [SaleController::class, 'confirm'])->name('sales.confirm');
+        Route::post('sales/{sale}/cancel', [SaleController::class, 'cancel'])->name('sales.cancel');
         
         Route::resource('expenses', ExpenseController::class);
     });
@@ -129,6 +86,16 @@ Route::middleware(['auth', 'verified', 'onboarding.completed'])->group(function 
             ->name('builder.publish');
         Route::get('preview', [\App\Http\Controllers\Storefront\StorefrontBuilderController::class, 'preview'])
             ->name('preview');
+        
+        // Client Reviews Management
+        Route::get('reviews', [\App\Http\Controllers\Storefront\ClientReviewController::class, 'index'])
+            ->name('reviews.index');
+        Route::post('reviews/{review}/approve', [\App\Http\Controllers\Storefront\ClientReviewController::class, 'approve'])
+            ->name('reviews.approve');
+        Route::post('reviews/{review}/reject', [\App\Http\Controllers\Storefront\ClientReviewController::class, 'reject'])
+            ->name('reviews.reject');
+        Route::delete('reviews/{review}', [\App\Http\Controllers\Storefront\ClientReviewController::class, 'destroy'])
+            ->name('reviews.destroy');
     });
     
     // Reports
@@ -187,7 +154,8 @@ Route::middleware(['auth', 'verified', 'onboarding.completed'])->group(function 
         Route::resource('users', \App\Http\Controllers\Settings\UserController::class);
     });
     
-    // DEBY AI - Business Assistant
+    // DEBY AI - Business Assistant (Web Dashboard)
+    // Note: Mobile app uses routes in api.php with Sanctum auth
     Route::prefix('api/deby-ai')->name('deby-ai.')->group(function () {
         Route::post('/chat', [DebyAIController::class, 'chat'])->name('chat');
         Route::post('/chatgpt', [DebyAIController::class, 'chatgpt'])->name('chatgpt');
@@ -219,8 +187,38 @@ Route::middleware(['auth', 'verified', 'onboarding.completed'])->group(function 
 Route::prefix('store')->name('public.store.')->group(function () {
     Route::get('{slug}', [\App\Http\Controllers\Storefront\PublicStorefrontController::class, 'show'])
         ->name('show');
+    Route::get('{slug}/leave-review', [\App\Http\Controllers\Storefront\PublicStorefrontController::class, 'showReviewForm'])
+        ->name('review-form');
     Route::post('{slug}/track/{link}', [\App\Http\Controllers\Storefront\PublicStorefrontController::class, 'trackClick'])
         ->name('track-click');
+    Route::post('{slug}/review', [\App\Http\Controllers\Storefront\PublicStorefrontController::class, 'submitReview'])
+        ->name('submit-review');
+
+    // Catalog & E-commerce
+    Route::get('{slug}/catalog', [\App\Http\Controllers\Storefront\PublicStorefrontController::class, 'catalog'])
+        ->name('catalog');
+    Route::get('{slug}/product/{product}', [\App\Http\Controllers\Storefront\PublicStorefrontController::class, 'productDetail'])
+        ->name('product-detail');
+
+    Route::get('{slug}/cart', [\App\Http\Controllers\Storefront\StorefrontOrderController::class, 'viewCart'])
+        ->name('cart');
+    Route::post('{slug}/cart/add', [\App\Http\Controllers\Storefront\StorefrontOrderController::class, 'addToCart'])
+        ->name('cart.add');
+    Route::patch('{slug}/cart/{productId}', [\App\Http\Controllers\Storefront\StorefrontOrderController::class, 'updateCart'])
+        ->name('cart.update');
+    Route::delete('{slug}/cart/{productId}', [\App\Http\Controllers\Storefront\StorefrontOrderController::class, 'removeFromCart'])
+        ->name('cart.remove');
+
+    Route::get('{slug}/checkout', [\App\Http\Controllers\Storefront\StorefrontOrderController::class, 'checkoutForm'])
+        ->name('checkout');
+    Route::post('{slug}/checkout', [\App\Http\Controllers\Storefront\StorefrontOrderController::class, 'placeOrder'])
+        ->name('checkout.place');
+
+    Route::get('{slug}/order/success/{invoice}', [\App\Http\Controllers\Storefront\StorefrontOrderController::class, 'orderSuccess'])
+        ->name('order-success');
+        
+    Route::get('{slug}/orders', [\App\Http\Controllers\Storefront\StorefrontOrderController::class, 'myOrders'])
+        ->name('my-orders');
 });
 
 // Inventory & Finance Routes

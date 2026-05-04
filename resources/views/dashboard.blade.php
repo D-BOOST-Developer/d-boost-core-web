@@ -645,17 +645,17 @@
                     </div>
                 </div>
 
-                <!-- Total Customers Card -->
-            <div class="bg-white border border-gray-200 rounded-xl p-5 hover:border-gray-300 transition-colors cursor-pointer" onclick="window.location.href='{{ route('customers.index') }}'">
+                <!-- Total Transactions Card -->
+            <div class="bg-white border border-gray-200 rounded-xl p-5 hover:border-gray-300 transition-colors cursor-pointer" onclick="window.location.href='{{ route('finance.sales.index') }}'">
                     <div class="flex items-center justify-between">
                         <div>
-                        <p class="text-gray-500 text-sm font-medium">Total Customers</p>
-                        <p class="text-2xl font-bold text-gray-900 mt-1">{{ number_format($totalCustomers) }}</p>
-                        <p class="text-teal-600 text-sm mt-1">+{{ $newCustomersThisMonth }} baru bulan ini</p>
+                        <p class="text-gray-500 text-sm font-medium">Transaksi Bulan Ini</p>
+                        <p class="text-2xl font-bold text-gray-900 mt-1">{{ number_format($monthTransactions) }}</p>
+                        <p class="text-teal-600 text-sm mt-1">{{ $todayTransactions }} hari ini</p>
                         </div>
                     <div class="p-3 bg-teal-50 rounded-lg">
                         <svg class="w-7 h-7 text-teal-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 20h5v-2a3 3 0 00-5.356-1.857M17 20H7m10 0v-2c0-.656-.126-1.283-.356-1.857M7 20H2v-2a3 3 0 015.356-1.857M7 20v-2c0-.656.126-1.283.356-1.857m0 0a5.002 5.002 0 019.288 0M15 7a3 3 0 11-6 0 3 3 0 016 0zm6 3a2 2 0 11-4 0 2 2 0 014 0zM7 10a2 2 0 11-4 0 2 2 0 014 0z"></path>
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2"></path>
                             </svg>
                         </div>
                     </div>
@@ -1052,64 +1052,47 @@
             </div>
         </div>
 
-        <!-- ==================== PROFIT MARGIN & CUSTOMER ==================== -->
-        <div class="grid grid-cols-1 lg:grid-cols-3 gap-6 mb-6">
-            <!-- Most Profitable -->
+            <!-- Top Margin Products -->
             <div class="bg-white border border-gray-200 rounded-xl p-6">
-                <h3 class="text-base font-semibold text-gray-900 mb-4">Produk Paling Untung</h3>
+                <h3 class="text-base font-semibold text-gray-900 mb-4">Performa per Kategori</h3>
                 <div class="space-y-3">
-                    @forelse($mostProfitableProducts as $product)
-                    <div class="p-3 bg-green-50 rounded-lg">
-                        <p class="text-gray-900 font-medium text-sm truncate">{{ $product->name }}</p>
-                        <div class="flex items-center justify-between mt-1 text-xs">
-                            <span class="text-gray-500">{{ $product->total_sold }} terjual</span>
-                            <span class="text-green-600 font-bold">+Rp {{ number_format($product->total_profit, 0, ',', '.') }}</span>
+                    @forelse($categoryPerformance->take(5) as $cat)
+                    <div class="flex items-center justify-between p-3 bg-gray-50 rounded-lg">
+                        <div class="flex-1 min-w-0">
+                            <p class="text-gray-900 font-medium text-sm truncate">{{ $cat->category }}</p>
+                            <p class="text-gray-500 text-xs">{{ number_format($cat->total_sold) }} terjual</p>
+                        </div>
+                        <div class="text-right">
+                            <p class="text-[#006BFF] font-semibold text-sm">Rp {{ number_format($cat->total_revenue, 0, ',', '.') }}</p>
+                            <p class="text-xs text-gray-400">Margin {{ number_format($cat->avg_margin, 0) }}%</p>
                         </div>
                     </div>
                     @empty
-                    <p class="text-gray-500 text-center py-8">Belum ada data</p>
+                    <p class="text-gray-500 text-center py-8">Belum ada data kategori</p>
                     @endforelse
-                    </div>
-                </div>
-
-            <!-- Customer Type -->
-            <div class="bg-white border border-gray-200 rounded-xl p-6">
-                <h3 class="text-base font-semibold text-gray-900 mb-4">Pelanggan Baru vs Repeat</h3>
-                <div class="h-40 mb-4">
-                    <canvas id="customerTypeChart"></canvas>
-                </div>
-                <div class="grid grid-cols-2 gap-3">
-                    <div class="text-center p-3 bg-blue-50 rounded-lg">
-                        <p class="text-xl font-bold text-[#006BFF]">{{ $newCustomersThisMonth }}</p>
-                        <p class="text-xs text-gray-600">Pelanggan Baru</p>
-                    </div>
-                    <div class="text-center p-3 bg-violet-50 rounded-lg">
-                        <p class="text-xl font-bold text-violet-600">{{ $repeatCustomers }}</p>
-                        <p class="text-xs text-gray-600">Repeat Customer</p>
-                    </div>
                 </div>
             </div>
 
-            <!-- Top Loyal Customers -->
+            <!-- Average Order & Transactions Summary -->
             <div class="bg-white border border-gray-200 rounded-xl p-6">
-                <h3 class="text-base font-semibold text-gray-900 mb-4">Pelanggan Loyal</h3>
-                <div class="space-y-3">
-                    @forelse($loyalCustomers as $index => $customer)
-                    <div class="flex items-center space-x-3 p-3 bg-gray-50 rounded-lg">
-                        <div class="flex-shrink-0 w-8 h-8 bg-violet-100 text-violet-700 rounded-full flex items-center justify-center font-bold text-sm">
-                            {{ $index + 1 }}
-                        </div>
-                        <div class="flex-1 min-w-0">
-                            <p class="text-gray-900 font-medium text-sm truncate">{{ $customer->name }}</p>
-                            <p class="text-gray-500 text-xs">{{ $customer->purchase_frequency }} transaksi</p>
-                        </div>
-                        <div class="text-right">
-                            <p class="text-violet-600 font-semibold text-sm">Rp {{ number_format($customer->total_spent, 0, ',', '.') }}</p>
-                        </div>
+                <h3 class="text-base font-semibold text-gray-900 mb-4">Ringkasan Transaksi</h3>
+                <div class="space-y-4">
+                    <div class="flex items-center justify-between p-3 bg-blue-50 rounded-lg">
+                        <p class="text-sm text-gray-700">Hari Ini</p>
+                        <p class="text-base font-bold text-[#006BFF]">{{ $todayTransactions }} transaksi</p>
                     </div>
-                    @empty
-                    <p class="text-gray-500 text-center py-8">Belum ada pelanggan loyal</p>
-                    @endforelse
+                    <div class="flex items-center justify-between p-3 bg-violet-50 rounded-lg">
+                        <p class="text-sm text-gray-700">Minggu Ini</p>
+                        <p class="text-base font-bold text-violet-600">{{ $weekTransactions }} transaksi</p>
+                    </div>
+                    <div class="flex items-center justify-between p-3 bg-green-50 rounded-lg">
+                        <p class="text-sm text-gray-700">Bulan Ini</p>
+                        <p class="text-base font-bold text-green-600">{{ $monthTransactions }} transaksi</p>
+                    </div>
+                    <div class="flex items-center justify-between p-3 bg-amber-50 rounded-lg">
+                        <p class="text-sm text-gray-700">Rata-rata Order</p>
+                        <p class="text-base font-bold text-amber-600">Rp {{ number_format($avgOrderValue, 0, ',', '.') }}</p>
+                    </div>
                 </div>
             </div>
         </div>
@@ -1205,7 +1188,7 @@
                             </div>
                         <div class="flex-1 min-w-0">
                             <p class="text-gray-900 text-sm font-medium">{{ $sale->invoice_number }}</p>
-                            <p class="text-gray-500 text-xs">{{ $sale->customer->name ?? 'Guest' }} • Rp {{ number_format($sale->total_amount, 0, ',', '.') }}</p>
+                            <p class="text-gray-500 text-xs">Walk-in • Rp {{ number_format($sale->total_amount, 0, ',', '.') }}</p>
                             </div>
                         <span class="text-gray-400 text-xs">{{ $sale->created_at->diffForHumans() }}</span>
                         </div>
@@ -1249,13 +1232,13 @@
                         <span class="text-sm font-medium text-gray-900">Tambah Produk</span>
                         </a>
                         
-                    <a href="{{ route('customers.create') }}" class="flex items-center space-x-3 p-4 bg-gray-50 hover:bg-teal-50 rounded-lg border border-gray-200 hover:border-teal-500 transition-colors">
+                    <a href="{{ route('finance.sales-returns.index') }}" class="flex items-center space-x-3 p-4 bg-gray-50 hover:bg-teal-50 rounded-lg border border-gray-200 hover:border-teal-500 transition-colors">
                         <div class="w-10 h-10 bg-teal-100 rounded-lg flex items-center justify-center">
                             <svg class="w-5 h-5 text-teal-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z"></path>
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 10h10a8 8 0 018 8v2M3 10l6 6m-6-6l6-6"></path>
                                 </svg>
                             </div>
-                        <span class="text-sm font-medium text-gray-900">Pelanggan Baru</span>
+                        <span class="text-sm font-medium text-gray-900">Retur Penjualan</span>
                         </a>
                         
                     <a href="{{ route('finance.expenses.create') }}" class="flex items-center space-x-3 p-4 bg-gray-50 hover:bg-rose-50 rounded-lg border border-gray-200 hover:border-rose-500 transition-colors">
@@ -1616,27 +1599,7 @@
                 }
             }
 
-            // Customer Type Chart
-            const customerTypeCtx = document.getElementById('customerTypeChart')?.getContext('2d');
-            if (customerTypeCtx) {
-                new Chart(customerTypeCtx, {
-                    type: 'doughnut',
-                    data: {
-                        labels: ['Baru', 'Repeat'],
-                        datasets: [{
-                            data: [{{ $newCustomersThisMonth }}, {{ $repeatCustomers }}],
-                            backgroundColor: ['#006BFF', '#8B5CF6'],
-                            borderWidth: 0
-                        }]
-                    },
-                    options: {
-                        responsive: true,
-                        maintainAspectRatio: false,
-                        plugins: { legend: { display: false } },
-                        cutout: '65%'
-            }
-                });
-            }
+
         }
 
         // Alpine.js Dashboard Component

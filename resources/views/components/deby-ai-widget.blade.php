@@ -84,7 +84,6 @@
                         <li>✓ Menambah produk dan mengatur stok</li>
                         <li>✓ Mencatat pengeluaran dan laporan</li>
                         <li>✓ Melihat statistik penjualan</li>
-                        <li>✓ Mengelola data pelanggan</li>
                         <li>✓ Menjawab pertanyaan fitur</li>
                     </ul>
                     <p class="text-xs text-gray-500 mt-3 italic">💡 Coba tanya: "Bagaimana cara menambah produk?"</p>
@@ -107,9 +106,7 @@
                 <button @click="sendQuickQuestion('Lihat transaksi penjualan hari ini')" class="px-3 py-1.5 bg-purple-100 hover:bg-purple-200 text-purple-700 text-xs rounded-full whitespace-nowrap transition-all active:scale-95 font-medium shadow-sm hover:shadow-md" title="Lihat daftar penjualan hari ini">
                     🛍️ Transaksi
                 </button>
-                <button @click="sendQuickQuestion('Total Pelanggan Saat ini')" class="px-3 py-1.5 bg-orange-100 hover:bg-orange-200 text-orange-700 text-xs rounded-full whitespace-nowrap transition-all active:scale-95 font-medium shadow-sm hover:shadow-md" title="Lihat total pelanggan saat ini">
-                    👥 Pelanggan
-                </button>
+
                 <button @click="sendQuickQuestion('Tunjukkan daftar semua produk')" class="px-3 py-1.5 bg-indigo-100 hover:bg-indigo-200 text-indigo-700 text-xs rounded-full whitespace-nowrap transition-all active:scale-95 font-medium shadow-sm hover:shadow-md" title="Lihat semua produk yang tersedia">
                     📋 Produk
                 </button>
@@ -465,14 +462,17 @@ document.addEventListener('alpine:init', () => {
                 }
 
                 let actionHtml = '';
-                if (actionLink && actionLabel) {
+                const safeLink = typeof actionLink === 'string' && (actionLink.startsWith('/') || actionLink.startsWith('http'));
+                if (safeLink && actionLabel) {
+                    const safeHref = this.escapeHtml(actionLink);
+                    const safeLabel = this.escapeHtml(actionLabel);
                     actionHtml = `
                         <div class="mt-3 pt-3 border-t border-gray-200">
-                            <a href="${actionLink}" class="inline-flex items-center gap-2 px-3 py-2 bg-blue-600 hover:bg-blue-700 text-white text-xs rounded-lg transition-colors">
+                            <a href="${safeHref}" class="inline-flex items-center gap-2 px-3 py-2 bg-blue-600 hover:bg-blue-700 text-white text-xs rounded-lg transition-colors">
                                 <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 7l5 5m0 0l-5 5m5-5H6" />
                                 </svg>
-                                ${this.escapeHtml(actionLabel)}
+                                ${safeLabel}
                             </a>
                         </div>
                     `;

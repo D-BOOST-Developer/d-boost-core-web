@@ -149,12 +149,18 @@
                     <div class="space-y-4 max-h-[320px] overflow-y-auto pr-2 custom-scrollbar">
                         @foreach($pendingPayments->take(5) as $payment)
                             <div class="flex items-center justify-between p-3 rounded-lg hover:bg-gray-50 dark:hover:bg-gray-700/50 transition-colors border border-gray-100 dark:border-gray-700/50">
+                                @php
+                                    $payerName = $payment->customer_snapshot['name'] ?? null;
+                                    if (!$payerName) {
+                                        $payerName = $payment->order_source === 'storefront' ? 'Storefront Customer' : 'Walk-in Customer';
+                                    }
+                                @endphp
                                 <div class="flex items-center space-x-3">
                                     <div class="w-8 h-8 rounded-full bg-gradient-to-br from-gray-100 to-gray-200 dark:from-gray-700 dark:to-gray-600 flex items-center justify-center text-xs font-bold text-gray-600 dark:text-gray-300">
-                                        {{ substr($payment->customer->name, 0, 1) }}
+                                        {{ strtoupper(substr($payerName, 0, 1)) }}
                                     </div>
                                     <div>
-                                        <p class="text-sm font-medium text-gray-900 dark:text-white truncate max-w-[120px]">{{ $payment->customer->name }}</p>
+                                        <p class="text-sm font-medium text-gray-900 dark:text-white truncate max-w-[120px]">{{ $payerName }}</p>
                                         <p class="text-xs text-gray-500">{{ $payment->sale_date->format('d M') }} • {{ $payment->sale_date->diffForHumans() }}</p>
                                     </div>
                                 </div>
@@ -202,8 +208,14 @@
                         <tbody class="divide-y divide-gray-100 dark:divide-gray-700">
                             @forelse($recentSales as $sale)
                             <tr class="hover:bg-gray-50 dark:hover:bg-gray-700/50 transition-colors">
+                                @php
+                                    $saleCustomerName = $sale->customer_snapshot['name'] ?? null;
+                                    if (!$saleCustomerName) {
+                                        $saleCustomerName = $sale->order_source === 'storefront' ? 'Storefront Customer' : 'Walk-in Customer';
+                                    }
+                                @endphp
                                 <td class="px-6 py-3 font-medium text-gray-900 dark:text-white">
-                                    {{ $sale->customer->name }}
+                                    {{ $saleCustomerName }}
                                     <div class="text-xs text-gray-500 font-normal">{{ $sale->invoice_number }}</div>
                                 </td>
                                 <td class="px-6 py-3">

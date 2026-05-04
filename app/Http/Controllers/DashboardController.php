@@ -4,7 +4,6 @@ namespace App\Http\Controllers;
 
 use App\Models\Sale;
 use App\Models\Product;
-use App\Models\Customer;
 use App\Models\Expense;
 use App\Models\ProfitLoss;
 use App\Models\SalesDetail;
@@ -18,7 +17,7 @@ class DashboardController extends Controller
     {
         // ==================== BASIC KPI METRICS ====================
         $totalSales = Sale::completed()->sum('total_amount');
-        $totalCustomers = Customer::active()->count();
+        $totalCustomers = 0; // Customer feature removed
         $totalProducts = Product::active()->count();
         
         // Today's metrics
@@ -177,38 +176,14 @@ class DashboardController extends Controller
             ->orderByDesc('total_sales')
             ->first();
 
-        // ==================== 3. REPEAT VS NEW CUSTOMER ANALYTICS ====================
+        // ==================== 3. REPEAT VS NEW CUSTOMER ANALYTICS (Customer feature removed) ====================
         
-        // New customers this month
-        $newCustomersThisMonth = Customer::whereMonth('created_at', now()->month)
-            ->whereYear('created_at', now()->year)
-            ->count();
-
-        // Repeat customers (customers with more than 1 purchase)
-        $repeatCustomers = Customer::where('purchase_frequency', '>', 1)->count();
-        $repeatCustomerPercentage = $totalCustomers > 0 ? ($repeatCustomers / $totalCustomers) * 100 : 0;
-
-        // Customer with most purchases (loyal customers)
-        $loyalCustomers = Customer::select('customers.*')
-            ->where('purchase_frequency', '>', 1)
-            ->orderByDesc('purchase_frequency')
-            ->orderByDesc('total_spent')
-            ->limit(5)
-            ->get();
-
-        // Products most bought by loyal customers
-        $loyalCustomerProducts = Product::select('products.*', 
-                DB::raw('COUNT(DISTINCT sales.customer_id) as loyal_buyer_count'),
-                DB::raw('SUM(sales_details.quantity) as total_qty'))
-            ->join('sales_details', 'products.id', '=', 'sales_details.product_id')
-            ->join('sales', 'sales_details.sale_id', '=', 'sales.id')
-            ->join('customers', 'sales.customer_id', '=', 'customers.id')
-            ->where('sales.status', 'completed')
-            ->where('customers.purchase_frequency', '>', 1)
-            ->groupBy('products.id')
-            ->orderByDesc('loyal_buyer_count')
-            ->limit(5)
-            ->get();
+        $newCustomersThisMonth = 0;
+        $totalCustomersWithPurchases = 0;
+        $repeatCustomers = 0;
+        $repeatCustomerPercentage = 0;
+        $loyalCustomers = collect();
+        $loyalCustomerProducts = collect();
 
         // ==================== 4. PROFIT MARGIN BY PRODUCT ====================
         
@@ -497,10 +472,14 @@ class DashboardController extends Controller
         $healthScores['repeat_customer'] = ['score' => $repeatScore, 'max' => 20, 'label' => 'Loyalitas Pelanggan'];
 
         // Stock Health Score (0-20 points)
+        // Use same calculation as API - calculate directly from products table
+        $totalProductsForHealth = DB::table('products')->where('is_active', true)->count();
+        $healthyStockForHealth = DB::table('products')
+            ->where('is_active', true)
+            ->whereRaw('stock_quantity > min_stock_level')
+            ->count();
+        $stockHealthPercent = $totalProductsForHealth > 0 ? ($healthyStockForHealth / $totalProductsForHealth) * 100 : 0;
         $stockScore = 0;
-        $stockHealthPercent = $stockHealthSummary['total_products'] > 0 
-            ? ($stockHealthSummary['healthy_stock'] / $stockHealthSummary['total_products']) * 100 
-            : 0;
         if ($stockHealthPercent >= 80) $stockScore = 20;
         elseif ($stockHealthPercent >= 60) $stockScore = 15;
         elseif ($stockHealthPercent >= 40) $stockScore = 10;
@@ -508,16 +487,28 @@ class DashboardController extends Controller
         $healthScores['stock'] = ['score' => $stockScore, 'max' => 20, 'label' => 'Kesehatan Stok'];
 
         // Sales Trend Score (0-20 points)
+        // Recalculate to ensure exact same calculation as API
+        $lastMonthSalesForTrend = Sale::completed()
+            ->whereBetween('sale_date', [
+                Carbon::now()->subMonth()->startOfMonth(),
+                Carbon::now()->subMonth()->endOfMonth()
+            ])
+            ->sum('total_amount');
+        $growthRateForTrend = $lastMonthSalesForTrend > 0 ? (($monthSales - $lastMonthSalesForTrend) / $lastMonthSalesForTrend) * 100 : 0;
         $trendScore = 0;
-        if ($growthRate >= 20) $trendScore = 20;
-        elseif ($growthRate >= 10) $trendScore = 17;
-        elseif ($growthRate >= 0) $trendScore = 14;
-        elseif ($growthRate >= -10) $trendScore = 10;
-        elseif ($growthRate >= -20) $trendScore = 5;
+        if ($growthRateForTrend >= 20) $trendScore = 20;
+        elseif ($growthRateForTrend >= 10) $trendScore = 17;
+        elseif ($growthRateForTrend >= 0) $trendScore = 14;
+        elseif ($growthRateForTrend >= -10) $trendScore = 10;
+        elseif ($growthRateForTrend >= -20) $trendScore = 5;
         $healthScores['trend'] = ['score' => $trendScore, 'max' => 20, 'label' => 'Tren Penjualan'];
 
         // Average Margin Score (0-15 points)
-        $avgMargin = Product::active()->whereRaw('price > 0')->avg(DB::raw('((price - cost) / price) * 100')) ?? 0;
+        // Use same calculation as API - use DB::table instead of Eloquent
+        $avgMargin = DB::table('products')
+            ->where('is_active', true)
+            ->whereRaw('price > 0')
+            ->avg(DB::raw('((price - cost) / price) * 100')) ?? 0;
         $marginScore = 0;
         if ($avgMargin >= 40) $marginScore = 15;
         elseif ($avgMargin >= 30) $marginScore = 12;
@@ -604,38 +595,13 @@ class DashboardController extends Controller
             }
         }
         
-        // Customer Insights
-        $customersByCity = Customer::active()
-            ->selectRaw('city, COUNT(*) as count')
-            ->whereNotNull('city')
-            ->groupBy('city')
-            ->orderByDesc('count')
-            ->limit(5)
-            ->get();
-        
-        $customersByGender = Customer::active()
-            ->selectRaw('gender, COUNT(*) as count')
-            ->whereNotNull('gender')
-            ->groupBy('gender')
-            ->get();
-        
-        $customersByAgeGroup = Customer::active()
-            ->whereNotNull('age')
-            ->get()
-            ->groupBy(function ($customer) {
-                if ($customer->age < 18) return 'Under 18';
-                if ($customer->age < 25) return '18-24';
-                if ($customer->age < 35) return '25-34';
-                if ($customer->age < 45) return '35-44';
-                if ($customer->age < 55) return '45-54';
-                return '55+';
-            })
-            ->map(function ($group) {
-                return $group->count();
-            });
+        // Customer Insights (Customer feature removed - return empty collections)
+        $customersByCity = collect();
+        $customersByGender = collect();
+        $customersByAgeGroup = collect();
         
         // Recent Sales
-        $recentSales = Sale::with(['customer', 'salesDetails.product'])
+        $recentSales = Sale::with(['salesDetails.product'])
             ->completed()
             ->orderByDesc('created_at')
             ->limit(5)

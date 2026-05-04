@@ -6,7 +6,7 @@
             </h2>
             <div class="flex gap-3">
                 @if($transaction->status === 'pending')
-                    <button type="button"
+                    <button type="button" x-data
                             @click="$dispatch('open-confirm-modal', {
                                 title: 'Approve Transaction',
                                 message: 'Are you sure you want to approve this transaction? Stock will be updated accordingly.',
@@ -19,7 +19,7 @@
                         </svg>
                         Approve
                     </button>
-                    <button type="button"
+                    <button type="button" x-data
                             @click="$dispatch('open-reject-modal', {
                                 action: '{{ route('inventory.transactions.reject', $transaction) }}'
                             })"

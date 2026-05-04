@@ -26,6 +26,7 @@ class Product extends Model
         'unit',
         'image_path',
         'is_active',
+        'is_published_to_storefront',
         'created_by',
         'updated_by',
     ];
@@ -39,6 +40,7 @@ class Product extends Model
             'min_stock_level' => 'integer',
             'max_stock_level' => 'integer',
             'is_active' => 'boolean',
+            'is_published_to_storefront' => 'boolean',
         ];
     }
 
@@ -167,6 +169,17 @@ class Product extends Model
     public function scopeActive($query)
     {
         return $query->where('is_active', true);
+    }
+
+    /**
+     * Scope for products published to the public storefront.
+     * Requires the publish flag, an active product, and stock on hand.
+     */
+    public function scopePublishedToStorefront($query)
+    {
+        return $query->where('is_published_to_storefront', true)
+            ->where('is_active', true)
+            ->where('stock_quantity', '>', 0);
     }
 
     /**

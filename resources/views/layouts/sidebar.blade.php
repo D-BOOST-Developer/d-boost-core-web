@@ -10,8 +10,8 @@
         <div class="flex items-center space-x-3">
             @php
                 $sidebarProfile = Auth::user()->businessProfile;
-                $sidebarLogo = $sidebarProfile && $sidebarProfile->business_logo_path 
-                    ? asset('storage/' . $sidebarProfile->business_logo_path)
+                $sidebarLogo = $sidebarProfile && $sidebarProfile->business_logo_url 
+                    ? $sidebarProfile->business_logo_url
                     : asset('images/D-BOOST.png');
             @endphp
             
@@ -62,6 +62,16 @@
                 // Fallback to all navigation for settings or other pages
                 $navigation = $navigationService->getNavigationForUser(Auth::user());
             }
+
+            // Pending storefront orders count for current merchant (cached 5 min)
+            $pendingStorefrontCount = \Illuminate\Support\Facades\Cache::remember(
+                'pending_storefront_count_' . Auth::id(),
+                300,
+                fn () => \App\Models\Sale::where('user_id', Auth::id())
+                    ->where('status', 'pending')
+                    ->where('order_source', 'storefront')
+                    ->count()
+            );
         @endphp
         
         @if($isProfilePage)
@@ -138,15 +148,16 @@
             <!-- Module Menus -->
             @foreach($moduleMenus as $menu)
                 @php
-                    $isActive = request()->routeIs($menu->route . '*') || 
+                    $isActive = request()->routeIs($menu->route . '*') ||
                                ($menu->route && request()->routeIs($menu->route));
                     $activeClass = $isActive ? 'bg-[#006BFF]/10 text-[#006BFF] border border-[#006BFF]/20' : 'text-gray-600 hover:bg-gray-100 hover:text-[#006BFF]';
+                    $showPendingBadge = $menu->route === 'finance.sales.index' && $pendingStorefrontCount > 0;
                 @endphp
-                
-                <a href="{{ $menu->getUrl() }}" 
-                   class="group flex items-center text-sm font-medium rounded-lg transition-all duration-200 {{ $activeClass }}"
+
+                <a href="{{ $menu->getUrl() }}"
+                   class="group flex items-center text-sm font-medium rounded-lg transition-all duration-200 relative {{ $activeClass }}"
                    :class="sidebarExpanded ? 'px-2 py-3 justify-start' : 'px-0 py-3 justify-center'">
-                    <div class="flex items-center justify-center" :class="sidebarExpanded ? 'w-6 h-6' : 'w-full'">
+                    <div class="flex items-center justify-center relative" :class="sidebarExpanded ? 'w-6 h-6' : 'w-full'">
                         @if($menu->icon)
                             <svg class="w-6 h-6 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="{{ $menu->icon }}"></path>
@@ -156,8 +167,20 @@
                                 <span class="text-xs font-bold">{{ substr($menu->display_name, 0, 1) }}</span>
                             </div>
                         @endif
+                        @if($showPendingBadge)
+                            <span x-show="!sidebarExpanded"
+                                  class="absolute -top-1 -right-1 inline-flex items-center justify-center px-1.5 py-0.5 text-[10px] font-bold leading-none text-white bg-red-500 rounded-full ring-2 ring-white">
+                                {{ $pendingStorefrontCount > 99 ? '99+' : $pendingStorefrontCount }}
+                            </span>
+                        @endif
                     </div>
-                    <span x-show="sidebarExpanded" x-transition class="ml-3">{{ $menu->display_name }}</span>
+                    <span x-show="sidebarExpanded" x-transition class="ml-3 flex-1">{{ $menu->display_name }}</span>
+                    @if($showPendingBadge)
+                        <span x-show="sidebarExpanded" x-transition
+                              class="ml-auto inline-flex items-center justify-center px-2 py-0.5 text-[10px] font-bold leading-none text-white bg-red-500 rounded-full">
+                            {{ $pendingStorefrontCount > 99 ? '99+' : $pendingStorefrontCount }}
+                        </span>
+                    @endif
                 </a>
             @endforeach
         @else
@@ -181,15 +204,16 @@
                     <!-- Module Menus -->
                     @foreach($menus as $menu)
                         @php
-                            $isActive = request()->routeIs($menu->route . '*') || 
+                            $isActive = request()->routeIs($menu->route . '*') ||
                                        ($menu->route && request()->routeIs($menu->route));
                             $activeClass = $isActive ? 'bg-[#006BFF]/10 text-[#006BFF] border border-[#006BFF]/20' : 'text-gray-600 hover:bg-gray-100 hover:text-[#006BFF]';
+                            $showPendingBadge = $menu->route === 'finance.sales.index' && $pendingStorefrontCount > 0;
                         @endphp
-                        
-                        <a href="{{ $menu->getUrl() }}" 
-                           class="group flex items-center text-sm font-medium rounded-lg transition-all duration-200 {{ $activeClass }}"
+
+                        <a href="{{ $menu->getUrl() }}"
+                           class="group flex items-center text-sm font-medium rounded-lg transition-all duration-200 relative {{ $activeClass }}"
                            :class="sidebarExpanded ? 'px-2 py-3 justify-start' : 'px-0 py-3 justify-center'">
-                            <div class="flex items-center justify-center" :class="sidebarExpanded ? 'w-6 h-6' : 'w-full'">
+                            <div class="flex items-center justify-center relative" :class="sidebarExpanded ? 'w-6 h-6' : 'w-full'">
                                 @if($menu->icon)
                                     <svg class="w-6 h-6 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="{{ $menu->icon }}"></path>
@@ -199,8 +223,20 @@
                                         <span class="text-xs font-bold">{{ substr($menu->display_name, 0, 1) }}</span>
                                     </div>
                                 @endif
+                                @if($showPendingBadge)
+                                    <span x-show="!sidebarExpanded"
+                                          class="absolute -top-1 -right-1 inline-flex items-center justify-center px-1.5 py-0.5 text-[10px] font-bold leading-none text-white bg-red-500 rounded-full ring-2 ring-white">
+                                        {{ $pendingStorefrontCount > 99 ? '99+' : $pendingStorefrontCount }}
+                                    </span>
+                                @endif
                             </div>
-                            <span x-show="sidebarExpanded" x-transition class="ml-3">{{ $menu->display_name }}</span>
+                            <span x-show="sidebarExpanded" x-transition class="ml-3 flex-1">{{ $menu->display_name }}</span>
+                            @if($showPendingBadge)
+                                <span x-show="sidebarExpanded" x-transition
+                                      class="ml-auto inline-flex items-center justify-center px-2 py-0.5 text-[10px] font-bold leading-none text-white bg-red-500 rounded-full">
+                                    {{ $pendingStorefrontCount > 99 ? '99+' : $pendingStorefrontCount }}
+                                </span>
+                            @endif
                         </a>
                     @endforeach
                 @endforeach

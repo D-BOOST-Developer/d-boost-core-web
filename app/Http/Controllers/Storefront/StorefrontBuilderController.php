@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Storefront;
 
 use App\Http\Controllers\Controller;
+use App\Models\Product;
 use App\Models\StorefrontConfig;
 use App\Models\MarketplaceLink;
 use Illuminate\Http\Request;
@@ -42,7 +43,14 @@ class StorefrontBuilderController extends Controller
 
         $links = auth()->user()->marketplaceLinks()->active()->ordered()->get();
 
-        return view('storefront.builder.edit', compact('config', 'links'));
+        $featuredProducts = Product::query()
+            ->where('user_id', auth()->id())
+            ->publishedToStorefront()
+            ->orderBy('name')
+            ->take(8)
+            ->get();
+
+        return view('storefront.builder.edit', compact('config', 'links', 'featuredProducts'));
     }
 
     /**
@@ -50,6 +58,7 @@ class StorefrontBuilderController extends Controller
      */
     public function update(Request $request)
     {
+        $request->merge(['template_type' => null]);
         $validated = $request->validate([
             'storefront_title' => 'required|string|max:255',
             'tagline' => 'nullable|string|max:255',
@@ -57,8 +66,8 @@ class StorefrontBuilderController extends Controller
             'primary_color' => 'required|regex:/^#[0-9A-Fa-f]{6}$/',
             'secondary_color' => 'nullable|regex:/^#[0-9A-Fa-f]{6}$/',
             'text_color' => 'nullable|regex:/^#[0-9A-Fa-f]{6}$/',
-            'grid_columns' => 'required|integer|in:2,3,4',
-            'card_style' => 'required|in:shadow,bordered,flat',
+            'grid_columns' => 'required|integer|in:2,3,4,5',
+            'card_style' => 'required|in:shadow,bordered,flat,minimal',
             'header_text' => 'nullable|string|max:500',
             'about_text' => 'nullable|string|max:1000',
             'cta_text' => 'nullable|string|max:255',
@@ -228,10 +237,22 @@ class StorefrontBuilderController extends Controller
         }
 
         $links = auth()->user()->marketplaceLinks()->active()->ordered()->get();
+        $businessProfile = auth()->user()->businessProfile;
+        $reviews = $config->reviews()->approved()->latest()->take(10)->get();
+
+        $featuredProducts = \App\Models\Product::query()
+            ->where('user_id', auth()->id())
+            ->publishedToStorefront()
+            ->orderBy('name')
+            ->take(8)
+            ->get();
 
         return view('storefront.public.show', [
             'config' => $config,
             'links' => $links,
+            'featuredProducts' => $featuredProducts,
+            'businessProfile' => $businessProfile,
+            'reviews' => $reviews,
             'isPreview' => true,
         ]);
     }

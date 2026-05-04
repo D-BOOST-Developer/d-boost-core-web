@@ -125,7 +125,7 @@
                                         @foreach($product->salesDetails->take(10) as $detail)
                                             <tr>
                                                 <td class="py-3 text-gray-900 dark:text-white">{{ $detail->sale->invoice_number }}</td>
-                                                <td class="py-3 text-gray-900 dark:text-white">{{ $detail->sale->customer->name }}</td>
+                                                <td class="py-3 text-gray-900 dark:text-white">{{ $detail->sale->customer->name ?? $detail->sale->customer_snapshot['name'] ?? ($detail->sale->order_source === 'storefront' ? 'Storefront Customer' : 'Walk-in Customer') }}</td>
                                                 <td class="py-3 text-gray-900 dark:text-white">{{ $detail->quantity }}</td>
                                                 <td class="py-3 text-gray-900 dark:text-white">Rp {{ number_format($detail->unit_price, 0, ',', '.') }}</td>
                                                 <td class="py-3 text-[#006BFF] dark:text-[#00FF9C] font-medium">Rp {{ number_format($detail->line_total, 0, ',', '.') }}</td>

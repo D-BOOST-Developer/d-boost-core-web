@@ -17,7 +17,7 @@ class SalesReturn extends Model
         'return_number',
         'sale_id',
         'return_date',
-        'reason', // 'defective', 'wrong_item', 'customer_request', 'other'
+        'reason', // 'defective', 'wrong_item', 'buyer_request', 'other'
         'total_return_amount',
         'refund_amount',
         'status', // 'pending', 'completed', 'cancelled'
@@ -120,7 +120,7 @@ class SalesReturn extends Model
         $reasons = [
             'defective' => 'Defective Product',
             'wrong_item' => 'Wrong Item',
-            'customer_request' => 'Customer Request',
+            'buyer_request' => 'Buyer Request',
             'other' => 'Other',
         ];
         return $reasons[$this->reason] ?? ucfirst($this->reason);

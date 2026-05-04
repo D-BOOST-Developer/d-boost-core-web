@@ -15,16 +15,13 @@ class SalesReturnController extends Controller
      */
     public function index(Request $request)
     {
-        $query = SalesReturn::with(['sale.customer', 'creator'])
+        $query = SalesReturn::with(['sale', 'creator'])
                            ->latest('return_date');
 
         // Search
         if ($request->filled('search')) {
             $search = $request->search;
-            $query->where('return_number', 'like', "%{$search}%")
-                  ->orWhereHas('sale.customer', function ($q) use ($search) {
-                      $q->where('name', 'like', "%{$search}%");
-                  });
+            $query->where('return_number', 'like', "%{$search}%");
         }
 
         // Filter by status
@@ -53,7 +50,7 @@ class SalesReturnController extends Controller
     public function create(Request $request)
     {
         $saleId = $request->query('sale_id');
-        $sale = $saleId ? Sale::with('salesDetails.product', 'customer')->find($saleId) : null;
+        $sale = $saleId ? Sale::with('salesDetails.product')->find($saleId) : null;
 
         return view('finance.sales-returns.create', compact('sale'));
     }
@@ -66,7 +63,7 @@ class SalesReturnController extends Controller
         $validated = $request->validate([
             'sale_id' => 'required|exists:sales,id',
             'return_date' => 'required|date',
-            'reason' => 'required|in:defective,wrong_item,customer_request,other',
+            'reason' => 'required|in:defective,wrong_item,buyer_request,other',
             'items' => 'required|array|min:1',
             'items.*.product_id' => 'required|exists:products,id',
             'items.*.quantity' => 'required|integer|min:1',
@@ -110,7 +107,7 @@ class SalesReturnController extends Controller
      */
     public function show(SalesReturn $salesReturn)
     {
-        $salesReturn->load(['sale.customer', 'items.product', 'creator']);
+        $salesReturn->load(['sale', 'items.product', 'creator']);
         return view('finance.sales-returns.show', compact('salesReturn'));
     }
 
@@ -138,7 +135,7 @@ class SalesReturnController extends Controller
 
         $validated = $request->validate([
             'return_date' => 'required|date',
-            'reason' => 'required|in:defective,wrong_item,customer_request,other',
+            'reason' => 'required|in:defective,wrong_item,buyer_request,other',
             'items' => 'required|array|min:1',
             'items.*.product_id' => 'required|exists:products,id',
             'items.*.quantity' => 'required|integer|min:1',
@@ -217,7 +214,7 @@ class SalesReturnController extends Controller
      */
     public function report(Request $request)
     {
-        $query = SalesReturn::with(['sale.customer', 'items.product']);
+        $query = SalesReturn::with(['sale', 'items.product']);
 
         if ($request->filled('reason')) {
             $query->where('reason', $request->reason);

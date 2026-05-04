@@ -189,6 +189,16 @@
                                     <span class="ml-2 text-gray-700 dark:text-gray-300">Product is active</span>
                                 </label>
                             </div>
+
+                            <!-- Storefront Publish -->
+                            <div>
+                                <label class="flex items-center">
+                                    <input type="checkbox" name="is_published_to_storefront" value="1" {{ old('is_published_to_storefront', $product->is_published_to_storefront) ? 'checked' : '' }}
+                                           class="rounded bg-white dark:bg-gray-700 border-gray-300 dark:border-gray-600 text-[#006BFF] focus:ring-[#006BFF] focus:ring-offset-0">
+                                    <span class="ml-2 text-gray-700 dark:text-gray-300">Tampilkan di Toko Web (Storefront)</span>
+                                </label>
+                                <p class="text-xs text-gray-500 dark:text-gray-400 mt-1 ml-6">Aktifkan untuk menampilkan produk ini di katalog publik storefront Anda.</p>
+                            </div>
                         </div>
                     </div>
 

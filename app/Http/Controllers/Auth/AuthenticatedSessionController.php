@@ -37,6 +37,25 @@ class AuthenticatedSessionController extends Controller
     }
 
     /**
+     * Handle API login request (for mobile app).
+     */
+    public function apiLogin(LoginRequest $request)
+    {
+        $request->authenticate();
+
+        $user = Auth::user();
+        
+        // Create Sanctum token
+        $token = $user->createToken('mobile-app')->plainTextToken;
+
+        return response()->json([
+            'access_token' => $token,
+            'token_type' => 'Bearer',
+            'user' => $user
+        ]);
+    }
+
+    /**
      * Destroy an authenticated session.
      */
     public function destroy(Request $request): RedirectResponse

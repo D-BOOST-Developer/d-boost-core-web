@@ -79,7 +79,7 @@
             </div>
 
             <!-- Quick Actions -->
-            <div class="grid grid-cols-1 lg:grid-cols-2 gap-6 mb-6">
+            <div class="grid grid-cols-1 lg:grid-cols-3 gap-6 mb-6">
                 <div class="bg-gradient-to-br from-blue-50 to-white border border-blue-100 rounded-xl p-6 hover:shadow-lg transition-shadow">
                     <div class="flex items-start justify-between mb-4">
                         <div class="flex-1">
@@ -116,6 +116,27 @@
                     <a href="{{ route('storefront.builder.edit') }}" 
                        class="inline-flex items-center text-purple-600 hover:text-purple-700 font-medium">
                         Buka Builder
+                        <svg class="w-4 h-4 ml-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"></path>
+                        </svg>
+                    </a>
+                </div>
+
+                <div class="bg-gradient-to-br from-green-50 to-white border border-green-100 rounded-xl p-6 hover:shadow-lg transition-shadow">
+                    <div class="flex items-start justify-between mb-4">
+                        <div class="flex-1">
+                            <h3 class="text-xl font-bold text-gray-900 mb-2">Client Reviews</h3>
+                            <p class="text-gray-600 text-sm mb-4">Kelola dan approve review dari customer</p>
+                        </div>
+                        <div class="w-12 h-12 bg-green-100 rounded-xl flex items-center justify-center">
+                            <svg class="w-6 h-6 text-green-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 10h.01M12 10h.01M16 10h.01M9 16H5a2 2 0 01-2-2V6a2 2 0 012-2h14a2 2 0 012 2v8a2 2 0 01-2 2h-5l-5 5v-5z"></path>
+                            </svg>
+                        </div>
+                    </div>
+                    <a href="{{ route('storefront.reviews.index') }}" 
+                       class="inline-flex items-center text-green-600 hover:text-green-700 font-medium">
+                        Kelola Reviews
                         <svg class="w-4 h-4 ml-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"></path>
                         </svg>

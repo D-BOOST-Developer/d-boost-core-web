@@ -23,13 +23,13 @@ class ModularDashboardController extends Controller
     public function index()
     {
         $user = auth()->user();
-        
+
         // Get user's accessible modules with their menus
         $accessibleModules = $this->getUserAccessibleModules($user);
-        
+
         // Get recent activities or stats for each module
         $moduleStats = $this->getModuleStats($user);
-        
+
         return view('modular-dashboard.index', compact('accessibleModules', 'moduleStats'));
     }
 
@@ -39,12 +39,12 @@ class ModularDashboardController extends Controller
     private function getUserAccessibleModules($user)
     {
         $navigation = $this->navigationService->getNavigationForUser($user);
-        
+
         $modules = [];
         foreach ($navigation as $moduleData) {
             $module = $moduleData['module'];
             $menus = $moduleData['menus'];
-            
+
             $modules[] = [
                 'id' => $module->id,
                 'name' => $module->name,
@@ -53,7 +53,7 @@ class ModularDashboardController extends Controller
                 'icon' => $module->icon,
                 'color' => $module->color,
                 'sort_order' => $module->sort_order,
-                'menus' => $menus->map(function($menu) {
+                'menus' => $menus->map(function ($menu) {
                     return [
                         'id' => $menu->id,
                         'name' => $menu->name,
@@ -72,9 +72,9 @@ class ModularDashboardController extends Controller
             $settingsModule = Module::where('name', 'settings')->where('is_active', true)->first();
             if ($settingsModule) {
                 $settingsMenus = Menu::where('module_id', $settingsModule->id)
-                                     ->where('is_active', true)
-                                     ->orderBy('sort_order')
-                                     ->get();
+                    ->where('is_active', true)
+                    ->orderBy('sort_order')
+                    ->get();
 
                 if ($settingsMenus->isNotEmpty()) {
                     $modules[] = [
@@ -85,7 +85,7 @@ class ModularDashboardController extends Controller
                         'icon' => $settingsModule->icon,
                         'color' => $settingsModule->color,
                         'sort_order' => $settingsModule->sort_order,
-                        'menus' => $settingsMenus->map(function($menu) {
+                        'menus' => $settingsMenus->map(function ($menu) {
                             return [
                                 'id' => $menu->id,
                                 'name' => $menu->name,
@@ -100,7 +100,7 @@ class ModularDashboardController extends Controller
                 }
             }
         }
-        
+
         return collect($modules)->sortBy('sort_order')->values();
     }
 
@@ -110,17 +110,19 @@ class ModularDashboardController extends Controller
     private function getModuleStats($user)
     {
         $stats = [];
-        
+
         // Dashboard stats
         $stats['dashboard'] = [
             'total_sales' => \App\Models\Sale::count(),
-            'total_customers' => \App\Models\Customer::count(),
+            'total_customers' => 0, // Customer features removed
             'total_products' => \App\Models\Product::count(),
+            'today_income' => \App\Models\Sale::whereDate('created_at', today())->sum('total_amount'),
+            'today_expenses' => \App\Models\Expense::whereDate('created_at', today())->sum('amount'),
             'last_activity' => \App\Models\Sale::latest()->first()?->created_at?->diffForHumans() ?? 'No activity',
             'status' => 'active',
             'health_score' => 95
         ];
-        
+
         // Inventory stats
         $stats['inventory'] = [
             'total_products' => \App\Models\Product::count(),
@@ -130,29 +132,28 @@ class ModularDashboardController extends Controller
             'status' => 'active',
             'health_score' => \App\Models\Product::where('stock_quantity', 0)->count() > 0 ? 75 : 90
         ];
-        
+
         // Finance stats
         $monthlyRevenue = \App\Models\Sale::whereMonth('created_at', now()->month)->sum('total_amount');
         $monthlyExpenses = \App\Models\Expense::whereMonth('created_at', now()->month)->sum('amount');
         $stats['finance'] = [
             'total_sales' => \App\Models\Sale::sum('total_amount'),
             'total_expenses' => \App\Models\Expense::sum('amount'),
-            'monthly_profit' => $monthlyRevenue - $monthlyExpenses,
             'last_transaction' => \App\Models\Sale::latest()->first()?->created_at?->diffForHumans() ?? 'No transactions',
             'status' => 'active',
             'health_score' => $monthlyRevenue > $monthlyExpenses ? 85 : 65
         ];
-        
-        // Customer stats
+
+        // Customer stats (Customer features removed)
         $stats['customer'] = [
-            'total_customers' => \App\Models\Customer::count(),
-            'new_this_month' => \App\Models\Customer::whereMonth('created_at', now()->month)->count(),
-            'active_customers' => \App\Models\Customer::where('is_active', true)->count(),
-            'last_added' => \App\Models\Customer::latest()->first()?->created_at?->diffForHumans() ?? 'No customers',
+            'total_customers' => 0,
+            'new_this_month' => 0,
+            'active_customers' => 0,
+            'last_added' => 'No customers',
             'status' => 'active',
             'health_score' => 88
         ];
-        
+
         // Audit logs stats (if accessible)
         if ($user->isAdmin() || $user->isSuperAdmin()) {
             $todayLogs = \App\Models\AuditLog::whereDate('performed_at', today())->count();
@@ -165,7 +166,7 @@ class ModularDashboardController extends Controller
                 'health_score' => $todayLogs > 0 ? 92 : 75
             ];
         }
-        
+
         // Reports stats
         $stats['reports'] = [
             'total_reports' => 25, // Mock data
@@ -175,7 +176,7 @@ class ModularDashboardController extends Controller
             'status' => 'active',
             'health_score' => 88
         ];
-        
+
         // Marketing stats
         $stats['marketing'] = [
             'active_campaigns' => 5,
@@ -185,7 +186,7 @@ class ModularDashboardController extends Controller
             'status' => 'active',
             'health_score' => 85
         ];
-        
+
         // Suppliers stats
         $stats['suppliers'] = [
             'total_suppliers' => 18,
@@ -195,7 +196,7 @@ class ModularDashboardController extends Controller
             'status' => 'active',
             'health_score' => 92
         ];
-        
+
         // HR stats
         $stats['hr'] = [
             'total_employees' => 12,
@@ -205,7 +206,7 @@ class ModularDashboardController extends Controller
             'status' => 'active',
             'health_score' => 95
         ];
-        
+
         // Notifications stats
         $stats['notifications'] = [
             'total_notifications' => 45,
@@ -215,7 +216,7 @@ class ModularDashboardController extends Controller
             'status' => 'active',
             'health_score' => 90
         ];
-        
+
         // Analytics stats
         $stats['analytics'] = [
             'data_points' => 1250,
@@ -240,7 +241,7 @@ class ModularDashboardController extends Controller
                 'health_score' => $totalModules > 0 ? (($activeModules / $totalModules) * 100) : 100
             ];
         }
-        
+
         return $stats;
     }
 
@@ -250,18 +251,20 @@ class ModularDashboardController extends Controller
     public function getModuleDetails($moduleId)
     {
         $user = auth()->user();
-        $module = Module::with(['menus' => function($query) use ($user) {
-            $query->whereHas('roleMenus', function($q) use ($user) {
-                $roleIds = $user->activeRoles()->pluck('roles.id');
-                $q->whereIn('role_id', $roleIds)->where('is_active', true);
-            })->where('is_active', true)->orderBy('sort_order');
-        }])->findOrFail($moduleId);
-        
+        $module = Module::with([
+            'menus' => function ($query) use ($user) {
+                $query->whereHas('roleMenus', function ($q) use ($user) {
+                    $roleIds = $user->activeRoles()->pluck('roles.id');
+                    $q->whereIn('role_id', $roleIds)->where('is_active', true);
+                })->where('is_active', true)->orderBy('sort_order');
+            }
+        ])->findOrFail($moduleId);
+
         // Check if user can access this module
         if (!$user->canAccessMenu($module->menus->first()->id ?? null, 'read')) {
             abort(403, 'Unauthorized access to this module.');
         }
-        
+
         return response()->json([
             'module' => $module,
             'stats' => $this->getModuleStats($user)[$module->name] ?? []

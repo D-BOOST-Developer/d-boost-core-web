@@ -34,11 +34,11 @@
                                             class="w-full bg-white dark:bg-gray-700 border border-gray-300 dark:border-gray-600 text-gray-900 dark:text-white rounded-lg px-3 py-2 focus:ring-2 focus:ring-[#006BFF] focus:border-transparent @error('sale_id') border-red-500 @enderror">
                                         <option value="">Select a sale to return</option>
                                         @php
-                                            $sales = \App\Models\Sale::with('customer')->where('status', 'completed')->latest()->limit(50)->get();
+                                            $sales = \App\Models\Sale::where('status', 'completed')->latest()->limit(50)->get();
                                         @endphp
                                         @foreach($sales as $s)
                                             <option value="{{ $s->id }}" {{ old('sale_id', $sale?->id) == $s->id ? 'selected' : '' }}>
-                                                {{ $s->invoice_number }} - {{ $s->customer->name }} - Rp {{ number_format($s->total_amount, 0, ',', '.') }}
+                                                {{ $s->invoice_number }} - Rp {{ number_format($s->total_amount, 0, ',', '.') }}
                                             </option>
                                         @endforeach
                                     </select>
@@ -65,7 +65,7 @@
                                         <option value="">Select reason</option>
                                         <option value="defective" {{ old('reason') == 'defective' ? 'selected' : '' }}>Defective Product</option>
                                         <option value="wrong_item" {{ old('reason') == 'wrong_item' ? 'selected' : '' }}>Wrong Item</option>
-                                        <option value="customer_request" {{ old('reason') == 'customer_request' ? 'selected' : '' }}>Customer Request</option>
+                                        <option value="buyer_request" {{ old('reason') == 'buyer_request' ? 'selected' : '' }}>Buyer Request</option>
                                         <option value="other" {{ old('reason') == 'other' ? 'selected' : '' }}>Other</option>
                                     </select>
                                     @error('reason')

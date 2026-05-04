@@ -169,4 +169,183 @@ class ProfileController extends Controller
 
         return Redirect::to('/');
     }
+    /**
+     * API: Get user profile data.
+     */
+    public function apiShow(Request $request)
+    {
+        $user = $request->user();
+        $businessProfile = $user->businessProfile;
+        
+        // Get dropdown data
+        $umkmCategories = UmkmCategory::active()->select('id', 'name')->get();
+        $banks = UserBusinessProfile::getIndonesianBanks();
+
+        return response()->json([
+            'user' => $user,
+            'business_profile' => $businessProfile,
+            'meta' => [
+                'umkm_categories' => $umkmCategories,
+                'banks' => $banks,
+            ]
+        ]);
+    }
+
+    /**
+     * API: Update user profile information.
+     */
+    public function apiUpdate(ProfileUpdateRequest $request)
+    {
+        $request->user()->fill($request->validated());
+
+        if ($request->user()->isDirty('email')) {
+            $request->user()->email_verified_at = null;
+        }
+
+        $request->user()->save();
+
+        return response()->json([
+            'message' => 'Profile updated successfully',
+            'user' => $request->user(),
+        ]);
+    }
+
+    /**
+     * API: Update business profile information.
+     */
+    public function apiUpdateBusiness(Request $request)
+    {
+        $validated = $request->validate([
+            'business_name' => ['required', 'string', 'max:255'],
+            'business_category' => ['required', 'string', 'max:150'],
+            'owner_name' => ['required', 'string', 'max:150'],
+            'contact_email' => ['required', 'email', 'max:150'],
+            'contact_phone' => ['nullable', 'string', 'max:30'],
+            'business_address' => ['nullable', 'string', 'max:1000'],
+            'google_maps_link' => ['nullable', 'string', 'max:2000'],
+            'bank_name' => ['nullable', 'string', 'max:100'],
+            'bank_account_number' => ['nullable', 'string', 'max:50'],
+            'bank_account_holder' => ['nullable', 'string', 'max:150'],
+        ]);
+
+        $user = $request->user();
+        $businessProfile = $user->businessProfile;
+
+        if ($businessProfile) {
+            $businessProfile->update($validated);
+        } else {
+            // Create new business profile if doesn't exist
+            $validated['user_id'] = $user->id;
+            $validated['umkm_category_id'] = UmkmCategory::first()->id ?? null; // Fallback or handle better
+            $validated['business_age_month'] = 0;
+            $validated['monthly_revenue_range'] = '< 10M';
+            $businessProfile = UserBusinessProfile::create($validated);
+        }
+
+        return response()->json([
+            'message' => 'Business profile updated successfully',
+            'business_profile' => $user->fresh()->businessProfile,
+        ]);
+    }
+    /**
+     * API: Upload business logo.
+     */
+    public function apiUploadLogo(Request $request)
+    {
+        $request->validate([
+            'business_logo' => ['required', 'image', 'mimes:jpeg,png,jpg,gif,webp', 'max:2048'],
+        ]);
+
+        $user = $request->user();
+        $businessProfile = $user->businessProfile;
+
+        if (!$businessProfile) {
+            return response()->json(['message' => 'Business profile not found'], 404);
+        }
+
+        if ($businessProfile->business_logo_path) {
+            Storage::disk('public')->delete($businessProfile->business_logo_path);
+        }
+
+        $path = $request->file('business_logo')->store('business-logos', 'public');
+        $businessProfile->update(['business_logo_path' => $path]);
+
+        return response()->json([
+            'message' => 'Logo updated successfully',
+            'business_logo_url' => asset('storage/' . $path),
+        ]);
+    }
+
+    /**
+     * API: Upload QRIS barcode.
+     */
+    public function apiUploadQris(Request $request)
+    {
+        $request->validate([
+            'qris_barcode' => ['required', 'image', 'mimes:jpeg,png,jpg,gif,webp', 'max:2048'],
+        ]);
+
+        $user = $request->user();
+        $businessProfile = $user->businessProfile;
+
+        if (!$businessProfile) {
+            return response()->json(['message' => 'Business profile not found'], 404);
+        }
+
+        if ($businessProfile->qris_barcode_path) {
+            Storage::disk('public')->delete($businessProfile->qris_barcode_path);
+        }
+
+        $path = $request->file('qris_barcode')->store('qris-barcodes', 'public');
+        $businessProfile->update(['qris_barcode_path' => $path]);
+
+        return response()->json([
+            'message' => 'QRIS updated successfully',
+            'qris_image_url' => asset('storage/' . $path),
+        ]);
+    }
+
+    /**
+     * API: Update password.
+     */
+    public function apiUpdatePassword(Request $request)
+    {
+        $validated = $request->validate([
+            'current_password' => ['required', 'current_password'],
+            'password' => ['required', 'confirmed', \Illuminate\Validation\Rules\Password::defaults()],
+        ]);
+
+        $request->user()->update([
+            'password' => \Illuminate\Support\Facades\Hash::make($validated['password']),
+        ]);
+
+        return response()->json(['message' => 'Password updated successfully']);
+    }
+
+    /**
+     * API: Delete account.
+     */
+    public function apiDestroy(Request $request)
+    {
+        $request->validate([
+            'password' => ['required', 'current_password'],
+        ]);
+
+        $user = $request->user();
+
+        // Delete associated files
+        if ($user->businessProfile) {
+            if ($user->businessProfile->business_logo_path) {
+                Storage::disk('public')->delete($user->businessProfile->business_logo_path);
+            }
+            if ($user->businessProfile->qris_barcode_path) {
+                Storage::disk('public')->delete($user->businessProfile->qris_barcode_path);
+            }
+        }
+
+        $user->currentAccessToken()->delete(); // Revoke current token
+        $user->delete();
+
+        return response()->json(['message' => 'Account deleted successfully']);
+    }
 }

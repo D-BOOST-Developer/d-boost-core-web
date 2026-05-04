@@ -51,26 +51,7 @@
                                     </div>
                                 </div>
 
-                                <div class="grid grid-cols-1 md:grid-cols-2 gap-5">
-                                    <!-- Customer -->
-                                    <div>
-                                        <label for="customer_id" class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">
-                                            Customer <span class="text-red-500">*</span>
-                                        </label>
-                                        <select name="customer_id" id="customer_id" required
-                                                class="w-full bg-white dark:bg-gray-700 border border-gray-300 dark:border-gray-600 text-gray-900 dark:text-white rounded-lg px-3 py-2 text-sm focus:ring-2 focus:ring-[#006BFF] focus:border-[#006BFF] transition-colors @error('customer_id') border-red-500 @enderror">
-                                            <option value="">Walk-in Customer</option>
-                                            @foreach($customers as $customer)
-                                                <option value="{{ $customer->id }}" {{ old('customer_id', $sale->customer_id) == $customer->id ? 'selected' : '' }}>
-                                                    {{ $customer->name }} - {{ $customer->city ?? 'No City' }}
-                                                </option>
-                                            @endforeach
-                                        </select>
-                                        @error('customer_id')
-                                            <p class="text-red-600 dark:text-red-400 text-xs mt-1">{{ $message }}</p>
-                                        @enderror
-                                    </div>
-
+                                <div class="grid grid-cols-1 md:grid-cols-3 gap-5">
                                     <!-- Sale Date -->
                                     <div>
                                         <label for="sale_date" class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">
@@ -149,17 +130,73 @@
                                         </div>
 
                                         <!-- QRIS Info -->
-                                        <div x-show="paymentMethod === 'qris'" class="bg-purple-50 dark:bg-purple-900/20 border border-purple-200 dark:border-purple-800 rounded-lg p-4">
-                                            <h4 class="text-sm font-semibold text-gray-900 dark:text-white mb-3">QRIS Payment Code</h4>
+                                        <div x-show="paymentMethod === 'qris'" x-data="{ qrisOpen: false }"
+                                             class="bg-gradient-to-b from-red-50 to-white dark:from-red-900/20 dark:to-gray-800 border border-red-200 dark:border-red-800 rounded-xl p-6">
                                             @if($businessProfile->qris_barcode_path)
-                                                <div class="bg-white dark:bg-gray-800 rounded-lg p-4 inline-block">
-                                                    <img src="{{ asset('storage/' . $businessProfile->qris_barcode_path) }}" 
-                                                         alt="QRIS Code" 
-                                                         class="w-48 h-48 mx-auto rounded border border-gray-200 dark:border-gray-700">
+                                                @php $qrisUrl = asset('storage/' . $businessProfile->qris_barcode_path); @endphp
+                                                <div class="flex flex-col items-center gap-4">
+                                                    {{-- Label --}}
+                                                    <span class="inline-flex items-center gap-1.5 text-xs font-semibold uppercase tracking-wider text-red-700 dark:text-red-300 bg-red-100 dark:bg-red-900/40 px-3 py-1 rounded-full">
+                                                        <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4v1m6 11h2m-6 0h-2v4m0-11v3m0 0h.01M12 12h4.01M16 20h4M4 12h4m12 0h.01M5 8h2a1 1 0 001-1V5a1 1 0 00-1-1H5a1 1 0 00-1 1v2a1 1 0 001 1zm12 0h2a1 1 0 001-1V5a1 1 0 00-1-1h-2a1 1 0 00-1 1v2a1 1 0 001 1zM5 20h2a1 1 0 001-1v-2a1 1 0 00-1-1H5a1 1 0 00-1 1v2a1 1 0 001 1z"/></svg>
+                                                        QRIS Payment Code
+                                                    </span>
+
+                                                    {{-- Clickable image --}}
+                                                    <button type="button" @click="qrisOpen = true"
+                                                            class="group relative focus:outline-none focus:ring-2 focus:ring-red-400 focus:ring-offset-2 rounded-xl">
+                                                        <div class="bg-white rounded-xl shadow-lg border-4 border-white ring-1 ring-gray-200 p-4 transition-transform group-hover:scale-[1.02] duration-200">
+                                                            <img src="{{ $qrisUrl }}" alt="QRIS Code" class="w-52 h-52 object-contain block">
+                                                        </div>
+                                                        <span class="absolute inset-0 rounded-xl flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity duration-200">
+                                                            <span class="flex items-center gap-1.5 bg-black/70 text-white text-xs font-medium px-3 py-1.5 rounded-full backdrop-blur-sm">
+                                                                <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0zM10 7v3m0 0v3m0-3h3m-3 0H7"/></svg>
+                                                                Perbesar untuk scan
+                                                            </span>
+                                                        </span>
+                                                    </button>
+
+                                                    {{-- Caption --}}
+                                                    <div class="text-center">
+                                                        <p class="text-sm text-gray-600 dark:text-gray-400">Customer dapat scan kode ini dengan aplikasi e-wallet mana pun.</p>
+                                                        <p class="text-xs text-red-500 dark:text-red-400 mt-1 flex items-center justify-center gap-1">
+                                                            <svg class="w-3 h-3" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z"/><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z"/></svg>
+                                                            Klik gambar untuk memperbesar
+                                                        </p>
+                                                    </div>
                                                 </div>
-                                                <p class="text-xs text-gray-600 dark:text-gray-400 mt-3">Customer can scan this QR code with any e-wallet app</p>
+
+                                                {{-- Lightbox Modal --}}
+                                                <div x-show="qrisOpen"
+                                                     x-transition:enter="transition ease-out duration-200"
+                                                     x-transition:enter-start="opacity-0 scale-95"
+                                                     x-transition:enter-end="opacity-100 scale-100"
+                                                     x-transition:leave="transition ease-in duration-150"
+                                                     x-transition:leave-start="opacity-100 scale-100"
+                                                     x-transition:leave-end="opacity-0 scale-95"
+                                                     @click.self="qrisOpen = false"
+                                                     @keydown.escape.window="qrisOpen = false"
+                                                     class="fixed inset-0 z-[9999] flex items-center justify-center bg-black/80 backdrop-blur-sm p-4"
+                                                     style="display:none">
+                                                    <div class="relative flex flex-col items-center gap-5 max-w-lg w-full">
+                                                        <button type="button" @click="qrisOpen = false"
+                                                                class="absolute -top-12 right-0 flex items-center gap-1.5 text-white/60 hover:text-white text-sm transition-colors">
+                                                            <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"/></svg>
+                                                            Tutup (Esc)
+                                                        </button>
+                                                        <div class="bg-white rounded-2xl shadow-2xl ring-4 ring-red-400/40 p-6 w-full flex flex-col items-center gap-4">
+                                                            <div class="text-center pb-3 border-b border-gray-100 w-full">
+                                                                <p class="font-semibold text-gray-900 text-base">{{ $businessProfile->business_name ?? auth()->user()?->name }}</p>
+                                                                <p class="text-xs text-red-600 font-medium uppercase tracking-widest mt-0.5">Pembayaran QRIS</p>
+                                                            </div>
+                                                            <img src="{{ $qrisUrl }}" alt="QRIS Code" class="block object-contain"
+                                                                 style="width: min(75vmin, 420px); height: min(75vmin, 420px);">
+                                                            <p class="text-xs text-gray-400 text-center">Scan dengan GoPay · OVO · Dana · ShopeePay · M-Banking</p>
+                                                        </div>
+                                                        <p class="text-white/30 text-xs">Klik di luar kotak atau tekan Esc untuk menutup</p>
+                                                    </div>
+                                                </div>
                                             @else
-                                                <p class="text-sm text-amber-600 dark:text-amber-400">QRIS code not uploaded yet.</p>
+                                                <p class="text-sm text-amber-600 dark:text-amber-400">QRIS code not uploaded yet. Please upload it in your Business Profile settings.</p>
                                             @endif
                                         </div>
                                     @else

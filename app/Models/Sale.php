@@ -23,7 +23,10 @@ class Sale extends Model
         'total_amount',
         'payment_method',
         'status',
+        'order_source',
         'notes',
+        'rejection_reason',
+        'customer_snapshot',
         'created_by',
         'updated_by',
     ];
@@ -36,51 +39,74 @@ class Sale extends Model
             'tax_amount' => 'decimal:2',
             'discount_amount' => 'decimal:2',
             'total_amount' => 'decimal:2',
+            'customer_snapshot' => 'array',
         ];
     }
 
     /**
      * Generate a unique invoice number
+     * Uses max invoice number approach to avoid race conditions
      */
     public static function generateInvoiceNumber()
     {
         $maxAttempts = 50;
         $attempts = 0;
+        $datePrefix = date('Ymd');
 
         while ($attempts < $maxAttempts) {
-            // Method 1: Sequential with date prefix (preferred)
-            $datePrefix = date('Ymd');
-            $sequentialNumber = static::whereDate('created_at', today())->count() + 1;
-            $invoiceNumber = 'INV-' . $datePrefix . '-' . str_pad($sequentialNumber, 4, '0', STR_PAD_LEFT);
+            try {
+                // Get the highest invoice number for today by extracting the numeric suffix
+                $lastSale = static::where('invoice_number', 'like', 'INV-' . $datePrefix . '-%')
+                    ->orderByRaw("CAST(SUBSTRING(invoice_number FROM '([0-9]+)$') AS INTEGER) DESC")
+                    ->first();
 
-            if (!static::where('invoice_number', $invoiceNumber)->exists()) {
-                return $invoiceNumber;
-            }
+                if ($lastSale) {
+                    // Extract the numeric part from the last invoice number
+                    preg_match('/(\d+)$/', $lastSale->invoice_number, $matches);
+                    $lastNumber = isset($matches[1]) ? (int)$matches[1] : 0;
+                    $sequentialNumber = $lastNumber + 1;
+                } else {
+                    // No invoice exists for today, start from 1
+                    $sequentialNumber = 1;
+                }
 
-            // Method 2: If sequential fails, try microtime-based for more uniqueness
-            $microtime = explode(' ', microtime());
-            $timestamp = $microtime[1];
-            $microseconds = str_pad(substr($microtime[0], 2, 6), 6, '0');
-            $invoiceNumber = 'INV-' . $datePrefix . '-' . $timestamp . $microseconds . '-' . str_pad($attempts, 3, '0', STR_PAD_LEFT);
+                $invoiceNumber = 'INV-' . $datePrefix . '-' . str_pad($sequentialNumber, 4, '0', STR_PAD_LEFT);
 
-            if (!static::where('invoice_number', $invoiceNumber)->exists()) {
-                return $invoiceNumber;
-            }
+                // Verify it doesn't exist (handles race conditions)
+                if (!static::where('invoice_number', $invoiceNumber)->exists()) {
+                    return $invoiceNumber;
+                }
 
-            // Method 3: If microtime also fails, add random element
-            $random = mt_rand(100, 999);
-            $invoiceNumber = 'INV-' . $datePrefix . '-' . $timestamp . $microseconds . '-' . $random;
+                // If it exists (race condition), try next number
+                $sequentialNumber++;
+                $invoiceNumber = 'INV-' . $datePrefix . '-' . str_pad($sequentialNumber, 4, '0', STR_PAD_LEFT);
 
-            if (!static::where('invoice_number', $invoiceNumber)->exists()) {
-                return $invoiceNumber;
+                if (!static::where('invoice_number', $invoiceNumber)->exists()) {
+                    return $invoiceNumber;
+                }
+
+            } catch (\Exception $e) {
+                // If query fails, fall back to microtime-based approach
+                $microtime = explode(' ', microtime());
+                $timestamp = $microtime[1];
+                $microseconds = str_pad(substr($microtime[0], 2, 6), 6, '0');
+                $invoiceNumber = 'INV-' . $datePrefix . '-' . $timestamp . $microseconds . '-' . str_pad($attempts, 3, '0', STR_PAD_LEFT);
+
+                if (!static::where('invoice_number', $invoiceNumber)->exists()) {
+                    return $invoiceNumber;
+                }
             }
 
             $attempts++;
             usleep(rand(1000, 5000)); // Random delay to avoid hammering the database
         }
 
-        // Final fallback - extremely unlikely to reach here
-        throw new \Exception('Unable to generate unique invoice number after ' . $maxAttempts . ' attempts');
+        // Final fallback - use timestamp with random
+        $microtime = explode(' ', microtime());
+        $timestamp = $microtime[1];
+        $microseconds = str_pad(substr($microtime[0], 2, 6), 6, '0');
+        $random = mt_rand(1000, 9999);
+        return 'INV-' . $datePrefix . '-' . $timestamp . $microseconds . '-' . $random;
     }
 
     /**
@@ -97,13 +123,7 @@ class Sale extends Model
         });
     }
 
-    /**
-     * Get the customer for this sale
-     */
-    public function customer()
-    {
-        return $this->belongsTo(Customer::class);
-    }
+
 
     /**
      * Get the sales details for this sale
@@ -224,14 +244,6 @@ class Sale extends Model
         return 'text-red-600';
     }
 
-    // ==================== CRM RELATIONSHIPS ====================
 
-    /**
-     * Get feedback for this sale
-     */
-    public function feedback()
-    {
-        return $this->hasOne(CustomerFeedback::class);
-    }
 }
 

@@ -12,9 +12,30 @@ class StorefrontConfig extends Model
 {
     use HasFactory, HasUuidAndAudit;
 
+    /**
+     * @deprecated Storefront now uses the unified MONŌ layout. Template constants are kept for backward
+     * compatibility with legacy DB rows but are no longer dispatched on by controllers.
+     */
+    public const TEMPLATE_DEFAULT = 'default';
+    /** @deprecated */
+    public const TEMPLATE_CLOTHING = 'clothing';
+    /** @deprecated */
+    public const TEMPLATE_FOOD_BEVERAGE = 'food_beverage';
+    /** @deprecated */
+    public const TEMPLATE_ELECTRONICS = 'electronics';
+
+    /** @deprecated MONŌ is the only layout; this map is unused. */
+    public const TEMPLATE_TYPES = [
+        self::TEMPLATE_DEFAULT => 'Default',
+        self::TEMPLATE_CLOTHING => 'Clothing',
+        self::TEMPLATE_FOOD_BEVERAGE => 'Food & Beverage',
+        self::TEMPLATE_ELECTRONICS => 'Electronics',
+    ];
+
     protected $fillable = [
         'user_id',
         'slug',
+        'template_type',
         'storefront_title',
         'tagline',
         'logo_path',
@@ -54,6 +75,14 @@ class StorefrontConfig extends Model
     }
 
     /**
+     * Get client reviews for this storefront
+     */
+    public function reviews()
+    {
+        return $this->hasMany(ClientReview::class);
+    }
+
+    /**
      * Generate unique slug from user name
      */
     public static function generateUniqueSlug(User $user, ?string $customSlug = null): string
@@ -88,6 +117,51 @@ class StorefrontConfig extends Model
             'secondary_color' => '#10B981',
             'text_color' => '#1F2937',
         ];
+    }
+
+    /**
+     * Get template-specific default styles
+     */
+    public static function getTemplateDefaults(string $templateType): array
+    {
+        return match ($templateType) {
+            self::TEMPLATE_CLOTHING => [
+                'primary_color' => '#C9B99A',
+                'secondary_color' => '#3D3D3D',
+                'text_color' => '#1A1A1A',
+                'header_bg_type' => 'color',
+                'header_bg_value' => '#F5F3EF',
+                'card_style' => 'minimal',
+                'grid_columns' => 3,
+            ],
+            self::TEMPLATE_FOOD_BEVERAGE => [
+                'primary_color' => '#3BB77E',
+                'secondary_color' => '#FDC040',
+                'text_color' => '#253D4E',
+                'header_bg_type' => 'color',
+                'header_bg_value' => '#FFFFFF',
+                'card_style' => 'shadow',
+                'grid_columns' => 4,
+            ],
+            self::TEMPLATE_ELECTRONICS => [
+                'primary_color' => '#E74C3C',
+                'secondary_color' => '#2C3E50',
+                'text_color' => '#1A1A1A',
+                'header_bg_type' => 'color',
+                'header_bg_value' => '#FFFFFF',
+                'card_style' => 'bordered',
+                'grid_columns' => 5,
+            ],
+            default => [
+                'primary_color' => '#3B82F6',
+                'secondary_color' => '#10B981',
+                'text_color' => '#1F2937',
+                'header_bg_type' => 'gradient',
+                'header_bg_value' => null,
+                'card_style' => 'shadow',
+                'grid_columns' => 3,
+            ],
+        };
     }
 
     /**

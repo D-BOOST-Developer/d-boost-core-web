@@ -20,7 +20,6 @@ class Expense extends Model
         'amount',
         'expense_date',
         'category',
-        'vendor',
         'receipt_path',
         'payment_method',
         'is_recurring',

@@ -80,6 +80,11 @@ class ExpenseController extends Controller
             'recurring_period' => 'nullable|in:daily,weekly,monthly,yearly',
         ]);
 
+        // Ensure title is always set to satisfy NOT NULL constraint
+        if (!isset($validated['title']) || empty($validated['title'])) {
+            $validated['title'] = $validated['description'] ?? 'Untitled Expense';
+        }
+
         $validated['is_recurring'] = $request->boolean('is_recurring');
 
         // Handle receipt upload
@@ -141,6 +146,11 @@ class ExpenseController extends Controller
             'is_recurring' => 'boolean',
             'recurring_period' => 'nullable|in:daily,weekly,monthly,yearly',
         ]);
+
+        // Ensure title is always set to satisfy NOT NULL constraint
+        if (!isset($validated['title']) || empty($validated['title'])) {
+            $validated['title'] = $validated['description'] ?? 'Untitled Expense';
+        }
 
         $validated['is_recurring'] = $request->boolean('is_recurring');
 

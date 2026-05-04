@@ -77,9 +77,18 @@
                                     <td class="px-6 py-4 font-medium text-gray-900 dark:text-white">
                                         {{ $sale->invoice_number }}
                                     </td>
+                                    @php
+                                        $arName = $sale->customer_snapshot['name'] ?? null;
+                                        $arPhone = $sale->customer_snapshot['phone'] ?? null;
+                                        if (!$arName) {
+                                            $arName = $sale->order_source === 'storefront' ? 'Storefront Customer' : 'Walk-in Customer';
+                                        }
+                                    @endphp
                                     <td class="px-6 py-4 text-gray-700 dark:text-gray-300">
-                                        {{ $sale->customer->name }}
-                                        <div class="text-xs text-gray-500">{{ $sale->customer->phone }}</div>
+                                        {{ $arName }}
+                                        @if($arPhone)
+                                            <div class="text-xs text-gray-500">{{ $arPhone }}</div>
+                                        @endif
                                     </td>
                                     <td class="px-6 py-4 text-gray-500">
                                         {{ $sale->sale_date->format('d M Y') }}
