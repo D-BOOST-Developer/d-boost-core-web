@@ -10,7 +10,7 @@ use Illuminate\Support\Facades\Auth;
 class DebyAIController extends Controller
 {
     /**
-     * Call Thinking API (RapidAPI)
+     * Call Thinking API (Groq)
      */
     public function callThinkingAPI(Request $request)
     {
@@ -19,82 +19,33 @@ class DebyAIController extends Controller
         ]);
 
         try {
-            $url = 'https://chatgpt-42.p.rapidapi.com/chat';
-            $apiKey = env('RAPIDAPI_KEY', '18c4b2fd16msh32d393319e95b02p1ebdb6jsncda25d8eb8d3');
-            $apiHost = env('RAPIDAPI_HOST', 'chatgpt-42.p.rapidapi.com');
-
-            $headers = [
-                'x-rapidapi-key: ' . $apiKey,
-                'x-rapidapi-host: ' . $apiHost,
-                'Content-Type: application/json'
-            ];
-
-            $postData = json_encode(['text' => $request->text]);
-
-            $ch = curl_init();
-            curl_setopt($ch, CURLOPT_URL, $url);
-            curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
-            curl_setopt($ch, CURLOPT_TIMEOUT, 30);
-            curl_setopt($ch, CURLOPT_POST, true);
-            curl_setopt($ch, CURLOPT_POSTFIELDS, $postData);
-            curl_setopt($ch, CURLOPT_HTTPHEADER, $headers);
-            curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, false);
-            curl_setopt($ch, CURLOPT_SSL_VERIFYHOST, false);
-
-            $response = curl_exec($ch);
-            $httpCode = curl_getinfo($ch, CURLINFO_HTTP_CODE);
-            $curlError = curl_error($ch);
-            curl_close($ch);
-
-            \Log::info('Thinking API Call', [
-                'url' => $url,
-                'http_code' => $httpCode,
+            \Log::info('Thinking API Call (Groq)', [
                 'text_length' => strlen($request->text),
-                'curl_error' => $curlError
             ]);
 
-            if ($curlError) {
-                \Log::error('Thinking API Curl Error', ['error' => $curlError]);
+            $response = $this->callGroqAPI($request->text);
+
+            if (!$response['success']) {
                 return response()->json([
                     'success' => false,
-                    'message' => 'Gagal menghubungi API (Curl Error)',
-                    'error' => $curlError
+                    'message' => $response['error'] ?? 'Gagal menghubungi Groq API',
                 ], 500);
             }
 
-            // Parse response
-            $responseData = json_decode($response, true);
-
-            // Check if API returned error
-            if ($httpCode !== 200) {
-                \Log::error('Thinking API Error Response', [
-                    'http_code' => $httpCode,
-                    'response' => $response
-                ]);
-                
-                return response()->json([
-                    'success' => false,
-                    'message' => 'API Error: ' . ($responseData['message'] ?? 'Unknown error'),
-                    'http_code' => $httpCode
-                ], 500);
-            }
-
-            // Success
             return response()->json([
                 'success' => true,
-                'result' => $response,
-                'http_code' => $httpCode
+                'result'  => $response['result'],
             ]);
         } catch (\Exception $e) {
             \Log::error('Thinking API Exception', [
                 'error' => $e->getMessage(),
                 'trace' => $e->getTraceAsString()
             ]);
-            
+
             return response()->json([
                 'success' => false,
                 'message' => 'Terjadi kesalahan saat memanggil Thinking API',
-                'error' => $e->getMessage()
+                'error'   => $e->getMessage()
             ], 500);
         }
     }
@@ -131,80 +82,100 @@ class DebyAIController extends Controller
     }
 
     /**
-     * Process user message with ChatGPT API (Thinking Mode)
+     * Process user message with Groq API (Thinking Mode)
      */
     public function chatgpt(Request $request)
     {
         $request->validate([
-            'message' => 'required|string|max:5000',
+            'message'      => 'required|string|max:5000',
             'thinkingMode' => 'sometimes|boolean',
         ]);
 
         try {
             $message = $request->message;
-            
-            \Log::info('ChatGPT API Call', [
-                'user_id' => Auth::id(),
+
+            \Log::info('Groq API Call (chatgpt/thinking)', [
+                'user_id'        => Auth::id(),
                 'message_length' => strlen($message),
-                'thinking_mode' => true
+                'thinking_mode'  => true,
             ]);
 
-            // Call ChatGPT API via RapidAPI
-            $response = $this->callChatGPTAPI($message);
+            $response = $this->callGroqAPI($message);
 
             if ($response['success']) {
                 return response()->json([
-                    'success' => true,
-                    'message' => $response['result'],
+                    'success'  => true,
+                    'message'  => $response['result'],
                     'metadata' => [
                         'thinking_mode' => true,
-                        'api' => 'chatgpt'
-                    ]
+                        'api'           => 'groq',
+                    ],
                 ]);
-            } else {
-                return response()->json([
-                    'success' => false,
-                    'message' => $response['error'] ?? 'Gagal menghubungi ChatGPT API',
-                ], 500);
             }
-        } catch (\Exception $e) {
-            \Log::error('ChatGPT API Error', [
-                'error' => $e->getMessage(),
-                'trace' => $e->getTraceAsString()
-            ]);
-            
+
             return response()->json([
                 'success' => false,
-                'message' => 'Terjadi kesalahan saat menghubungi ChatGPT. Silakan coba lagi.',
+                'message' => $response['error'] ?? 'Gagal menghubungi Groq API',
+            ], 500);
+
+        } catch (\Exception $e) {
+            \Log::error('Groq API Error (chatgpt)', [
                 'error' => $e->getMessage(),
+                'trace' => $e->getTraceAsString(),
+            ]);
+
+            return response()->json([
+                'success' => false,
+                'message' => 'Terjadi kesalahan saat menghubungi Deby AI. Silakan coba lagi.',
+                'error'   => $e->getMessage(),
             ], 500);
         }
     }
 
     /**
-     * Call ChatGPT API via RapidAPI
+     * Call Groq API (OpenAI-compatible endpoint)
+     * Model: llama-3.1-8b-instant — fast & free tier
      */
-    private function callChatGPTAPI(string $message): array
+    private function callGroqAPI(string $message, string $systemPrompt = ''): array
     {
         try {
-            $url = 'https://chatgpt-42.p.rapidapi.com/gpt4';
-            $apiKey = env('RAPIDAPI_KEY', '18c4b2fd16msh32d393319e95b02p1ebdb6jsncda25d8eb8d3');
-            $apiHost = env('RAPIDAPI_HOST', 'chatgpt-42.p.rapidapi.com');
+            $apiKey = env('GROQ_API_KEY');
 
-            $headers = [
-                'x-rapidapi-key: ' . $apiKey,
-                'x-rapidapi-host: ' . $apiHost,
-                'Content-Type: application/json'
-            ];
+            if (empty($apiKey)) {
+                \Log::error('Groq API key not configured (GROQ_API_KEY missing in .env)');
+                return [
+                    'success' => false,
+                    'error'   => 'Groq API key belum dikonfigurasi.',
+                ];
+            }
+
+            $url    = 'https://api.groq.com/openai/v1/chat/completions';
+            $model  = env('GROQ_MODEL', 'llama-3.1-8b-instant');
+
+            $messages = [];
+
+            if (!empty($systemPrompt)) {
+                $messages[] = ['role' => 'system', 'content' => $systemPrompt];
+            } else {
+                $messages[] = [
+                    'role'    => 'system',
+                    'content' => 'Kamu adalah Deby AI, asisten bisnis cerdas untuk platform D-BOOST yang membantu UMKM Indonesia. Jawab dalam Bahasa Indonesia dengan ramah, ringkas, dan informatif.',
+                ];
+            }
+
+            $messages[] = ['role' => 'user', 'content' => $message];
 
             $postData = json_encode([
-                'messages' => [
-                    [
-                        'role' => 'user',
-                        'content' => $message
-                    ]
-                ]
+                'model'       => $model,
+                'messages'    => $messages,
+                'temperature' => 0.7,
+                'max_tokens'  => 1024,
             ]);
+
+            $headers = [
+                'Authorization: Bearer ' . $apiKey,
+                'Content-Type: application/json',
+            ];
 
             $ch = curl_init();
             curl_setopt($ch, CURLOPT_URL, $url);
@@ -213,73 +184,63 @@ class DebyAIController extends Controller
             curl_setopt($ch, CURLOPT_POST, true);
             curl_setopt($ch, CURLOPT_POSTFIELDS, $postData);
             curl_setopt($ch, CURLOPT_HTTPHEADER, $headers);
-            curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, false);
-            curl_setopt($ch, CURLOPT_SSL_VERIFYHOST, false);
+            curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, true);
 
-            $response = curl_exec($ch);
-            $httpCode = curl_getinfo($ch, CURLINFO_HTTP_CODE);
+            $response  = curl_exec($ch);
+            $httpCode  = curl_getinfo($ch, CURLINFO_HTTP_CODE);
             $curlError = curl_error($ch);
             curl_close($ch);
 
-            \Log::info('ChatGPT API Response', [
-                'http_code' => $httpCode,
-                'curl_error' => $curlError,
-                'response_length' => strlen($response)
+            \Log::info('Groq API Response', [
+                'http_code'       => $httpCode,
+                'curl_error'      => $curlError,
+                'response_length' => strlen($response),
             ]);
 
             if ($curlError) {
-                \Log::error('ChatGPT API Curl Error', ['error' => $curlError]);
+                \Log::error('Groq API Curl Error', ['error' => $curlError]);
                 return [
                     'success' => false,
-                    'error' => 'Gagal menghubungi ChatGPT API (Curl Error): ' . $curlError
+                    'error'   => 'Koneksi ke Groq API gagal: ' . $curlError,
                 ];
             }
 
-            // Parse response
             $responseData = json_decode($response, true);
 
             if ($httpCode !== 200) {
-                \Log::error('ChatGPT API Error Response', [
+                $errMsg = $responseData['error']['message'] ?? $response;
+                \Log::error('Groq API Error Response', [
                     'http_code' => $httpCode,
-                    'response' => $response
+                    'error'     => $errMsg,
                 ]);
-                
                 return [
                     'success' => false,
-                    'error' => 'ChatGPT API Error: ' . ($responseData['message'] ?? 'Unknown error')
+                    'error'   => 'Groq API Error (' . $httpCode . '): ' . $errMsg,
                 ];
             }
 
-            // Extract message from response
-            $result = '';
-            if (isset($responseData['result'])) {
-                $result = $responseData['result'];
-            } elseif (isset($responseData['choices'][0]['message']['content'])) {
-                $result = $responseData['choices'][0]['message']['content'];
-            } elseif (is_string($responseData)) {
-                $result = $responseData;
-            }
+            $result = $responseData['choices'][0]['message']['content'] ?? '';
 
             if (empty($result)) {
                 return [
                     'success' => false,
-                    'error' => 'ChatGPT API mengembalikan respons kosong'
+                    'error'   => 'Groq API mengembalikan respons kosong.',
                 ];
             }
 
             return [
                 'success' => true,
-                'result' => $result
+                'result'  => trim($result),
             ];
+
         } catch (\Exception $e) {
-            \Log::error('ChatGPT API Exception', [
+            \Log::error('Groq API Exception', [
                 'error' => $e->getMessage(),
-                'trace' => $e->getTraceAsString()
+                'trace' => $e->getTraceAsString(),
             ]);
-            
             return [
                 'success' => false,
-                'error' => 'Terjadi kesalahan: ' . $e->getMessage()
+                'error'   => 'Terjadi kesalahan: ' . $e->getMessage(),
             ];
         }
     }
