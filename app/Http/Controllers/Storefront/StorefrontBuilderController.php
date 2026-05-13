@@ -197,17 +197,8 @@ class StorefrontBuilderController extends Controller
             ], 404);
         }
 
-        // Validate minimum requirements before publishing
-        if ($request->input('action') === 'publish') {
-            $linksCount = auth()->user()->marketplaceLinks()->active()->count();
-            
-            if ($linksCount === 0) {
-                return response()->json([
-                    'success' => false,
-                    'message' => 'You must add at least one active link before publishing your storefront.',
-                ], 422);
-            }
-        }
+        // Storefront can now be published even without marketplace links
+        // (e.g. only displaying catalog, products, or reviews)
 
         $action = $request->input('action', 'toggle');
         
