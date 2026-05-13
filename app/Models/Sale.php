@@ -55,50 +55,47 @@ class Sale extends Model
 
         while ($attempts < $maxAttempts) {
             try {
-                // Get the highest invoice number for today by extracting the numeric suffix
-                $lastSale = static::where('invoice_number', 'like', 'INV-' . $datePrefix . '-%')
+                // invoice_number is globally UNIQUE, so we must bypass the per-user
+                // global scope from BelongsToUser when looking up existing invoices.
+                $lastSale = static::withoutGlobalScope('user')
+                    ->where('invoice_number', 'like', 'INV-' . $datePrefix . '-%')
                     ->orderByRaw("CAST(SUBSTRING(invoice_number FROM '([0-9]+)$') AS INTEGER) DESC")
                     ->first();
 
                 if ($lastSale) {
-                    // Extract the numeric part from the last invoice number
                     preg_match('/(\d+)$/', $lastSale->invoice_number, $matches);
                     $lastNumber = isset($matches[1]) ? (int)$matches[1] : 0;
                     $sequentialNumber = $lastNumber + 1;
                 } else {
-                    // No invoice exists for today, start from 1
                     $sequentialNumber = 1;
                 }
 
                 $invoiceNumber = 'INV-' . $datePrefix . '-' . str_pad($sequentialNumber, 4, '0', STR_PAD_LEFT);
 
-                // Verify it doesn't exist (handles race conditions)
-                if (!static::where('invoice_number', $invoiceNumber)->exists()) {
+                if (!static::withoutGlobalScope('user')->where('invoice_number', $invoiceNumber)->exists()) {
                     return $invoiceNumber;
                 }
 
-                // If it exists (race condition), try next number
                 $sequentialNumber++;
                 $invoiceNumber = 'INV-' . $datePrefix . '-' . str_pad($sequentialNumber, 4, '0', STR_PAD_LEFT);
 
-                if (!static::where('invoice_number', $invoiceNumber)->exists()) {
+                if (!static::withoutGlobalScope('user')->where('invoice_number', $invoiceNumber)->exists()) {
                     return $invoiceNumber;
                 }
 
             } catch (\Exception $e) {
-                // If query fails, fall back to microtime-based approach
                 $microtime = explode(' ', microtime());
                 $timestamp = $microtime[1];
                 $microseconds = str_pad(substr($microtime[0], 2, 6), 6, '0');
                 $invoiceNumber = 'INV-' . $datePrefix . '-' . $timestamp . $microseconds . '-' . str_pad($attempts, 3, '0', STR_PAD_LEFT);
 
-                if (!static::where('invoice_number', $invoiceNumber)->exists()) {
+                if (!static::withoutGlobalScope('user')->where('invoice_number', $invoiceNumber)->exists()) {
                     return $invoiceNumber;
                 }
             }
 
             $attempts++;
-            usleep(rand(1000, 5000)); // Random delay to avoid hammering the database
+            usleep(rand(1000, 5000));
         }
 
         // Final fallback - use timestamp with random

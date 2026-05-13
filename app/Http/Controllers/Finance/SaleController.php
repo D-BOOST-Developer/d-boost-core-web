@@ -64,11 +64,8 @@ class SaleController extends Controller
         $products = Product::where('is_active', true)->where('stock_quantity', '>', 0)->orderBy('name')->get();
         $products = Product::where('is_active', true)->where('stock_quantity', '>', 0)->orderBy('name')->get();
         
-        // Generate next invoice number for display (using same logic as model)
-        $datePrefix = date('Ymd');
-        $todayCount = Sale::whereDate('created_at', today())->count();
-        $nextNumber = $todayCount + 1;
-        $invoiceNumber = 'INV-' . $datePrefix . '-' . str_pad($nextNumber, 4, '0', STR_PAD_LEFT);
+        // Preview invoice number — must bypass per-user scope because invoice_number is globally unique.
+        $invoiceNumber = Sale::generateInvoiceNumber();
 
         // Get current user's business profile for payment info
         $businessProfile = auth()->user()->businessProfile;
