@@ -41,10 +41,10 @@ class ClientReviewController extends Controller
 
         $review->update(['is_approved' => true]);
 
-        // Clear cache
-        \Cache::forget("storefront_{$config->slug}");
+        // Clear ALL related cache keys so public storefront updates immediately
+        $this->clearStorefrontCache($config->slug);
 
-        return back()->with('success', 'Review approved successfully.');
+        return back()->with('success', 'Review approved! It is now visible on your public storefront.');
     }
 
     /**
@@ -61,10 +61,10 @@ class ClientReviewController extends Controller
 
         $review->update(['is_approved' => false]);
 
-        // Clear cache
-        \Cache::forget("storefront_{$config->slug}");
+        // Clear ALL related cache keys so public storefront updates immediately
+        $this->clearStorefrontCache($config->slug);
 
-        return back()->with('success', 'Review rejected successfully.');
+        return back()->with('success', 'Review unapproved. It has been hidden from your storefront.');
     }
 
     /**
@@ -81,9 +81,20 @@ class ClientReviewController extends Controller
 
         $review->delete();
 
-        // Clear cache
-        \Cache::forget("storefront_{$config->slug}");
+        // Clear ALL related cache keys so public storefront updates immediately
+        $this->clearStorefrontCache($config->slug);
 
         return back()->with('success', 'Review deleted successfully.');
+    }
+
+    /**
+     * Clear all storefront cache keys for a given slug.
+     * Must stay in sync with all cache keys used in PublicStorefrontController.
+     */
+    private function clearStorefrontCache(string $slug): void
+    {
+        \Cache::forget("storefront_v3_{$slug}");        // public show() page
+        \Cache::forget("storefront_{$slug}");           // legacy key (kept for safety)
+        \Cache::forget("storefront_review_ctx_{$slug}"); // review form context
     }
 }

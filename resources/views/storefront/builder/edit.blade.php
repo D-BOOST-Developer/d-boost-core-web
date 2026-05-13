@@ -124,17 +124,64 @@
                                 class="w-full border border-gray-300 rounded-lg px-3 py-2 focus:ring-2 focus:ring-[#006BFF]"></textarea>
                         </div>
 
+                        {{-- Publish Status Badge --}}
+                        <div class="flex items-center gap-2 px-3 py-2 rounded-lg"
+                            :class="config.is_published ? 'bg-green-50 border border-green-200' : 'bg-gray-50 border border-gray-200'">
+                            <span class="w-2 h-2 rounded-full flex-shrink-0"
+                                :class="config.is_published ? 'bg-green-500 animate-pulse' : 'bg-gray-400'"></span>
+                            <span class="text-sm font-medium"
+                                :class="config.is_published ? 'text-green-700' : 'text-gray-600'"
+                                x-text="config.is_published ? 'Status: Published ✓' : 'Status: Draft'"></span>
+                        </div>
+
+                        {{-- Public URL (shown when published) --}}
+                        <div x-show="config.is_published && config.public_url" x-cloak
+                            class="bg-blue-50 border border-blue-200 rounded-lg p-3">
+                            <p class="text-xs font-semibold text-blue-800 mb-1.5">🔗 Link Publik Storefront:</p>
+                            <div class="flex items-center gap-2">
+                                <code class="flex-1 bg-white border border-blue-200 rounded px-2 py-1 text-xs text-gray-700 truncate"
+                                    x-text="config.public_url"></code>
+                                <button type="button" @click="copyPublicUrl()"
+                                    class="flex-shrink-0 px-2.5 py-1 bg-blue-600 hover:bg-blue-700 text-white text-xs rounded font-medium transition">
+                                    Copy
+                                </button>
+                            </div>
+                            <a :href="config.public_url" target="_blank"
+                                class="inline-flex items-center gap-1 mt-2 text-xs text-blue-600 hover:text-blue-800 font-medium">
+                                <svg class="w-3 h-3" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14"></path>
+                                </svg>
+                                Buka Storefront Publik
+                            </a>
+                        </div>
+
                         {{-- Actions --}}
                         <div class="space-y-2 pt-4 border-t">
                             <button type="button" @click="saveConfig()" :disabled="saving"
-                                class="w-full bg-[#006BFF] hover:bg-[#006BFF]/80 text-white font-medium py-2 px-4 rounded-lg disabled:opacity-50">
+                                class="w-full bg-[#006BFF] hover:bg-[#006BFF]/80 text-white font-medium py-2 px-4 rounded-lg disabled:opacity-50 transition-opacity">
                                 <span x-show="!saving">Save Configuration</span>
-                                <span x-show="saving">Saving…</span>
+                                <span x-show="saving" class="inline-flex items-center gap-2">
+                                    <svg class="animate-spin w-4 h-4" fill="none" viewBox="0 0 24 24">
+                                        <circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle>
+                                        <path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4z"></path>
+                                    </svg>
+                                    Saving…
+                                </span>
                             </button>
-                            <button type="button" @click="publishStorefront()"
-                                class="w-full border-2 border-[#006BFF] hover:bg-[#006BFF] text-[#006BFF] hover:text-white font-medium py-2 px-4 rounded-lg transition-colors">
-                                <span
-                                    x-text="config.is_published ? 'Unpublish Storefront' : 'Publish Storefront'"></span>
+                            <button type="button" @click="publishStorefront()" :disabled="publishing"
+                                class="w-full border-2 font-medium py-2 px-4 rounded-lg transition-all disabled:opacity-50"
+                                :class="config.is_published
+                                    ? 'border-red-400 text-red-600 hover:bg-red-600 hover:text-white hover:border-red-600'
+                                    : 'border-[#006BFF] text-[#006BFF] hover:bg-[#006BFF] hover:text-white'">
+                                <span x-show="!publishing"
+                                    x-text="config.is_published ? '⊘ Unpublish Storefront' : '▶ Publish Storefront'"></span>
+                                <span x-show="publishing" class="inline-flex items-center gap-2">
+                                    <svg class="animate-spin w-4 h-4" fill="none" viewBox="0 0 24 24">
+                                        <circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle>
+                                        <path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4z"></path>
+                                    </svg>
+                                    <span x-text="config.is_published ? 'Unpublishing…' : 'Publishing…'"></span>
+                                </span>
                             </button>
                             <a href="{{ route('storefront.preview') }}" target="_blank"
                                 class="block w-full text-center border border-gray-300 hover:bg-gray-50 text-gray-700 font-medium py-2 px-4 rounded-lg">
@@ -193,9 +240,11 @@
                         about_text: parsedBlocks.about_text || '',
                         cta_text: parsedBlocks.cta_text || '',
                         footer_content: @json($config->footer_content ?? ''),
-                        is_published: {{ $config->is_published ? 'true' : 'false' }}
-                                },
+                        is_published: {{ ($config && $config->is_published) ? 'true' : 'false' }},
+                        public_url: @json($config && $config->is_published ? $config->public_url : null),
+                    },
                     saving: false,
+                    publishing: false,
 
                     reloadPreview() {
                         if (this.$refs.previewFrame) {
@@ -229,6 +278,7 @@
                     },
 
                     async publishStorefront() {
+                        this.publishing = true;
                         try {
                             const action = this.config.is_published ? 'unpublish' : 'publish';
                             const response = await fetch('{{ route('storefront.builder.publish') }}', {
@@ -242,20 +292,32 @@
                             const data = await response.json();
                             if (data.success) {
                                 this.config.is_published = data.is_published;
+                                this.config.public_url = data.public_url || null;
                                 showToast(data.message, 'success');
-                                if (data.is_published && data.public_url) {
-                                    setTimeout(() => {
-                                        if (confirm('Open public storefront in new tab?')) {
-                                            window.open(data.public_url, '_blank');
-                                        }
-                                    }, 500);
-                                }
                             } else {
                                 showToast(data.message || 'Failed to update publish status', 'error');
                             }
                         } catch (error) {
                             showToast('Error: ' + error.message, 'error');
+                        } finally {
+                            this.publishing = false;
                         }
+                    },
+
+                    copyPublicUrl() {
+                        if (!this.config.public_url) return;
+                        navigator.clipboard.writeText(this.config.public_url).then(() => {
+                            showToast('Link berhasil disalin ke clipboard!', 'success');
+                        }).catch(() => {
+                            // Fallback
+                            const el = document.createElement('textarea');
+                            el.value = this.config.public_url;
+                            document.body.appendChild(el);
+                            el.select();
+                            document.execCommand('copy');
+                            document.body.removeChild(el);
+                            showToast('Link berhasil disalin!', 'success');
+                        });
                     }
                 }
             }

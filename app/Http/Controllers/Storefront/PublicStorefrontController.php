@@ -221,21 +221,34 @@ class PublicStorefrontController extends Controller
             'rating' => 'required|integer|min:1|max:5',
         ]);
 
-        $review = ClientReview::create([
+        ClientReview::create([
             'storefront_config_id' => $config->id,
-            'client_name' => $validated['client_name'],
-            'client_email' => $validated['client_email'] ?? null,
-            'review_text' => $validated['review_text'],
-            'rating' => $validated['rating'],
-            'is_approved' => false, // Needs admin approval
+            'client_name'         => $validated['client_name'],
+            'client_email'        => $validated['client_email'] ?? null,
+            'review_text'         => $validated['review_text'],
+            'rating'              => $validated['rating'],
+            'is_approved'         => false, // Needs admin approval
         ]);
 
-        // Clear cache so new review shows after approval
-        Cache::forget("storefront_{$slug}");
+        // Note: cache is intentionally NOT cleared here.
+        // The review is pending approval and won't appear on the
+        // public storefront until the owner approves it via the admin panel.
+        // Cache is cleared in ClientReviewController::approve() instead.
 
         return response()->json([
             'success' => true,
             'message' => 'Terima kasih! Review Anda akan ditampilkan setelah disetujui.',
         ]);
+    }
+
+    /**
+     * Clear all cache keys related to a storefront slug.
+     * Must stay in sync with ClientReviewController::clearStorefrontCache().
+     */
+    private function clearStorefrontCache(string $slug): void
+    {
+        Cache::forget("storefront_v3_{$slug}");        // public show() page
+        Cache::forget("storefront_{$slug}");            // legacy key (kept for safety)
+        Cache::forget("storefront_review_ctx_{$slug}"); // review form context
     }
 }
