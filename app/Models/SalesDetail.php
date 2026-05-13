@@ -46,8 +46,12 @@ class SalesDetail extends Model
         parent::boot();
         
         static::saving(function ($salesDetail) {
-            // Auto-calculate line total
-            $salesDetail->line_total = ($salesDetail->unit_price - $salesDetail->discount_per_item) * $salesDetail->quantity;
+            // Auto-calculate line total securely handling nulls
+            $unitPrice = (float)($salesDetail->unit_price ?? 0);
+            $discount = (float)($salesDetail->discount_per_item ?? 0);
+            $quantity = (float)($salesDetail->quantity ?? 0);
+            
+            $salesDetail->line_total = ($unitPrice - $discount) * $quantity;
             
             // Auto-set user_id from sale if not set
             if (empty($salesDetail->user_id) && $salesDetail->sale) {

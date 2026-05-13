@@ -52,12 +52,15 @@ class ProfitLoss extends Model
         parent::boot();
         
         static::saving(function ($profitLoss) {
-            // Auto-calculate profit values
-            $profitLoss->gross_profit = $profitLoss->total_revenue - $profitLoss->total_expenses;
+            // Auto-calculate profit values handling nulls safely
+            $revenue = (float)($profitLoss->total_revenue ?? 0);
+            $expenses = (float)($profitLoss->total_expenses ?? 0);
+            
+            $profitLoss->gross_profit = $revenue - $expenses;
             $profitLoss->net_profit = $profitLoss->gross_profit; // Can be adjusted for taxes, etc.
             
-            if ($profitLoss->total_revenue > 0) {
-                $profitLoss->profit_margin = ($profitLoss->net_profit / $profitLoss->total_revenue) * 100;
+            if ($revenue > 0) {
+                $profitLoss->profit_margin = ($profitLoss->net_profit / $revenue) * 100;
             } else {
                 $profitLoss->profit_margin = 0;
             }
