@@ -73,7 +73,8 @@ $iconPath = $icons[$icon] ?? $icons['check'];
     
     <!-- Modal -->
     <div class="flex items-center justify-center min-h-screen p-4">
-        <div class="relative bg-white border border-gray-200 rounded-xl shadow-2xl max-w-md w-full mx-auto"
+        <div class="relative rounded-xl shadow-2xl max-w-md w-full mx-auto"
+             style="background-color: #1A1A24; border: 1px solid #2A2A3A;"
              x-transition:enter="ease-out duration-300"
              x-transition:enter-start="opacity-0 transform scale-95"
              x-transition:enter-end="opacity-100 transform scale-100"
@@ -93,8 +94,8 @@ $iconPath = $icons[$icon] ?? $icons['check'];
                         </div>
                     </div>
                     <div class="ml-4">
-                        <h3 class="text-lg font-semibold text-gray-900" x-text="modalTitle"></h3>
-                        <p class="text-gray-600 text-sm mt-1" x-text="modalMessage"></p>
+                        <h3 class="text-lg font-semibold" style="color: #F1F0FF;" x-text="modalTitle"></h3>
+                        <p class="text-sm mt-1" style="color: #A9A8C3;" x-text="modalMessage"></p>
                     </div>
                 </div>
             </div>
@@ -103,7 +104,8 @@ $iconPath = $icons[$icon] ?? $icons['check'];
             <div class="px-6 pb-6">
                 <div class="flex space-x-3">
                     <button type="button" @click="showModal = false"
-                            class="flex-1 bg-gray-100 hover:bg-gray-200 text-gray-700 font-medium py-2.5 px-4 rounded-lg transition-all duration-200">
+                            class="flex-1 font-medium py-2.5 px-4 rounded-lg transition-all duration-200"
+                            style="background-color: #252535; color: #F1F0FF; border: 1px solid #3A3A4A;">
                         Cancel
                     </button>
                     <form method="POST" class="flex-1" :action="formAction">

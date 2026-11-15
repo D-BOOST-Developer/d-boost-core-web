@@ -10,7 +10,8 @@
              x-transition:leave="transition ease-in duration-200"
              x-transition:leave-start="opacity-100 transform translate-x-0"
              x-transition:leave-end="opacity-0 transform translate-x-full"
-             class="max-w-sm w-full bg-white shadow-2xl rounded-xl overflow-hidden border-l-4"
+             class="max-w-sm w-full shadow-2xl rounded-xl overflow-hidden border-l-4"
+             style="background-color: #1A1A24; border-top: 1px solid #2A2A3A; border-right: 1px solid #2A2A3A; border-bottom: 1px solid #2A2A3A;"
              :class="{
                  'border-green-500': toast.type === 'success',
                  'border-red-500': toast.type === 'error',
@@ -38,10 +39,10 @@
                         </svg>
                     </div>
                     <div class="ml-3 flex-1">
-                        <p class="text-sm font-semibold text-gray-900" x-text="toast.title"></p>
-                        <p class="mt-1 text-sm text-gray-600" x-text="toast.message"></p>
+                        <p class="text-sm font-semibold" style="color: #F1F0FF;" x-text="toast.title"></p>
+                        <p class="mt-1 text-sm" style="color: #A9A8C3;" x-text="toast.message"></p>
                     </div>
-                    <button @click="removeToast(toast.id)" class="ml-4 flex-shrink-0 text-gray-400 hover:text-gray-600">
+                    <button @click="removeToast(toast.id)" class="ml-4 flex-shrink-0 text-[#7E7D9C] hover:text-[#F1F0FF]">
                         <svg class="h-5 w-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path>
                         </svg>
@@ -49,7 +50,7 @@
                 </div>
             </div>
             <!-- Progress bar -->
-            <div class="h-1 bg-gray-100">
+            <div class="h-1" style="background-color: #252535;">
                 <div class="h-full transition-all duration-[3000ms] ease-linear"
                      :class="{
                          'bg-green-500': toast.type === 'success',

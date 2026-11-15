@@ -15,7 +15,7 @@
         <!-- Fonts -->
         <link rel="preconnect" href="https://fonts.googleapis.com">
         <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-        <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+        <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300;400;500;600;700&display=swap" rel="stylesheet">
 
         <!-- TailwindCSS CDN -->
         <script src="https://cdn.tailwindcss.com"></script>
@@ -25,7 +25,7 @@
                 theme: {
                     extend: {
                         colors: {
-                            primary: '#006BFF',
+                            primary: '#A78BFA',
                         },
                         animation: {
                             glow: {
@@ -81,6 +81,147 @@
 
         <!-- Navigation Stability Styles -->
         <style>
+            body, * { font-family: 'Space Grotesk', sans-serif; }
+
+            /* ===================================================
+               GLOBAL DARK / BLACK THEME OVERRIDES
+               =================================================== */
+            html, body {
+                background-color: #0A0A0F !important;
+                color: #F1F0FF !important;
+            }
+
+            /* Surfaces & Backgrounds */
+            .bg-white {
+                background-color: #1A1A24 !important;
+            }
+            .bg-gray-50 {
+                background-color: #0A0A0F !important;
+            }
+            .bg-gray-100 {
+                background-color: #252535 !important;
+            }
+            .bg-gray-200 {
+                background-color: #2E2E42 !important;
+            }
+
+            /* Borders */
+            .border-gray-100, .border-gray-200, .border-gray-300 {
+                border-color: #2A2A3A !important;
+            }
+
+            /* Typography */
+            .text-gray-900, .text-gray-800 {
+                color: #F1F0FF !important;
+            }
+            .text-gray-700, .text-gray-600 {
+                color: #A9A8C3 !important;
+            }
+            .text-gray-500, .text-gray-400 {
+                color: #7E7D9C !important;
+            }
+
+            /* Hover States */
+            .hover\:bg-gray-50:hover, .hover\:bg-gray-100:hover {
+                background-color: #252535 !important;
+            }
+            .hover\:text-gray-900:hover, .hover\:text-gray-800:hover {
+                color: #FFFFFF !important;
+            }
+            .hover\:text-\[\#006BFF\]:hover {
+                color: #C4B5FD !important;
+            }
+
+            /* Primary Colors & Accents (#006BFF -> #A78BFA) */
+            .text-\[\#006BFF\] {
+                color: #A78BFA !important;
+            }
+            .bg-\[\#006BFF\] {
+                background-color: #A78BFA !important;
+            }
+            .bg-\[\#006BFF\]\/10 {
+                background-color: rgba(167, 139, 250, 0.15) !important;
+            }
+            .bg-\[\#006BFF\]\/20 {
+                background-color: rgba(167, 139, 250, 0.25) !important;
+            }
+            .border-\[\#006BFF\]\/20, .border-\[\#006BFF\]\/30 {
+                border-color: rgba(167, 139, 250, 0.35) !important;
+            }
+            .bg-\[\#006BFF\]\/80 {
+                background-color: rgba(167, 139, 250, 0.8) !important;
+            }
+            .hover\:bg-\[\#006BFF\]:hover, .hover\:bg-\[\#006BFF\]\/80:hover {
+                background-color: #9333EA !important;
+            }
+            .focus\:ring-\[\#006BFF\]:focus {
+                --tw-ring-color: #A78BFA !important;
+            }
+            .focus\:border-\[\#006BFF\]:focus {
+                border-color: #A78BFA !important;
+            }
+
+            /* Header / Navbar Elements */
+            header, .dashboard-header {
+                background-color: #111118 !important;
+                border-bottom: 1px solid #2A2A3A !important;
+            }
+            header h1, header h2, header h3, .dashboard-header h1, .dashboard-header h2, .dashboard-header h3 {
+                color: #F1F0FF !important;
+            }
+
+            /* Cards & Modals */
+            .card, [class*="rounded-xl"], [class*="rounded-2xl"] {
+                border-color: #2A2A3A;
+            }
+
+            /* Tables */
+            table {
+                border-color: #2A2A3A !important;
+            }
+            thead tr, th {
+                background-color: #161622 !important;
+                color: #A9A8C3 !important;
+                border-color: #2A2A3A !important;
+            }
+            tbody tr {
+                background-color: #1A1A24 !important;
+                border-color: #2A2A3A !important;
+            }
+            tbody tr:hover {
+                background-color: #222232 !important;
+            }
+            td {
+                border-color: #2A2A3A !important;
+                color: #F1F0FF !important;
+            }
+
+            /* Form Elements */
+            input:not([type="checkbox"]):not([type="radio"]), select, textarea {
+                background-color: #111118 !important;
+                border-color: #2A2A3A !important;
+                color: #F1F0FF !important;
+            }
+            input::placeholder, textarea::placeholder {
+                color: #5A5A7A !important;
+            }
+
+            /* Soft Badges */
+            .bg-blue-50 {
+                background-color: rgba(167, 139, 250, 0.15) !important;
+            }
+            .bg-teal-50, .bg-green-50 {
+                background-color: rgba(16, 185, 129, 0.15) !important;
+            }
+            .bg-red-50 {
+                background-color: rgba(239, 68, 68, 0.15) !important;
+            }
+            .bg-yellow-50, .bg-amber-50 {
+                background-color: rgba(245, 158, 11, 0.15) !important;
+            }
+            .bg-violet-50, .bg-purple-50 {
+                background-color: rgba(167, 139, 250, 0.15) !important;
+            }
             
             /* User dropdown positioning fixes */
             .user-dropdown {
@@ -155,8 +296,8 @@
             }
         </style>
     </head>
-    <body class="font-sans antialiased bg-white text-gray-900">
-        <div class="min-h-screen bg-gray-50 flex">
+    <body class="font-sans antialiased" style="background-color: #0A0A0F; color: #F1F0FF; font-family: 'Space Grotesk', sans-serif;">
+        <div class="min-h-screen flex" style="background-color: #0A0A0F;">
             <!-- Sidebar - Only show if not on modular dashboard -->
             @if(!request()->routeIs('dashboard'))
                 @include('layouts.sidebar')
@@ -166,7 +307,7 @@
             <div class="flex-1 flex flex-col h-screen">
                 <!-- Page Heading -->
                 @if (isset($header))
-                    <header class="bg-white shadow border-b border-gray-200 flex-shrink-0">
+                    <header class="flex-shrink-0" style="background-color: #111118; border-bottom: 1px solid #2A2A3A;">
                         <div class="max-w-7xl mx-auto py-6 px-4 sm:px-6 lg:px-8">
                             {{ $header }}
                         </div>
@@ -174,7 +315,7 @@
                 @endif
 
                 <!-- Page Content -->
-                <main class="flex-1 overflow-x-hidden overflow-y-auto bg-white min-h-0">
+                <main class="flex-1 overflow-x-hidden overflow-y-auto min-h-0" style="background-color: #0A0A0F;">
                     {{ $slot }}
                 </main>
             </div>
@@ -183,7 +324,7 @@
         <!-- Flash Messages -->
         @if(session('success'))
             <div x-data="{ show: true }" 
-            <div x-data="{ show: true }" x-show="show" x-init="setTimeout(() => show = false, 3000)" class="fixed top-4 right-4 z-50 bg-green-50 border border-green-200 text-green-800 px-4 py-3 rounded-lg shadow-lg">
+            <div x-data="{ show: true }" x-show="show" x-init="setTimeout(() => show = false, 3000)" class="fixed top-4 right-4 z-50 px-4 py-3 rounded-lg shadow-lg" style="background-color: #1A2F1A; border: 1px solid #2D5A2D; color: #86EFAC;">
                 <div class="flex items-center space-x-3">
                     <svg class="w-5 h-5 text-green-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"></path>
@@ -199,14 +340,13 @@
         @endif
 
         @if(session('error'))
-            <div x-data="{ show: true }" x-show="show" x-init="setTimeout(() => show = false, 3000)" class="fixed top-4 right-4 z-50 bg-red-50 border border-red-200 text-red-800 px-4 py-3 rounded-lg shadow-lg">
+            <div x-data="{ show: true }" x-show="show" x-init="setTimeout(() => show = false, 3000)" class="fixed top-4 right-4 z-50 px-4 py-3 rounded-lg shadow-lg" style="background-color: #2F1A1A; border: 1px solid #5A2D2D; color: #FCA5A5;">
                 <div class="flex items-center space-x-3">
                     <svg class="w-5 h-5 text-red-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4m0 4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"></path>
                     </svg>
                     <span>{{ session('error') }}</span>
-                    <button @click="show = false" class="text-red-400 hover:text-red-300">
-                        <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <button @click="show = false" class="text-red-400 hover:text-red-300">                        <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path>
                         </svg>
                     </button>

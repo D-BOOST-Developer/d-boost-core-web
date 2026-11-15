@@ -10,35 +10,44 @@
     <link rel="icon" type="image/png" href="{{ asset('images/D-BOOST-removebg.png') }}">
     <link rel="shortcut icon" type="image/png" href="{{ asset('images/D-BOOST-removebg.png') }}">
     <link rel="apple-touch-icon" href="{{ asset('images/D-BOOST-removebg.png') }}">
+
+    <!-- Google Font: Space Grotesk -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+
     <script src="https://cdn.tailwindcss.com"></script>
     <script defer src="https://cdn.jsdelivr.net/npm/alpinejs@3.x.x/dist/cdn.min.js"></script>
     <style>
+        body, * {
+            font-family: 'Space Grotesk', -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+        }
         /* Custom scrollbar */
         .scrollbar-thin::-webkit-scrollbar {
             width: 6px;
         }
         .scrollbar-thin::-webkit-scrollbar-track {
-            background: #f1f1f1;
+            background: #111118;
             border-radius: 10px;
         }
         .scrollbar-thin::-webkit-scrollbar-thumb {
-            background: #006BFF;
+            background: #A78BFA;
             border-radius: 10px;
         }
         .scrollbar-thin::-webkit-scrollbar-thumb:hover {
-            background: #0056cc;
+            background: #9333EA;
         }
     </style>
 </head>
-<body class="antialiased overflow-hidden">
-    <div x-data="onboardingForm()" x-init="init()" class="h-screen bg-gradient-to-br from-blue-50 via-white to-indigo-50 flex flex-col overflow-hidden">
+<body class="antialiased overflow-hidden bg-[#0A0A0F] text-[#F1F0FF]">
+    <div x-data="onboardingForm()" x-init="init()" class="h-screen bg-[#0A0A0F] bg-[radial-gradient(ellipse_80%_80%_at_50%_-20%,rgba(167,139,250,0.15),rgba(255,255,255,0))] flex flex-col overflow-hidden">
         
         <!-- Loading Screen Overlay -->
         <div x-show="showLoading" 
              x-transition:enter="transition ease-out duration-300"
              x-transition:enter-start="opacity-0"
              x-transition:enter-end="opacity-100"
-             class="fixed inset-0 bg-gradient-to-br from-blue-50 via-white to-indigo-50 z-50 flex items-center justify-center overflow-hidden">
+             class="fixed inset-0 bg-[#0A0A0F]/95 backdrop-blur-xl z-50 flex items-center justify-center overflow-hidden">
             <div class="text-center max-w-md mx-auto px-6 relative">
                 
                 <!-- Loading State (fades out when complete) -->
@@ -51,28 +60,28 @@
                     <div class="mb-12 relative">
                         <!-- Outer glow ring -->
                         <div class="absolute inset-0 w-40 h-40 mx-auto">
-                            <div class="absolute inset-0 rounded-full bg-gradient-to-r from-[#006BFF] via-blue-400 to-cyan-400 opacity-20 blur-2xl animate-pulse"></div>
+                            <div class="absolute inset-0 rounded-full bg-gradient-to-r from-[#A78BFA] via-purple-500 to-indigo-500 opacity-20 blur-2xl animate-pulse"></div>
                         </div>
                         
                         <!-- Main spinner container -->
                         <div class="w-40 h-40 mx-auto relative">
                             <!-- Rotating gradient ring -->
-                            <div class="absolute inset-0 rounded-full bg-gradient-to-tr from-[#006BFF] via-blue-400 to-cyan-400 animate-spin" style="animation-duration: 1.2s;"></div>
-                            <div class="absolute inset-2 rounded-full bg-white shadow-xl"></div>
+                            <div class="absolute inset-0 rounded-full bg-gradient-to-tr from-[#A78BFA] via-[#7C3AED] to-purple-400 animate-spin" style="animation-duration: 1.2s;"></div>
+                            <div class="absolute inset-2 rounded-full bg-[#111118] shadow-xl"></div>
                             
                             <!-- Inner rotating ring -->
-                            <div class="absolute inset-4 rounded-full bg-gradient-to-bl from-[#006BFF] via-purple-400 to-pink-400 animate-spin" style="animation-duration: 2s; animation-direction: reverse;"></div>
-                            <div class="absolute inset-6 rounded-full bg-white"></div>
+                            <div class="absolute inset-4 rounded-full bg-gradient-to-bl from-[#A78BFA] via-purple-400 to-pink-500 animate-spin" style="animation-duration: 2s; animation-direction: reverse;"></div>
+                            <div class="absolute inset-6 rounded-full bg-[#1A1A24]"></div>
                             
                             <!-- Center icon with animation -->
                             <div class="absolute inset-0 flex items-center justify-center">
                                 <div class="relative">
                                     <!-- Pulsing background circles -->
-                                    <div class="absolute inset-0 bg-[#006BFF]/10 rounded-full animate-ping" style="animation-duration: 1.5s;"></div>
-                                    <div class="absolute inset-0 bg-[#006BFF]/5 rounded-full animate-ping" style="animation-duration: 2s; animation-delay: 0.3s;"></div>
+                                    <div class="absolute inset-0 bg-[#A78BFA]/10 rounded-full animate-ping" style="animation-duration: 1.5s;"></div>
+                                    <div class="absolute inset-0 bg-[#A78BFA]/5 rounded-full animate-ping" style="animation-duration: 2s; animation-delay: 0.3s;"></div>
                                     
                                     <!-- Icon -->
-                                    <svg class="w-20 h-20 text-[#006BFF] relative z-10 animate-pulse" fill="none" stroke="currentColor" viewBox="0 0 24 24" style="animation-duration: 2s;">
+                                    <svg class="w-20 h-20 text-[#A78BFA] relative z-10 animate-pulse" fill="none" stroke="currentColor" viewBox="0 0 24 24" style="animation-duration: 2s;">
                                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m5.618-4.016A11.955 11.955 0 0112 2.944a11.955 11.955 0 01-8.618 3.04A12.02 12.02 0 003 9c0 5.591 3.824 10.29 9 11.622 5.176-1.332 9-6.03 9-11.622 0-1.042-.133-2.052-.382-3.016z"></path>
                                     </svg>
                                 </div>
@@ -81,65 +90,65 @@
                     </div>
 
                     <!-- Loading Text -->
-                    <h2 class="text-4xl font-bold bg-gradient-to-r from-[#006BFF] to-blue-600 bg-clip-text text-transparent mb-4">Menyiapkan Dashboard Anda</h2>
-                    <p class="text-lg text-gray-600 mb-12">Mohon tunggu sebentar...</p>
+                    <h2 class="text-4xl font-bold bg-gradient-to-r from-[#F1F0FF] via-[#A78BFA] to-[#C4B5FD] bg-clip-text text-transparent mb-4">Menyiapkan Dashboard Anda</h2>
+                    <p class="text-lg text-[#A9A8C3] mb-12">Mohon tunggu sebentar...</p>
                     
                     <!-- Progress Steps with Modern Animation -->
                     <div class="space-y-5">
                         <div class="flex items-center space-x-4 text-left transition-all duration-700 ease-out"
                              :class="loadingStep >= 1 ? 'opacity-100 translate-x-0' : 'opacity-0 -translate-x-8'">
                             <div class="flex-shrink-0 w-12 h-12 rounded-2xl flex items-center justify-center transition-all duration-500 shadow-lg"
-                                 :class="loadingStep >= 1 ? 'bg-gradient-to-br from-[#006BFF] to-blue-600 scale-100 shadow-blue-500/50' : 'bg-gray-200 scale-90'">
+                                 :class="loadingStep >= 1 ? 'bg-gradient-to-br from-[#A78BFA] to-[#7C3AED] scale-100 shadow-[#A78BFA]/40' : 'bg-[#252535] scale-90'">
                                 <svg x-show="loadingStep >= 1" 
                                      x-transition:enter="transition ease-out duration-400 delay-150"
                                      x-transition:enter-start="opacity-0 scale-50 rotate-180"
                                      x-transition:enter-end="opacity-100 scale-100 rotate-0"
-                                     class="w-6 h-6 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                     class="w-6 h-6 text-[#0A0A0F]" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="3" d="M5 13l4 4L19 7"></path>
                                 </svg>
-                                <div x-show="loadingStep < 1" class="w-3 h-3 bg-gray-400 rounded-full animate-pulse"></div>
+                                <div x-show="loadingStep < 1" class="w-3 h-3 bg-[#7E7D9C] rounded-full animate-pulse"></div>
                             </div>
                             <div class="flex-1">
-                                <p class="font-bold text-gray-900 text-lg">Menyimpan Profil Bisnis</p>
-                                <p class="text-sm text-gray-500">Informasi bisnis Anda sedang diproses</p>
+                                <p class="font-bold text-[#F1F0FF] text-lg">Menyimpan Profil Bisnis</p>
+                                <p class="text-sm text-[#7E7D9C]">Informasi bisnis Anda sedang diproses</p>
                             </div>
                         </div>
                         
                         <div class="flex items-center space-x-4 text-left transition-all duration-700 ease-out"
                              :class="loadingStep >= 2 ? 'opacity-100 translate-x-0' : 'opacity-0 -translate-x-8'">
                             <div class="flex-shrink-0 w-12 h-12 rounded-2xl flex items-center justify-center transition-all duration-500 shadow-lg"
-                                 :class="loadingStep >= 2 ? 'bg-gradient-to-br from-[#006BFF] to-blue-600 scale-100 shadow-blue-500/50' : 'bg-gray-200 scale-90'">
+                                 :class="loadingStep >= 2 ? 'bg-gradient-to-br from-[#A78BFA] to-[#7C3AED] scale-100 shadow-[#A78BFA]/40' : 'bg-[#252535] scale-90'">
                                 <svg x-show="loadingStep >= 2"
                                      x-transition:enter="transition ease-out duration-400 delay-150"
                                      x-transition:enter-start="opacity-0 scale-50 rotate-180"
                                      x-transition:enter-end="opacity-100 scale-100 rotate-0"
-                                     class="w-6 h-6 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                     class="w-6 h-6 text-[#0A0A0F]" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="3" d="M5 13l4 4L19 7"></path>
                                 </svg>
-                                <div x-show="loadingStep < 2" class="w-3 h-3 bg-gray-400 rounded-full animate-pulse"></div>
+                                <div x-show="loadingStep < 2" class="w-3 h-3 bg-[#7E7D9C] rounded-full animate-pulse"></div>
                             </div>
                             <div class="flex-1">
-                                <p class="font-bold text-gray-900 text-lg">Menyesuaikan Fitur</p>
-                                <p class="text-sm text-gray-500">Mengatur modul sesuai kebutuhan Anda</p>
+                                <p class="font-bold text-[#F1F0FF] text-lg">Menyesuaikan Fitur</p>
+                                <p class="text-sm text-[#7E7D9C]">Mengatur modul sesuai kebutuhan Anda</p>
                             </div>
                         </div>
                         
                         <div class="flex items-center space-x-4 text-left transition-all duration-700 ease-out"
                              :class="loadingStep >= 3 ? 'opacity-100 translate-x-0' : 'opacity-0 -translate-x-8'">
                             <div class="flex-shrink-0 w-12 h-12 rounded-2xl flex items-center justify-center transition-all duration-500 shadow-lg"
-                                 :class="loadingStep >= 3 ? 'bg-gradient-to-br from-[#006BFF] to-blue-600 scale-100 shadow-blue-500/50' : 'bg-gray-200 scale-90'">
+                                 :class="loadingStep >= 3 ? 'bg-gradient-to-br from-[#A78BFA] to-[#7C3AED] scale-100 shadow-[#A78BFA]/40' : 'bg-[#252535] scale-90'">
                                 <svg x-show="loadingStep >= 3"
                                      x-transition:enter="transition ease-out duration-400 delay-150"
                                      x-transition:enter-start="opacity-0 scale-50 rotate-180"
                                      x-transition:enter-end="opacity-100 scale-100 rotate-0"
-                                     class="w-6 h-6 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                     class="w-6 h-6 text-[#0A0A0F]" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="3" d="M5 13l4 4L19 7"></path>
                                 </svg>
-                                <div x-show="loadingStep < 3" class="w-3 h-3 bg-gray-400 rounded-full animate-pulse"></div>
+                                <div x-show="loadingStep < 3" class="w-3 h-3 bg-[#7E7D9C] rounded-full animate-pulse"></div>
                             </div>
                             <div class="flex-1">
-                                <p class="font-bold text-gray-900 text-lg">Mempersiapkan Dashboard</p>
-                                <p class="text-sm text-gray-500">Hampir selesai...</p>
+                                <p class="font-bold text-[#F1F0FF] text-lg">Mempersiapkan Dashboard</p>
+                                <p class="text-sm text-[#7E7D9C]">Hampir selesai...</p>
                             </div>
                         </div>
                     </div>
@@ -154,20 +163,20 @@
                     
                     <!-- Animated Confetti Background -->
                     <div class="absolute inset-0 pointer-events-none overflow-hidden">
-                        <div class="absolute top-0 left-1/4 w-2 h-2 bg-green-400 rounded-full animate-ping" style="animation-duration: 2s; animation-delay: 0.1s;"></div>
-                        <div class="absolute top-10 right-1/4 w-2 h-2 bg-emerald-400 rounded-full animate-ping" style="animation-duration: 2.5s; animation-delay: 0.3s;"></div>
-                        <div class="absolute top-5 left-1/3 w-2 h-2 bg-green-500 rounded-full animate-ping" style="animation-duration: 2.2s; animation-delay: 0.5s;"></div>
-                        <div class="absolute top-12 right-1/3 w-2 h-2 bg-emerald-500 rounded-full animate-ping" style="animation-duration: 2.8s; animation-delay: 0.2s;"></div>
+                        <div class="absolute top-0 left-1/4 w-2 h-2 bg-emerald-400 rounded-full animate-ping" style="animation-duration: 2s; animation-delay: 0.1s;"></div>
+                        <div class="absolute top-10 right-1/4 w-2 h-2 bg-purple-400 rounded-full animate-ping" style="animation-duration: 2.5s; animation-delay: 0.3s;"></div>
+                        <div class="absolute top-5 left-1/3 w-2 h-2 bg-emerald-500 rounded-full animate-ping" style="animation-duration: 2.2s; animation-delay: 0.5s;"></div>
+                        <div class="absolute top-12 right-1/3 w-2 h-2 bg-purple-500 rounded-full animate-ping" style="animation-duration: 2.8s; animation-delay: 0.2s;"></div>
                     </div>
 
                     <!-- Success Icon with Enhanced Animation -->
                     <div class="mb-8 relative">
                         <!-- Outer pulsing glow rings -->
                         <div class="absolute inset-0 w-40 h-40 mx-auto">
-                            <div class="absolute inset-0 bg-gradient-to-r from-green-400 to-emerald-500 rounded-full opacity-30 blur-3xl animate-pulse" style="animation-duration: 2s;"></div>
+                            <div class="absolute inset-0 bg-gradient-to-r from-emerald-500 to-green-600 rounded-full opacity-30 blur-3xl animate-pulse" style="animation-duration: 2s;"></div>
                         </div>
                         <div class="absolute inset-0 w-40 h-40 mx-auto">
-                            <div class="absolute inset-4 bg-gradient-to-r from-green-300 to-emerald-400 rounded-full opacity-20 blur-2xl animate-pulse" style="animation-duration: 1.5s; animation-delay: 0.3s;"></div>
+                            <div class="absolute inset-4 bg-gradient-to-r from-emerald-400 to-green-500 rounded-full opacity-20 blur-2xl animate-pulse" style="animation-duration: 1.5s; animation-delay: 0.3s;"></div>
                         </div>
                         
                         <!-- Main success circle with scale animation -->
@@ -176,7 +185,7 @@
                              x-init="setTimeout(() => iconLoaded = true, 100)">
                             
                             <!-- Rotating ring background -->
-                            <div class="absolute inset-0 rounded-full bg-gradient-to-br from-green-400 via-emerald-500 to-green-600 shadow-2xl shadow-green-500/50"
+                            <div class="absolute inset-0 rounded-full bg-gradient-to-br from-emerald-400 via-green-500 to-emerald-600 shadow-2xl shadow-green-500/50"
                                  :class="iconLoaded ? 'scale-100 rotate-0' : 'scale-0 rotate-180'"
                                  style="transition: all 0.8s cubic-bezier(0.34, 1.56, 0.64, 1);"></div>
                             
@@ -208,19 +217,19 @@
                         <!-- Main heading -->
                         <h2 class="text-5xl font-bold mb-3 transition-all duration-700"
                             :class="textLoaded ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-8'">
-                            <span class="bg-gradient-to-r from-green-600 via-emerald-600 to-green-700 bg-clip-text text-transparent">
+                            <span class="bg-gradient-to-r from-emerald-400 via-green-400 to-emerald-500 bg-clip-text text-transparent">
                                 Selamat!
                             </span>
                         </h2>
                         
                         <!-- Subtitle -->
-                        <p class="text-xl text-gray-700 font-medium mb-2 transition-all duration-700 delay-100"
+                        <p class="text-xl text-[#F1F0FF] font-medium mb-2 transition-all duration-700 delay-100"
                            :class="textLoaded ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-8'">
                             Dashboard Anda sudah siap!
                         </p>
                         
                         <!-- Additional message -->
-                        <p class="text-base text-gray-500 transition-all duration-700 delay-200"
+                        <p class="text-base text-[#A9A8C3] transition-all duration-700 delay-200"
                            :class="textLoaded ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-8'">
                             Mengarahkan ke halaman utama...
                         </p>
@@ -252,16 +261,16 @@
                          x-transition:enter-end="opacity-100 translate-y-0"
                          class="text-center w-full">
                         
-                        <div class="inline-flex items-center justify-center w-20 h-20 bg-gradient-to-br from-[#006BFF]/10 to-blue-100 rounded-full mb-6">
-                            <svg class="w-10 h-10 text-[#006BFF]" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <div class="inline-flex items-center justify-center w-20 h-20 bg-[#1A1A24] border border-[#2A2A3A] rounded-2xl mb-6 shadow-inner">
+                            <svg class="w-10 h-10 text-[#A78BFA]" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 21V5a2 2 0 00-2-2H7a2 2 0 00-2 2v16m14 0h2m-2 0h-5m-9 0H3m2 0h5M9 7h1m-1 4h1m4-4h1m-1 4h1m-5 10v-5a1 1 0 011-1h2a1 1 0 011 1v5m-4 0h4"></path>
                             </svg>
                         </div>
                         
-                        <h1 class="text-4xl font-bold text-gray-900 mb-4">
+                        <h1 class="text-4xl font-bold text-[#F1F0FF] mb-4">
                             Apa nama bisnis Anda?
                         </h1>
-                        <p class="text-lg text-gray-600 mb-8">
+                        <p class="text-lg text-[#A9A8C3] mb-8">
                             Mulai dengan memperkenalkan bisnis Anda kepada kami
                         </p>
 
@@ -269,11 +278,11 @@
                             <input type="text" 
                                    x-model="formData.business_name"
                                    @keyup.enter="nextQuestion"
-                                   class="w-full px-8 py-5 text-xl text-center bg-white/80 backdrop-blur-sm border-2 border-gray-200 rounded-2xl focus:border-[#006BFF] focus:ring-4 focus:ring-[#006BFF]/10 transition-all outline-none placeholder-gray-400"
+                                   class="w-full px-8 py-5 text-xl text-center bg-[#111118] border-2 border-[#2A2A3A] text-[#F1F0FF] rounded-2xl focus:border-[#A78BFA] focus:ring-4 focus:ring-[#A78BFA]/20 transition-all outline-none placeholder-[#7E7D9C]"
                                    placeholder="Contoh: Toko Berkah Jaya"
                                    required
                                    autofocus>
-                            <p x-show="errors.business_name" class="mt-3 text-red-500" x-text="errors.business_name"></p>
+                            <p x-show="errors.business_name" class="mt-3 text-red-400" x-text="errors.business_name"></p>
                         </div>
                     </div>
 
@@ -284,16 +293,16 @@
                          x-transition:enter-end="opacity-100 translate-y-0"
                          class="text-center w-full">
                         
-                        <div class="inline-flex items-center justify-center w-20 h-20 bg-gradient-to-br from-[#006BFF]/10 to-blue-100 rounded-full mb-6">
-                            <svg class="w-10 h-10 text-[#006BFF]" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <div class="inline-flex items-center justify-center w-20 h-20 bg-[#1A1A24] border border-[#2A2A3A] rounded-2xl mb-6 shadow-inner">
+                            <svg class="w-10 h-10 text-[#A78BFA]" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M7 7h.01M7 3h5c.512 0 1.024.195 1.414.586l7 7a2 2 0 010 2.828l-7 7a2 2 0 01-2.828 0l-7-7A1.994 1.994 0 013 12V7a4 4 0 014-4z"></path>
                             </svg>
                         </div>
                         
-                        <h1 class="text-4xl font-bold text-gray-900 mb-4">
+                        <h1 class="text-4xl font-bold text-[#F1F0FF] mb-4">
                             Kategori bisnis apa?
                         </h1>
-                        <p class="text-lg text-gray-600 mb-6">
+                        <p class="text-lg text-[#A9A8C3] mb-6">
                             Pilih kategori yang paling sesuai dengan bisnis Anda
                         </p>
 
@@ -303,7 +312,7 @@
                                 @foreach($businessCategories as $key => $value)
                                     <button type="button"
                                             @click="formData.business_category = '{{ $key }}'; nextQuestion()"
-                                            class="p-5 bg-white/80 backdrop-blur-sm border-2 border-transparent rounded-2xl transition-all duration-200 hover:border-[#006BFF] hover:bg-white hover:shadow-xl hover:shadow-blue-500/20 hover:scale-105 group">
+                                            class="p-5 bg-[#1A1A24] border-2 border-[#2A2A3A] rounded-2xl transition-all duration-200 hover:border-[#A78BFA] hover:bg-[#252535] hover:shadow-xl hover:shadow-[#A78BFA]/10 hover:scale-105 group">
                                         <div class="text-center">
                                             <div class="text-3xl mb-2">
                                                 @switch($key)
@@ -323,7 +332,7 @@
                                                     @default 🏢
                                                 @endswitch
                                             </div>
-                                            <p class="font-semibold text-gray-900 group-hover:text-[#006BFF] text-sm">{{ $value }}</p>
+                                            <p class="font-semibold text-[#F1F0FF] group-hover:text-[#A78BFA] text-sm">{{ $value }}</p>
                                         </div>
                                     </button>
                                 @endforeach
@@ -338,16 +347,16 @@
                          x-transition:enter-end="opacity-100 translate-y-0"
                          class="text-center w-full">
                         
-                        <div class="inline-flex items-center justify-center w-20 h-20 bg-gradient-to-br from-[#006BFF]/10 to-blue-100 rounded-full mb-6">
-                            <svg class="w-10 h-10 text-[#006BFF]" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <div class="inline-flex items-center justify-center w-20 h-20 bg-[#1A1A24] border border-[#2A2A3A] rounded-2xl mb-6 shadow-inner">
+                            <svg class="w-10 h-10 text-[#A78BFA]" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z"></path>
                             </svg>
                         </div>
                         
-                        <h1 class="text-4xl font-bold text-gray-900 mb-4">
+                        <h1 class="text-4xl font-bold text-[#F1F0FF] mb-4">
                             Sudah berapa lama bisnis Anda berjalan?
                         </h1>
-                        <p class="text-lg text-gray-600 mb-8">
+                        <p class="text-lg text-[#A9A8C3] mb-8">
                             Masukkan usia bisnis dalam bulan
                         </p>
 
@@ -358,20 +367,20 @@
                                        @keyup.enter="nextQuestion"
                                        min="0"
                                        max="1200"
-                                       class="w-full px-8 py-5 text-xl text-center bg-white/80 backdrop-blur-sm border-2 border-gray-200 rounded-2xl focus:border-[#006BFF] focus:ring-4 focus:ring-[#006BFF]/10 transition-all outline-none"
+                                       class="w-full px-8 py-5 text-xl text-center bg-[#111118] border-2 border-[#2A2A3A] text-[#F1F0FF] rounded-2xl focus:border-[#A78BFA] focus:ring-4 focus:ring-[#A78BFA]/20 transition-all outline-none placeholder-[#7E7D9C]"
                                        placeholder="12"
                                        required>
-                                <div class="absolute right-8 top-1/2 -translate-y-1/2 text-gray-400 text-lg">
+                                <div class="absolute right-8 top-1/2 -translate-y-1/2 text-[#7E7D9C] text-lg">
                                     bulan
                                 </div>
                             </div>
                             
-                            <div class="text-base text-gray-500" x-show="formData.business_age_month">
+                            <div class="text-base text-[#A9A8C3]" x-show="formData.business_age_month">
                                 <span x-text="Math.floor(formData.business_age_month / 12)"></span> tahun 
                                 <span x-text="formData.business_age_month % 12"></span> bulan
                             </div>
 
-                            <p x-show="errors.business_age_month" class="text-red-500" x-text="errors.business_age_month"></p>
+                            <p x-show="errors.business_age_month" class="text-red-400" x-text="errors.business_age_month"></p>
                         </div>
                     </div>
 
@@ -382,16 +391,16 @@
                          x-transition:enter-end="opacity-100 translate-y-0"
                          class="text-center w-full">
                         
-                        <div class="inline-flex items-center justify-center w-20 h-20 bg-gradient-to-br from-[#006BFF]/10 to-blue-100 rounded-full mb-6">
-                            <svg class="w-10 h-10 text-[#006BFF]" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <div class="inline-flex items-center justify-center w-20 h-20 bg-[#1A1A24] border border-[#2A2A3A] rounded-2xl mb-6 shadow-inner">
+                            <svg class="w-10 h-10 text-[#A78BFA]" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8c-1.657 0-3 .895-3 2s1.343 2 3 2 3 .895 3 2-1.343 2-3 2m0-8c1.11 0 2.08.402 2.599 1M12 8V7m0 1v8m0 0v1m0-1c-1.11 0-2.08-.402-2.599-1M21 12a9 9 0 11-18 0 9 9 0 0118 0z"></path>
                             </svg>
                         </div>
                         
-                        <h1 class="text-4xl font-bold text-gray-900 mb-4">
+                        <h1 class="text-4xl font-bold text-[#F1F0FF] mb-4">
                             Berapa pendapatan bulanan Anda?
                         </h1>
-                        <p class="text-lg text-gray-600 mb-6">
+                        <p class="text-lg text-[#A9A8C3] mb-6">
                             Pilih rentang pendapatan rata-rata per bulan
                         </p>
 
@@ -399,10 +408,10 @@
                             @foreach($revenueRanges as $key => $value)
                                 <button type="button"
                                         @click="formData.monthly_revenue_range = '{{ $key }}'; nextQuestion()"
-                                        class="p-5 bg-white/80 backdrop-blur-sm border-2 border-transparent rounded-2xl transition-all duration-200 hover:border-[#006BFF] hover:bg-white hover:shadow-xl hover:shadow-blue-500/20 hover:scale-105 text-left group">
+                                        class="p-5 bg-[#1A1A24] border-2 border-[#2A2A3A] rounded-2xl transition-all duration-200 hover:border-[#A78BFA] hover:bg-[#252535] hover:shadow-xl hover:shadow-[#A78BFA]/10 hover:scale-105 text-left group">
                                     <div class="flex items-center justify-between">
-                                        <span class="text-base font-semibold text-gray-900 group-hover:text-[#006BFF]">{{ $value }}</span>
-                                        <svg class="w-5 h-5 text-gray-400 group-hover:text-[#006BFF]" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                        <span class="text-base font-semibold text-[#F1F0FF] group-hover:text-[#A78BFA]">{{ $value }}</span>
+                                        <svg class="w-5 h-5 text-[#7E7D9C] group-hover:text-[#A78BFA]" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"></path>
                                         </svg>
                                     </div>
@@ -418,16 +427,16 @@
                          x-transition:enter-end="opacity-100 translate-y-0"
                          class="text-center w-full">
                         
-                        <div class="inline-flex items-center justify-center w-20 h-20 bg-gradient-to-br from-[#006BFF]/10 to-blue-100 rounded-full mb-6">
-                            <svg class="w-10 h-10 text-[#006BFF]" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <div class="inline-flex items-center justify-center w-20 h-20 bg-[#1A1A24] border border-[#2A2A3A] rounded-2xl mb-6 shadow-inner">
+                            <svg class="w-10 h-10 text-[#A78BFA]" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z"></path>
                             </svg>
                         </div>
                         
-                        <h1 class="text-4xl font-bold text-gray-900 mb-4">
+                        <h1 class="text-4xl font-bold text-[#F1F0FF] mb-4">
                             Siapa nama pemilik bisnis?
                         </h1>
-                        <p class="text-lg text-gray-600 mb-8">
+                        <p class="text-lg text-[#A9A8C3] mb-8">
                             Nama lengkap pemilik atau penanggung jawab
                         </p>
 
@@ -435,10 +444,10 @@
                             <input type="text" 
                                    x-model="formData.owner_name"
                                    @keyup.enter="nextQuestion"
-                                   class="w-full px-8 py-5 text-xl text-center bg-white/80 backdrop-blur-sm border-2 border-gray-200 rounded-2xl focus:border-[#006BFF] focus:ring-4 focus:ring-[#006BFF]/10 transition-all outline-none placeholder-gray-400"
+                                   class="w-full px-8 py-5 text-xl text-center bg-[#111118] border-2 border-[#2A2A3A] text-[#F1F0FF] rounded-2xl focus:border-[#A78BFA] focus:ring-4 focus:ring-[#A78BFA]/20 transition-all outline-none placeholder-[#7E7D9C]"
                                    placeholder="Nama lengkap"
                                    required>
-                            <p x-show="errors.owner_name" class="mt-3 text-red-500" x-text="errors.owner_name"></p>
+                            <p x-show="errors.owner_name" class="mt-3 text-red-400" x-text="errors.owner_name"></p>
                         </div>
                     </div>
 
@@ -449,16 +458,16 @@
                          x-transition:enter-end="opacity-100 translate-y-0"
                          class="text-center w-full">
                         
-                        <div class="inline-flex items-center justify-center w-20 h-20 bg-gradient-to-br from-[#006BFF]/10 to-blue-100 rounded-full mb-6">
-                            <svg class="w-10 h-10 text-[#006BFF]" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <div class="inline-flex items-center justify-center w-20 h-20 bg-[#1A1A24] border border-[#2A2A3A] rounded-2xl mb-6 shadow-inner">
+                            <svg class="w-10 h-10 text-[#A78BFA]" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z"></path>
                             </svg>
                         </div>
                         
-                        <h1 class="text-4xl font-bold text-gray-900 mb-4">
+                        <h1 class="text-4xl font-bold text-[#F1F0FF] mb-4">
                             Email kontak bisnis
                         </h1>
-                        <p class="text-lg text-gray-600 mb-8">
+                        <p class="text-lg text-[#A9A8C3] mb-8">
                             Untuk komunikasi dan notifikasi penting
                         </p>
 
@@ -466,10 +475,10 @@
                             <input type="email" 
                                    x-model="formData.contact_email"
                                    @keyup.enter="nextQuestion"
-                                   class="w-full px-8 py-5 text-xl text-center bg-white/80 backdrop-blur-sm border-2 border-gray-200 rounded-2xl focus:border-[#006BFF] focus:ring-4 focus:ring-[#006BFF]/10 transition-all outline-none placeholder-gray-400"
+                                   class="w-full px-8 py-5 text-xl text-center bg-[#111118] border-2 border-[#2A2A3A] text-[#F1F0FF] rounded-2xl focus:border-[#A78BFA] focus:ring-4 focus:ring-[#A78BFA]/20 transition-all outline-none placeholder-[#7E7D9C]"
                                    placeholder="email@bisnis.com"
                                    required>
-                            <p x-show="errors.contact_email" class="mt-3 text-red-500" x-text="errors.contact_email"></p>
+                            <p x-show="errors.contact_email" class="mt-3 text-red-400" x-text="errors.contact_email"></p>
                         </div>
                     </div>
 
@@ -480,16 +489,16 @@
                          x-transition:enter-end="opacity-100 translate-y-0"
                          class="text-center w-full">
                         
-                        <div class="inline-flex items-center justify-center w-20 h-20 bg-gradient-to-br from-[#006BFF]/10 to-blue-100 rounded-full mb-6">
-                            <svg class="w-10 h-10 text-[#006BFF]" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <div class="inline-flex items-center justify-center w-20 h-20 bg-[#1A1A24] border border-[#2A2A3A] rounded-2xl mb-6 shadow-inner">
+                            <svg class="w-10 h-10 text-[#A78BFA]" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 5a2 2 0 012-2h3.28a1 1 0 01.948.684l1.498 4.493a1 1 0 01-.502 1.21l-2.257 1.13a11.042 11.042 0 005.516 5.516l1.13-2.257a1 1 0 011.21-.502l4.493 1.498a1 1 0 01.684.949V19a2 2 0 01-2 2h-1C9.716 21 3 14.284 3 6V5z"></path>
                             </svg>
                         </div>
                         
-                        <h1 class="text-4xl font-bold text-gray-900 mb-4">
+                        <h1 class="text-4xl font-bold text-[#F1F0FF] mb-4">
                             Nomor telepon
                         </h1>
-                        <p class="text-lg text-gray-600 mb-8">
+                        <p class="text-lg text-[#A9A8C3] mb-8">
                             Opsional - untuk kemudahan komunikasi
                         </p>
 
@@ -497,9 +506,9 @@
                             <input type="tel" 
                                    x-model="formData.contact_phone"
                                    @keyup.enter="nextQuestion"
-                                   class="w-full px-8 py-5 text-xl text-center bg-white/80 backdrop-blur-sm border-2 border-gray-200 rounded-2xl focus:border-[#006BFF] focus:ring-4 focus:ring-[#006BFF]/10 transition-all outline-none placeholder-gray-400"
+                                   class="w-full px-8 py-5 text-xl text-center bg-[#111118] border-2 border-[#2A2A3A] text-[#F1F0FF] rounded-2xl focus:border-[#A78BFA] focus:ring-4 focus:ring-[#A78BFA]/20 transition-all outline-none placeholder-[#7E7D9C]"
                                    placeholder="08123456789">
-                            <p class="mt-3 text-gray-500">Boleh dilewati jika tidak ingin mengisi</p>
+                            <p class="mt-3 text-[#7E7D9C]">Boleh dilewati jika tidak ingin mengisi</p>
                         </div>
                     </div>
 
@@ -510,16 +519,16 @@
                          x-transition:enter-end="opacity-100 translate-y-0"
                          class="text-center w-full">
                         
-                        <div class="inline-flex items-center justify-center w-16 h-16 bg-gradient-to-br from-[#006BFF]/10 to-blue-100 rounded-full mb-4">
-                            <svg class="w-8 h-8 text-[#006BFF]" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <div class="inline-flex items-center justify-center w-16 h-16 bg-[#1A1A24] border border-[#2A2A3A] rounded-2xl mb-4 shadow-inner">
+                            <svg class="w-8 h-8 text-[#A78BFA]" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m5.618-4.016A11.955 11.955 0 0112 2.944a11.955 11.955 0 01-8.618 3.04A12.02 12.02 0 003 9c0 5.591 3.824 10.29 9 11.622 5.176-1.332 9-6.03 9-11.622 0-1.042-.133-2.052-.382-3.016z"></path>
                             </svg>
                         </div>
                         
-                        <h1 class="text-3xl font-bold text-gray-900 mb-3">
+                        <h1 class="text-3xl font-bold text-[#F1F0FF] mb-3">
                             Fitur apa yang Anda butuhkan?
                         </h1>
-                        <p class="text-base text-gray-600 mb-5">
+                        <p class="text-base text-[#A9A8C3] mb-5">
                             Pilih minimal 1 fitur yang paling penting untuk bisnis Anda
                         </p>
 
@@ -530,26 +539,23 @@
                                 @foreach($modules as $module)
                                     <button type="button"
                                             @click="toggleModule('{{ $module->id }}')"
-                                            class="p-3 bg-white/80 backdrop-blur-sm border-2 transition-all duration-200 rounded-xl relative group hover:shadow-lg hover:scale-105"
-                                            :class="formData.selected_modules.includes('{{ $module->id }}') ? 'border-[{{ $module->color }}] shadow-md' : 'border-transparent hover:border-[{{ $module->color }}]'"
-                                            style="--module-color: {{ $module->color }}; width: 110px;">
+                                            class="p-3 bg-[#1A1A24] border-2 transition-all duration-200 rounded-xl relative group hover:shadow-lg hover:scale-105"
+                                            :class="formData.selected_modules.includes('{{ $module->id }}') ? 'border-[#A78BFA] bg-[#A78BFA]/10 shadow-[0_0_15px_rgba(167,139,250,0.15)]' : 'border-[#2A2A3A] hover:border-[#A78BFA]/50'"
+                                            style="width: 110px;">
                                         <div class="text-center">
                                             <!-- Module Icon as SVG with Dynamic Color -->
                                             <div class="flex items-center justify-center mb-1.5">
                                                 <svg class="w-6 h-6 transition-colors" fill="none" stroke="currentColor" viewBox="0 0 24 24"
-                                                     :style="formData.selected_modules.includes('{{ $module->id }}') ? 'color: {{ $module->color }}' : 'color: #6B7280'"
-                                                     style="color: #6B7280;">
+                                                     :class="formData.selected_modules.includes('{{ $module->id }}') ? 'text-[#A78BFA]' : 'text-[#7E7D9C] group-hover:text-[#F1F0FF]'">
                                                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="{{ $module->icon }}"></path>
                                                 </svg>
                                             </div>
                                             <p class="font-semibold transition-colors text-[10px] leading-tight"
-                                               :class="formData.selected_modules.includes('{{ $module->id }}') ? 'text-gray-900' : 'text-gray-700 group-hover:text-gray-900'"
-                                               :style="formData.selected_modules.includes('{{ $module->id }}') ? 'color: {{ $module->color }}' : ''">{{ $module->display_name }}</p>
+                                               :class="formData.selected_modules.includes('{{ $module->id }}') ? 'text-[#F1F0FF]' : 'text-[#A9A8C3] group-hover:text-[#F1F0FF]'">{{ $module->display_name }}</p>
                                         </div>
                                         <div x-show="formData.selected_modules.includes('{{ $module->id }}')" 
-                                             class="absolute -top-1 -right-1 w-4 h-4 rounded-full flex items-center justify-center"
-                                             style="background-color: {{ $module->color }};">
-                                            <svg class="w-2.5 h-2.5 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                             class="absolute -top-1 -right-1 w-4 h-4 rounded-full flex items-center justify-center bg-[#A78BFA]">
+                                            <svg class="w-2.5 h-2.5 text-[#0A0A0F]" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="3" d="M5 13l4 4L19 7"></path>
                                             </svg>
                                         </div>
@@ -558,20 +564,20 @@
                             </div>
                         </div>
 
-                        <p x-show="errors.selected_modules" class="mt-3 text-red-500 text-sm" x-text="errors.selected_modules"></p>
+                        <p x-show="errors.selected_modules" class="mt-3 text-red-400 text-sm" x-text="errors.selected_modules"></p>
                     </div>
                 </div>
             </div>
 
             <!-- Footer with Navigation -->
-            <div class="border-t border-gray-200 bg-white/80 backdrop-blur-sm flex-shrink-0">
+            <div class="border-t border-[#2A2A3A] bg-[#0E0E16]/90 backdrop-blur-md flex-shrink-0">
                 <div class="max-w-7xl mx-auto px-6 py-4">
                     <div class="flex items-center justify-between">
                         <!-- Back Button -->
                         <button type="button" 
                                 @click="previousQuestion"
                                 x-show="currentQuestion > 1"
-                                class="flex items-center space-x-2 px-5 py-2.5 text-gray-600 hover:text-gray-900 font-medium rounded-xl transition-all hover:bg-gray-100">
+                                class="flex items-center space-x-2 px-5 py-2.5 text-[#A9A8C3] hover:text-[#F1F0FF] font-medium rounded-xl transition-all hover:bg-[#1A1A24] border border-transparent hover:border-[#2A2A3A]">
                             <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7"></path>
                             </svg>
@@ -584,10 +590,10 @@
                             <div class="flex items-center space-x-2">
                                 <template x-for="i in totalQuestions" :key="i">
                                     <div class="transition-all duration-300"
-                                         :class="currentQuestion >= i ? 'w-8 h-2 bg-[#006BFF] rounded-full' : 'w-2 h-2 bg-gray-300 rounded-full'"></div>
+                                         :class="currentQuestion >= i ? 'w-8 h-2 bg-[#A78BFA] rounded-full shadow-[0_0_10px_rgba(167,139,250,0.5)]' : 'w-2 h-2 bg-[#2A2A3A] rounded-full'"></div>
                                 </template>
                             </div>
-                            <span class="text-sm font-medium text-gray-600">
+                            <span class="text-sm font-medium text-[#A9A8C3]">
                                 <span x-text="currentQuestion"></span> / <span x-text="totalQuestions"></span>
                             </span>
                         </div>
@@ -597,7 +603,7 @@
                                 @click="currentQuestion < totalQuestions ? nextQuestion() : submitForm()"
                                 x-show="currentQuestion !== 2 && currentQuestion !== 4"
                                 :disabled="!canProceed() || isSubmitting"
-                                class="flex items-center space-x-2 px-6 py-2.5 bg-[#006BFF] hover:bg-blue-700 text-white font-semibold rounded-xl transition-all duration-200 disabled:opacity-50 disabled:cursor-not-allowed shadow-lg shadow-blue-500/30 hover:shadow-xl hover:shadow-blue-500/40">
+                                class="flex items-center space-x-2 px-6 py-2.5 bg-[#A78BFA] hover:bg-[#9333EA] text-[#0A0A0F] font-bold rounded-xl transition-all duration-200 disabled:opacity-50 disabled:cursor-not-allowed shadow-lg shadow-[#A78BFA]/25 hover:shadow-xl hover:shadow-[#A78BFA]/30">
                             <span x-show="!isSubmitting && currentQuestion < totalQuestions">Lanjutkan</span>
                             <span x-show="!isSubmitting && currentQuestion === totalQuestions">Selesai</span>
                             <span x-show="isSubmitting" class="flex items-center">

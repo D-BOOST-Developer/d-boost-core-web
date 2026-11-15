@@ -1,12 +1,12 @@
 <x-app-layout>
     <x-slot name="header">
         <div class="flex items-center justify-between desktop-only">
-            <h2 class="font-semibold text-xl text-gray-800 leading-tight">
+            <h2 class="font-semibold text-xl leading-tight" style="color: #F1F0FF;">
                 {{ __('Smart Data Analytics Dashboard') }}
         </h2>
             <div class="flex items-center space-x-3">
-                <span class="text-sm text-gray-500">{{ now()->format('d M Y, H:i') }}</span>
-                <button onclick="window.location.reload()" class="p-2 text-gray-500 hover:text-[#006BFF] hover:bg-gray-100 rounded-lg transition-colors">
+                <span class="text-sm" style="color: #7E7D9C;">{{ now()->format('d M Y, H:i') }}</span>
+                <button onclick="window.location.reload()" class="p-2 text-[#7E7D9C] hover:text-[#A78BFA] hover:bg-[#252535] rounded-lg transition-colors">
                     <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 4v5h.582m15.356 2A8.001 8.001 0 004.582 9m0 0H9m11 11v-5h-.581m0 0a8.003 8.003 0 01-15.357-2m15.357 2H15"></path>
                     </svg>
@@ -18,6 +18,44 @@
 
 
     <style>
+        /* Universal Dark Theme Overrides for Dashboard */
+        html, body {
+            background-color: #0A0A0F !important;
+            color: #F1F0FF !important;
+            font-family: 'Space Grotesk', -apple-system, BlinkMacSystemFont, sans-serif !important;
+        }
+
+        .bg-white {
+            background-color: #1A1A24 !important;
+        }
+        .bg-gray-50 {
+            background-color: #0A0A0F !important;
+        }
+        .bg-gray-100 {
+            background-color: #252535 !important;
+        }
+        .border-gray-200, .border-gray-100, .border-gray-300 {
+            border-color: #2A2A3A !important;
+        }
+        .text-gray-900, .text-gray-800 {
+            color: #F1F0FF !important;
+        }
+        .text-gray-700, .text-gray-600 {
+            color: #A9A8C3 !important;
+        }
+        .text-gray-500, .text-gray-400 {
+            color: #7E7D9C !important;
+        }
+        .hover\:border-gray-300:hover {
+            border-color: #3A3A4A !important;
+        }
+        .hover\:bg-gray-50:hover, .hover\:bg-gray-100:hover {
+            background-color: #252535 !important;
+        }
+        .hover\:bg-blue-50:hover {
+            background-color: rgba(167, 139, 250, 0.15) !important;
+        }
+
         /* ============================================
            MOBILE RESPONSIVE STYLES FOR DASHBOARD
            ============================================ */
@@ -90,17 +128,17 @@
             /* Mobile content styling */
             .mobile-dashboard-content {
                 padding: 0 !important;
-                background: #F9FAFB;
+                background: #0A0A0F;
                 min-height: 100vh;
             }
             
             /* Mobile header with gradient */
             .mobile-header {
-                background: linear-gradient(135deg, #006BFF 0%, #02337eff 100%);
+                background: linear-gradient(135deg, #1E1B2E 0%, #111118 100%);
                 border-radius: 0 0 24px 24px;
                 padding: 1.5rem 1.25rem;
                 margin: 0 0 1.5rem 0;
-                box-shadow: 0 4px 20px rgba(0, 107, 255, 0.3);
+                box-shadow: 0 4px 20px rgba(167, 139, 250, 0.2);
             }
             
             .mobile-greeting {
@@ -119,11 +157,11 @@
             
             /* Account Balance Card */
             .account-balance-card {
-                background: rgba(255, 255, 255, 0.15);
+                background: rgba(26, 26, 36, 0.85);
                 backdrop-filter: blur(10px);
                 border-radius: 16px;
                 padding: 1.25rem;
-                border: 1px solid rgba(255, 255, 255, 0.2);
+                border: 1px solid #2A2A3A;
             }
             
             .balance-label {
@@ -158,8 +196,8 @@
             }
             
             .balance-action-btn {
-                background: rgba(255, 255, 255, 0.95);
-                color: #006BFF;
+                background: #252535;
+                color: #A78BFA;
                 border-radius: 12px;
                 padding: 0.75rem;
                 font-size: 0.875rem;
@@ -175,7 +213,7 @@
             
             .balance-action-btn:active {
                 transform: scale(0.95);
-                background: rgba(255, 255, 255, 0.85);
+                background: #2E2E42;
             }
             
             .balance-action-btn svg {
@@ -191,7 +229,7 @@
             .section-title {
                 font-size: 1rem;
                 font-weight: 700;
-                color: #1F2937;
+                color: #F1F0FF;
                 margin-bottom: 1rem;
             }
             
@@ -229,7 +267,7 @@
             .quick-action-icon svg {
                 width: 1.5rem;
                 height: 1.5rem;
-                color: #006BFF;
+                color: #A78BFA;
             }
             
             .quick-action-label {
@@ -245,10 +283,10 @@
                 bottom: 0;
                 left: 0;
                 right: 0;
-                background: rgba(255, 255, 255, 0.95);
+                background: #252535;
                 backdrop-filter: blur(10px);
                 -webkit-backdrop-filter: blur(10px);
-                border-top: 1px solid #F3F4F6;
+                border-top: 1px solid #2A2A3A;
                 padding: 0.75rem 1.25rem;
                 padding-bottom: calc(0.75rem + env(safe-area-inset-bottom));
                 display: flex;
@@ -287,7 +325,7 @@
             }
             
             .bottom-nav-item.active .bottom-nav-icon {
-                color: #006BFF;
+                color: #A78BFA;
             }
             
             .bottom-nav-label {
@@ -298,7 +336,7 @@
             }
             
             .bottom-nav-item.active .bottom-nav-label {
-                color: #006BFF;
+                color: #A78BFA;
                 font-weight: 600;
             }
 
@@ -466,8 +504,8 @@
             }
             
             .mobile-kpi-card {
-                background: white;
-                border: 1px solid #F3F4F6;
+                background: #1A1A24;
+                border: 1px solid #2A2A3A;
                 border-radius: 16px;
                 padding: 1rem;
                 box-shadow: 0 2px 10px rgba(0, 0, 0, 0.02);
@@ -493,7 +531,7 @@
             .kpi-value {
                 font-size: 1.125rem;
                 font-weight: 700;
-                color: #1F2937;
+                color: #F1F0FF;
                 margin-bottom: 0.25rem;
             }
             
@@ -574,7 +612,7 @@
             <div class="bg-white border border-gray-200 rounded-xl p-6">
                 <div class="flex items-center justify-between mb-4">
                     <h3 class="text-lg font-semibold text-gray-900">Rekomendasi Aksi</h3>
-                    <span class="text-xs bg-[#006BFF] text-white px-2 py-1 rounded-full">{{ count($suggestedActions) }} Prioritas</span>
+                    <span class="text-xs bg-[#A78BFA] text-white px-2 py-1 rounded-full">{{ count($suggestedActions) }} Prioritas</span>
                 </div>
                 <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
                     @foreach($suggestedActions as $action)
@@ -612,7 +650,7 @@
                                     {{ $action['priority'] === 'high' ? 'Prioritas Tinggi' : ($action['priority'] === 'medium' ? 'Prioritas Sedang' : 'Saran') }}
                                 </span>
                                 <p class="text-sm text-gray-700 mt-1">{{ $action['message'] }}</p>
-                                <a href="{{ $action['action_url'] }}" class="inline-flex items-center mt-2 text-sm font-medium text-[#006BFF] hover:text-[#006BFF]/80">
+                                <a href="{{ $action['action_url'] }}" class="inline-flex items-center mt-2 text-sm font-medium text-[#A78BFA] hover:text-[#A78BFA]/80">
                                     {{ $action['action_text'] }}
                                     <svg class="w-4 h-4 ml-1" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"></path>
@@ -635,10 +673,10 @@
                     <div>
                         <p class="text-gray-500 text-sm font-medium">Total Sales</p>
                         <p class="text-2xl font-bold text-gray-900 mt-1">Rp {{ number_format($totalSales, 0, ',', '.') }}</p>
-                        <p class="text-[#006BFF] text-sm mt-1">+{{ number_format($monthSales, 0, ',', '.') }} bulan ini</p>
+                        <p class="text-[#A78BFA] text-sm mt-1">+{{ number_format($monthSales, 0, ',', '.') }} bulan ini</p>
                     </div>
                     <div class="p-3 bg-blue-50 rounded-lg">
-                        <svg class="w-7 h-7 text-[#006BFF]" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <svg class="w-7 h-7 text-[#A78BFA]" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8c-1.657 0-3 .895-3 2s1.343 2 3 2 3 .895 3 2-1.343 2-3 2m0-8c1.11 0 2.08.402 2.599 1M12 8V7m0 1v8m0 0v1m0-1c-1.11 0-2.08-.402-2.599-1"></path>
                             </svg>
                         </div>
@@ -776,9 +814,9 @@
                 <div class="flex items-center justify-between mb-6">
                     <h3 class="text-base font-semibold text-gray-900">Sales Trend</h3>
                     <div class="flex space-x-2">
-                        <button @click="updateChartPeriod('all')" :class="chartPeriod === 'all' ? 'bg-[#006BFF] text-white' : 'bg-gray-100 text-gray-600 hover:bg-gray-200'" class="px-3 py-1.5 text-xs rounded-lg transition-colors font-medium">All Time</button>
-                        <button @click="updateChartPeriod('90d')" :class="chartPeriod === '90d' ? 'bg-[#006BFF] text-white' : 'bg-gray-100 text-gray-600 hover:bg-gray-200'" class="px-3 py-1.5 text-xs rounded-lg transition-colors font-medium">3 Bulan</button>
-                        <button @click="updateChartPeriod('30d')" :class="chartPeriod === '30d' ? 'bg-[#006BFF] text-white' : 'bg-gray-100 text-gray-600 hover:bg-gray-200'" class="px-3 py-1.5 text-xs rounded-lg transition-colors font-medium">1 Bulan</button>
+                        <button @click="updateChartPeriod('all')" :class="chartPeriod === 'all' ? 'bg-[#A78BFA] text-white' : 'bg-gray-100 text-gray-600 hover:bg-gray-200'" class="px-3 py-1.5 text-xs rounded-lg transition-colors font-medium">All Time</button>
+                        <button @click="updateChartPeriod('90d')" :class="chartPeriod === '90d' ? 'bg-[#A78BFA] text-white' : 'bg-gray-100 text-gray-600 hover:bg-gray-200'" class="px-3 py-1.5 text-xs rounded-lg transition-colors font-medium">3 Bulan</button>
+                        <button @click="updateChartPeriod('30d')" :class="chartPeriod === '30d' ? 'bg-[#A78BFA] text-white' : 'bg-gray-100 text-gray-600 hover:bg-gray-200'" class="px-3 py-1.5 text-xs rounded-lg transition-colors font-medium">1 Bulan</button>
                     </div>
                 </div>
                 <div class="h-72" x-show="!chartLoading">
@@ -786,7 +824,7 @@
                             </div>
                 <div x-show="chartLoading" class="h-72 flex items-center justify-center">
                     <div class="flex items-center space-x-3">
-                        <div class="animate-spin rounded-full h-5 w-5 border-2 border-[#006BFF] border-t-transparent"></div>
+                        <div class="animate-spin rounded-full h-5 w-5 border-2 border-[#A78BFA] border-t-transparent"></div>
                         <span class="text-gray-500 text-sm">Memuat data...</span>
                     </div>
                 </div>
@@ -804,7 +842,7 @@
                     </div>
                     <div class="bg-gray-50 rounded-lg p-4">
                         <p class="text-sm text-gray-500">Profit Minggu Ini</p>
-                        <p class="text-xl font-bold {{ $profitSummary['this_week'] >= 0 ? 'text-[#006BFF]' : 'text-red-600' }}">
+                        <p class="text-xl font-bold {{ $profitSummary['this_week'] >= 0 ? 'text-[#A78BFA]' : 'text-red-600' }}">
                             Rp {{ number_format($profitSummary['this_week'], 0, ',', '.') }}
                         </p>
                         </div>
@@ -831,7 +869,7 @@
             <div class="bg-white border border-gray-200 rounded-xl p-6">
                 <div class="flex items-center justify-between mb-4">
                     <h3 class="text-base font-semibold text-gray-900">Top 5 Best Sellers</h3>
-                    <a href="{{ route('inventory.products.index') }}" class="text-sm text-[#006BFF] hover:underline">Lihat Semua</a>
+                    <a href="{{ route('inventory.products.index') }}" class="text-sm text-[#A78BFA] hover:underline">Lihat Semua</a>
                 </div>
                 <div class="space-y-3">
                     @forelse($topProducts as $index => $product)
@@ -844,7 +882,7 @@
                             <p class="text-gray-500 text-xs">{{ $product->total_sold ?? 0 }} terjual</p>
                         </div>
                         <div class="text-right">
-                            <p class="text-[#006BFF] font-semibold text-sm">Rp {{ number_format($product->total_revenue ?? 0, 0, ',', '.') }}</p>
+                            <p class="text-[#A78BFA] font-semibold text-sm">Rp {{ number_format($product->total_revenue ?? 0, 0, ',', '.') }}</p>
                         </div>
                     </div>
                     @empty
@@ -954,7 +992,7 @@
                 <div class="mt-6 pt-4 border-t border-gray-200">
                     <div class="flex items-center justify-between">
                         <span class="text-sm font-medium text-gray-700">Total Produk</span>
-                        <span class="text-xl font-bold text-[#006BFF]">{{ $stockHealthSummary['total_products'] }}</span>
+                        <span class="text-xl font-bold text-[#A78BFA]">{{ $stockHealthSummary['total_products'] }}</span>
                     </div>
                 </div>
             </div>
@@ -998,7 +1036,7 @@
                         </div>
                         <div class="flex items-center justify-between text-xs text-gray-500">
                             <span>Min: {{ $product->min_stock_level }}</span>
-                            <a href="{{ route('inventory.products.edit', $product->id) }}" class="text-[#006BFF] hover:underline">Restock</a>
+                            <a href="{{ route('inventory.products.edit', $product->id) }}" class="text-[#A78BFA] hover:underline">Restock</a>
                         </div>
                     </div>
                     @empty
@@ -1019,7 +1057,7 @@
                 @if($busiestDays->count() > 0)
                 <div class="mt-3 p-3 bg-blue-50 rounded-lg">
                     <p class="text-sm text-gray-700">
-                        <span class="font-semibold text-[#006BFF]">{{ $busiestDays->sortByDesc('total_transactions')->first()->day_name }}</span> 
+                        <span class="font-semibold text-[#A78BFA]">{{ $busiestDays->sortByDesc('total_transactions')->first()->day_name }}</span> 
                         adalah hari tersibuk dengan {{ $busiestDays->sortByDesc('total_transactions')->first()->total_transactions }} transaksi
                     </p>
                 </div>
@@ -1063,7 +1101,7 @@
                             <p class="text-gray-500 text-xs">{{ number_format($cat->total_sold) }} terjual</p>
                         </div>
                         <div class="text-right">
-                            <p class="text-[#006BFF] font-semibold text-sm">Rp {{ number_format($cat->total_revenue, 0, ',', '.') }}</p>
+                            <p class="text-[#A78BFA] font-semibold text-sm">Rp {{ number_format($cat->total_revenue, 0, ',', '.') }}</p>
                             <p class="text-xs text-gray-400">Margin {{ number_format($cat->avg_margin, 0) }}%</p>
                         </div>
                     </div>
@@ -1079,7 +1117,7 @@
                 <div class="space-y-4">
                     <div class="flex items-center justify-between p-3 bg-blue-50 rounded-lg">
                         <p class="text-sm text-gray-700">Hari Ini</p>
-                        <p class="text-base font-bold text-[#006BFF]">{{ $todayTransactions }} transaksi</p>
+                        <p class="text-base font-bold text-[#A78BFA]">{{ $todayTransactions }} transaksi</p>
                     </div>
                     <div class="flex items-center justify-between p-3 bg-violet-50 rounded-lg">
                         <p class="text-sm text-gray-700">Minggu Ini</p>
@@ -1116,7 +1154,7 @@
                 <div class="mt-4 grid grid-cols-3 gap-3">
                     <div class="text-center p-2 bg-blue-50 rounded-lg">
                         <p class="text-xs text-gray-600">Total Penjualan</p>
-                        <p class="text-sm font-bold text-[#006BFF]">Rp {{ number_format($monthlyPerformance->sum('sales'), 0, ',', '.') }}</p>
+                        <p class="text-sm font-bold text-[#A78BFA]">Rp {{ number_format($monthlyPerformance->sum('sales'), 0, ',', '.') }}</p>
                     </div>
                     <div class="text-center p-2 bg-violet-50 rounded-lg">
                         <p class="text-xs text-gray-600">Total Transaksi</p>
@@ -1182,7 +1220,7 @@
                         @foreach($recentSales->take(5) as $sale)
                     <div class="flex items-center space-x-3 p-3 bg-gray-50 rounded-lg">
                         <div class="w-9 h-9 bg-blue-50 rounded-full flex items-center justify-center">
-                                <svg class="w-4 h-4 text-[#006BFF]" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <svg class="w-4 h-4 text-[#A78BFA]" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8c-1.657 0-3 .895-3 2s1.343 2 3 2 3 .895 3 2-1.343 2-3 2m0-8c1.11 0 2.08.402 2.599 1M12 8V7m0 1v8m0 0v1m0-1c-1.11 0-2.08-.402-2.599-1"></path>
                                 </svg>
                             </div>
@@ -1214,9 +1252,9 @@
             <div class="bg-white border border-gray-200 rounded-xl p-6">
                 <h3 class="text-base font-semibold text-gray-900 mb-4">Quick Actions</h3>
                     <div class="grid grid-cols-2 gap-3">
-                    <a href="{{ route('finance.sales.create') }}" class="flex items-center space-x-3 p-4 bg-gray-50 hover:bg-blue-50 rounded-lg border border-gray-200 hover:border-[#006BFF] transition-colors">
+                    <a href="{{ route('finance.sales.create') }}" class="flex items-center space-x-3 p-4 bg-gray-50 hover:bg-blue-50 rounded-lg border border-gray-200 hover:border-[#A78BFA] transition-colors">
                         <div class="w-10 h-10 bg-blue-100 rounded-lg flex items-center justify-center">
-                            <svg class="w-5 h-5 text-[#006BFF]" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <svg class="w-5 h-5 text-[#A78BFA]" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 6v6m0 0v6m0-6h6m-6 0H6"></path>
                                 </svg>
                             </div>
@@ -1421,12 +1459,12 @@
                 datasets: [{
                     label: 'Sales',
                     data: @json($salesTrend->pluck('total')),
-                    borderColor: '#006BFF',
+                    borderColor: '#A78BFA',
                             backgroundColor: 'rgba(0, 107, 255, 0.08)',
                             borderWidth: 2,
                     fill: true,
                             tension: 0.3,
-                    pointBackgroundColor: '#006BFF',
+                    pointBackgroundColor: '#A78BFA',
                             pointBorderColor: '#fff',
                     pointBorderWidth: 2,
                     pointRadius: 4,
@@ -1471,7 +1509,7 @@
                         datasets: [{
                             label: 'Transaksi',
                             data: @json($busiestDays->pluck('total_transactions')),
-                            backgroundColor: '#006BFF',
+                            backgroundColor: '#A78BFA',
                             borderRadius: 6
                         }]
                     },
@@ -1522,7 +1560,7 @@
                 datasets: [{
                                 label: 'Penjualan',
                                 data: monthlyData,
-                                backgroundColor: '#006BFF',
+                                backgroundColor: '#A78BFA',
                                 borderRadius: 6,
                                 barThickness: 30
                 }]
@@ -1576,7 +1614,7 @@
                             labels: @json($expenseByCategory->pluck('category')),
                             datasets: [{
                                 data: expenseData,
-                                backgroundColor: ['#EF4444', '#F59E0B', '#10B981', '#006BFF', '#8B5CF6', '#EC4899'],
+                                backgroundColor: ['#EF4444', '#F59E0B', '#10B981', '#A78BFA', '#8B5CF6', '#EC4899'],
                                 borderWidth: 0
                             }]
                         },

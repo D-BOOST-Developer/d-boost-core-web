@@ -1,21 +1,21 @@
 <x-app-layout>
     <x-slot name="header">
-        <h2 class="font-semibold text-xl text-gray-800 leading-tight">
+        <h2 class="font-semibold text-xl text-[#F1F0FF] leading-tight">
             Customize Storefront
         </h2>
     </x-slot>
 
     <div class="py-6">
         <div class="px-6">
-            <div class="bg-white border border-gray-200 rounded-xl p-8" x-data="builderData()"
+            <div class="bg-[#1A1A24] border border-[#2A2A3A] rounded-xl p-8 shadow-lg" x-data="builderData()"
                 @submit.prevent="saveConfig">
 
                 {{-- MONŌ active notice --}}
-                <div class="mb-6 px-4 py-3 bg-gray-900 text-white text-sm rounded-lg flex items-start gap-3">
-                    <span class="font-serif text-lg leading-none">○</span>
+                <div class="mb-6 px-4 py-3 bg-[#111118] border border-[#2A2A3A] text-[#F1F0FF] text-sm rounded-lg flex items-start gap-3">
+                    <span class="font-serif text-lg leading-none text-[#A78BFA]">○</span>
                     <div>
-                        <p class="font-medium">Tampilan minimalis MONŌ aktif untuk semua storefront.</p>
-                        <p class="text-xs text-white/70 mt-0.5">Semua kustomisasi (judul, warna aksen, teks, footer)
+                        <p class="font-medium text-[#F1F0FF]">Tampilan minimalis MONŌ aktif untuk semua storefront.</p>
+                        <p class="text-xs text-[#A9A8C3] mt-0.5">Semua kustomisasi (judul, warna aksen, teks, footer)
                             berlaku dengan layout MONŌ. Pratinjau langsung di samping.</p>
                     </div>
                 </div>
@@ -23,51 +23,51 @@
                 <div class="grid grid-cols-1 lg:grid-cols-3 gap-8">
                     {{-- Left: Controls --}}
                     <div class="lg:col-span-1 space-y-6">
-                        <h3 class="text-lg font-bold text-gray-900">Settings</h3>
+                        <h3 class="text-lg font-bold text-[#F1F0FF]">Settings</h3>
 
                         {{-- Storefront Title --}}
                         <div>
-                            <label class="block text-sm font-medium text-gray-700 mb-2">Storefront Title *</label>
+                            <label class="block text-sm font-medium text-[#A9A8C3] mb-2">Storefront Title *</label>
                             <input type="text" x-model="config.storefront_title" required
-                                class="w-full border border-gray-300 rounded-lg px-3 py-2 focus:ring-2 focus:ring-[#006BFF]">
+                                class="w-full bg-[#111118] border border-[#2A2A3A] text-[#F1F0FF] rounded-lg px-3 py-2 focus:ring-2 focus:ring-[#A78BFA]">
                         </div>
 
                         {{-- Tagline --}}
                         <div>
-                            <label class="block text-sm font-medium text-gray-700 mb-2">Tagline</label>
+                            <label class="block text-sm font-medium text-[#A9A8C3] mb-2">Tagline</label>
                             <input type="text" x-model="config.tagline" placeholder="Slogan bisnis Anda…"
-                                class="w-full border border-gray-300 rounded-lg px-3 py-2 focus:ring-2 focus:ring-[#006BFF]">
+                                class="w-full bg-[#111118] border border-[#2A2A3A] text-[#F1F0FF] rounded-lg px-3 py-2 focus:ring-2 focus:ring-[#A78BFA] placeholder-[#7E7D9C]">
                         </div>
 
                         {{-- Accent colors --}}
                         <div>
-                            <label class="block text-sm font-medium text-gray-700 mb-1">Accent Colors</label>
-                            <p class="text-xs text-gray-500 mb-3">Digunakan sebagai aksen halus pada cart badge, focus
+                            <label class="block text-sm font-medium text-[#A9A8C3] mb-1">Accent Colors</label>
+                            <p class="text-xs text-[#7E7D9C] mb-3">Digunakan sebagai aksen halus pada cart badge, focus
                                 ring, dan elemen interaktif.</p>
                             <div class="space-y-3">
                                 <div class="flex items-center justify-between">
-                                    <span class="text-sm text-gray-600">Primary Accent</span>
+                                    <span class="text-sm text-[#A9A8C3]">Primary Accent</span>
                                     <input type="color" x-model="config.primary_color"
-                                        class="h-10 w-20 rounded cursor-pointer">
+                                        class="h-10 w-20 rounded cursor-pointer bg-[#111118] border border-[#2A2A3A]">
                                 </div>
                                 <div class="flex items-center justify-between">
-                                    <span class="text-sm text-gray-600">Secondary Accent</span>
+                                    <span class="text-sm text-[#A9A8C3]">Secondary Accent</span>
                                     <input type="color" x-model="config.secondary_color"
-                                        class="h-10 w-20 rounded cursor-pointer">
+                                        class="h-10 w-20 rounded cursor-pointer bg-[#111118] border border-[#2A2A3A]">
                                 </div>
                                 <div class="flex items-center justify-between">
-                                    <span class="text-sm text-gray-600">Text Accent</span>
+                                    <span class="text-sm text-[#A9A8C3]">Text Accent</span>
                                     <input type="color" x-model="config.text_color"
-                                        class="h-10 w-20 rounded cursor-pointer">
+                                        class="h-10 w-20 rounded cursor-pointer bg-[#111118] border border-[#2A2A3A]">
                                 </div>
                             </div>
                         </div>
 
                         {{-- Layout --}}
                         <div>
-                            <label class="block text-sm font-medium text-gray-700 mb-2">Grid Columns</label>
+                            <label class="block text-sm font-medium text-[#A9A8C3] mb-2">Grid Columns</label>
                             <select x-model="config.grid_columns"
-                                class="w-full border border-gray-300 rounded-lg px-3 py-2 focus:ring-2 focus:ring-[#006BFF]">
+                                class="w-full bg-[#111118] border border-[#2A2A3A] text-[#F1F0FF] rounded-lg px-3 py-2 focus:ring-2 focus:ring-[#A78BFA]">
                                 <option value="2">2 Columns</option>
                                 <option value="3">3 Columns</option>
                                 <option value="4">4 Columns</option>
@@ -77,77 +77,77 @@
 
                         {{-- Card Style --}}
                         <div>
-                            <label class="block text-sm font-medium text-gray-700 mb-2">Card Style</label>
+                            <label class="block text-sm font-medium text-[#A9A8C3] mb-2">Card Style</label>
                             <div class="grid grid-cols-3 gap-2">
                                 <button type="button" @click="config.card_style = 'shadow'"
-                                    :class="config.card_style === 'shadow' ? 'border-[#006BFF] bg-blue-50' : 'border-gray-300'"
-                                    class="border-2 rounded-lg p-3 text-xs font-medium">Shadow</button>
+                                    :class="config.card_style === 'shadow' ? 'border-[#A78BFA] bg-[#A78BFA]/15 text-[#F1F0FF]' : 'border-[#2A2A3A] bg-[#111118] text-[#A9A8C3]'"
+                                    class="border-2 rounded-lg p-3 text-xs font-medium transition-colors">Shadow</button>
                                 <button type="button" @click="config.card_style = 'bordered'"
-                                    :class="config.card_style === 'bordered' ? 'border-[#006BFF] bg-blue-50' : 'border-gray-300'"
-                                    class="border-2 rounded-lg p-3 text-xs font-medium">Bordered</button>
+                                    :class="config.card_style === 'bordered' ? 'border-[#A78BFA] bg-[#A78BFA]/15 text-[#F1F0FF]' : 'border-[#2A2A3A] bg-[#111118] text-[#A9A8C3]'"
+                                    class="border-2 rounded-lg p-3 text-xs font-medium transition-colors">Bordered</button>
                                 <button type="button" @click="config.card_style = 'flat'"
-                                    :class="config.card_style === 'flat' ? 'border-[#006BFF] bg-blue-50' : 'border-gray-300'"
-                                    class="border-2 rounded-lg p-3 text-xs font-medium">Flat</button>
+                                    :class="config.card_style === 'flat' ? 'border-[#A78BFA] bg-[#A78BFA]/15 text-[#F1F0FF]' : 'border-[#2A2A3A] bg-[#111118] text-[#A9A8C3]'"
+                                    class="border-2 rounded-lg p-3 text-xs font-medium transition-colors">Flat</button>
                             </div>
                         </div>
 
                         {{-- Content --}}
                         <div>
-                            <label class="block text-sm font-medium text-gray-700 mb-3">Landing Page Content</label>
+                            <label class="block text-sm font-medium text-[#A9A8C3] mb-3">Landing Page Content</label>
                             <div class="space-y-3">
                                 <div>
-                                    <label class="block text-xs text-gray-600 mb-1">Header Text</label>
+                                    <label class="block text-xs text-[#A9A8C3] mb-1">Header Text</label>
                                     <textarea x-model="config.header_text" rows="2"
                                         placeholder="Tagline panjang di hero (opsional)…"
-                                        class="w-full border border-gray-300 rounded-lg px-3 py-2 text-sm focus:ring-2 focus:ring-[#006BFF]"></textarea>
+                                        class="w-full bg-[#111118] border border-[#2A2A3A] text-[#F1F0FF] rounded-lg px-3 py-2 text-sm focus:ring-2 focus:ring-[#A78BFA] placeholder-[#7E7D9C]"></textarea>
                                 </div>
                                 <div>
-                                    <label class="block text-xs text-gray-600 mb-1">About Text</label>
+                                    <label class="block text-xs text-[#A9A8C3] mb-1">About Text</label>
                                     <textarea x-model="config.about_text" rows="3"
                                         placeholder="Ceritakan tentang bisnis Anda…"
-                                        class="w-full border border-gray-300 rounded-lg px-3 py-2 text-sm focus:ring-2 focus:ring-[#006BFF]"></textarea>
+                                        class="w-full bg-[#111118] border border-[#2A2A3A] text-[#F1F0FF] rounded-lg px-3 py-2 text-sm focus:ring-2 focus:ring-[#A78BFA] placeholder-[#7E7D9C]"></textarea>
                                 </div>
                                 <div>
-                                    <label class="block text-xs text-gray-600 mb-1">Newsletter CTA</label>
+                                    <label class="block text-xs text-[#A9A8C3] mb-1">Newsletter CTA</label>
                                     <input type="text" x-model="config.cta_text"
                                         placeholder="Misal: Koleksi baru setiap minggu."
-                                        class="w-full border border-gray-300 rounded-lg px-3 py-2 text-sm focus:ring-2 focus:ring-[#006BFF]">
+                                        class="w-full bg-[#111118] border border-[#2A2A3A] text-[#F1F0FF] rounded-lg px-3 py-2 text-sm focus:ring-2 focus:ring-[#A78BFA] placeholder-[#7E7D9C]">
                                 </div>
                             </div>
                         </div>
 
                         {{-- Footer Content --}}
                         <div>
-                            <label class="block text-sm font-medium text-gray-700 mb-2">Footer / Contact Info</label>
+                            <label class="block text-sm font-medium text-[#A9A8C3] mb-2">Footer / Contact Info</label>
                             <textarea x-model="config.footer_content" rows="3"
                                 placeholder="Alamat, jam operasional, dll…"
-                                class="w-full border border-gray-300 rounded-lg px-3 py-2 focus:ring-2 focus:ring-[#006BFF]"></textarea>
+                                class="w-full bg-[#111118] border border-[#2A2A3A] text-[#F1F0FF] rounded-lg px-3 py-2 focus:ring-2 focus:ring-[#A78BFA] placeholder-[#7E7D9C]"></textarea>
                         </div>
 
                         {{-- Publish Status Badge --}}
                         <div class="flex items-center gap-2 px-3 py-2 rounded-lg"
-                            :class="config.is_published ? 'bg-green-50 border border-green-200' : 'bg-gray-50 border border-gray-200'">
+                            :class="config.is_published ? 'bg-emerald-950/40 border border-emerald-800/40' : 'bg-[#111118] border border-[#2A2A3A]'">
                             <span class="w-2 h-2 rounded-full flex-shrink-0"
-                                :class="config.is_published ? 'bg-green-500 animate-pulse' : 'bg-gray-400'"></span>
+                                :class="config.is_published ? 'bg-emerald-400 animate-pulse' : 'bg-gray-500'"></span>
                             <span class="text-sm font-medium"
-                                :class="config.is_published ? 'text-green-700' : 'text-gray-600'"
+                                :class="config.is_published ? 'text-emerald-400' : 'text-[#7E7D9C]'"
                                 x-text="config.is_published ? 'Status: Published ✓' : 'Status: Draft'"></span>
                         </div>
 
                         {{-- Public URL (shown when published) --}}
                         <div x-show="config.is_published && config.public_url" x-cloak
-                            class="bg-blue-50 border border-blue-200 rounded-lg p-3">
-                            <p class="text-xs font-semibold text-blue-800 mb-1.5">🔗 Link Publik Storefront:</p>
+                            class="bg-[#111118] border border-[#A78BFA]/30 rounded-lg p-3">
+                            <p class="text-xs font-semibold text-[#A78BFA] mb-1.5">🔗 Link Publik Storefront:</p>
                             <div class="flex items-center gap-2">
-                                <code class="flex-1 bg-white border border-blue-200 rounded px-2 py-1 text-xs text-gray-700 truncate"
+                                <code class="flex-1 bg-[#0A0A0F] border border-[#2A2A3A] rounded px-2 py-1 text-xs text-emerald-300 truncate font-mono"
                                     x-text="config.public_url"></code>
                                 <button type="button" @click="copyPublicUrl()"
-                                    class="flex-shrink-0 px-2.5 py-1 bg-blue-600 hover:bg-blue-700 text-white text-xs rounded font-medium transition">
+                                    class="flex-shrink-0 px-2.5 py-1 bg-[#A78BFA] hover:bg-[#9333EA] text-[#0A0A0F] text-xs rounded font-bold transition">
                                     Copy
                                 </button>
                             </div>
                             <a :href="config.public_url" target="_blank"
-                                class="inline-flex items-center gap-1 mt-2 text-xs text-blue-600 hover:text-blue-800 font-medium">
+                                class="inline-flex items-center gap-1 mt-2 text-xs text-[#A78BFA] hover:text-[#C4B5FD] font-medium">
                                 <svg class="w-3 h-3" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14"></path>
                                 </svg>
@@ -156,9 +156,9 @@
                         </div>
 
                         {{-- Actions --}}
-                        <div class="space-y-2 pt-4 border-t">
+                        <div class="space-y-2 pt-4 border-t border-[#2A2A3A]">
                             <button type="button" @click="saveConfig()" :disabled="saving"
-                                class="w-full bg-[#006BFF] hover:bg-[#006BFF]/80 text-white font-medium py-2 px-4 rounded-lg disabled:opacity-50 transition-opacity">
+                                class="w-full bg-[#A78BFA] hover:bg-[#9333EA] text-[#0A0A0F] font-bold py-2 px-4 rounded-lg disabled:opacity-50 transition-opacity shadow-lg shadow-[#A78BFA]/20">
                                 <span x-show="!saving">Save Configuration</span>
                                 <span x-show="saving" class="inline-flex items-center gap-2">
                                     <svg class="animate-spin w-4 h-4" fill="none" viewBox="0 0 24 24">
@@ -171,8 +171,8 @@
                             <button type="button" @click="publishStorefront()" :disabled="publishing"
                                 class="w-full border-2 font-medium py-2 px-4 rounded-lg transition-all disabled:opacity-50"
                                 :class="config.is_published
-                                    ? 'border-red-400 text-red-600 hover:bg-red-600 hover:text-white hover:border-red-600'
-                                    : 'border-[#006BFF] text-[#006BFF] hover:bg-[#006BFF] hover:text-white'">
+                                    ? 'border-red-400 text-red-400 hover:bg-red-950/40'
+                                    : 'border-[#A78BFA] text-[#A78BFA] hover:bg-[#A78BFA]/10'">
                                 <span x-show="!publishing"
                                     x-text="config.is_published ? '⊘ Unpublish Storefront' : '▶ Publish Storefront'"></span>
                                 <span x-show="publishing" class="inline-flex items-center gap-2">
@@ -184,11 +184,11 @@
                                 </span>
                             </button>
                             <a href="{{ route('storefront.preview') }}" target="_blank"
-                                class="block w-full text-center border border-gray-300 hover:bg-gray-50 text-gray-700 font-medium py-2 px-4 rounded-lg">
+                                class="block w-full text-center border border-[#2A2A3A] bg-[#111118] hover:bg-[#252535] text-[#A9A8C3] hover:text-[#F1F0FF] font-medium py-2 px-4 rounded-lg transition-colors">
                                 Open Preview in New Tab
                             </a>
                             <button type="button" @click="reloadPreview()"
-                                class="w-full text-center border border-gray-200 hover:bg-gray-50 text-gray-600 font-medium py-2 px-4 rounded-lg text-sm">
+                                class="w-full text-center border border-[#2A2A3A] bg-[#111118] hover:bg-[#252535] text-[#A9A8C3] hover:text-[#F1F0FF] font-medium py-2 px-4 rounded-lg text-sm transition-colors">
                                 ↻ Reload Preview
                             </button>
                         </div>
@@ -198,20 +198,20 @@
                     <div class="lg:col-span-2">
                         <div class="sticky top-6">
                             <div class="flex items-center justify-between mb-4">
-                                <h3 class="text-lg font-bold text-gray-900">Live Preview · MONŌ</h3>
+                                <h3 class="text-lg font-bold text-[#F1F0FF]">Live Preview · MONŌ</h3>
                                 <span
-                                    class="text-xs px-2.5 py-1 rounded-full bg-gray-900 text-white tracking-wider uppercase">
+                                    class="text-xs px-2.5 py-1 rounded-full bg-[#252535] text-[#A78BFA] border border-[#3A3A4E] tracking-wider uppercase font-semibold">
                                     ○ MONŌ
                                 </span>
                             </div>
 
-                            <div class="border-2 border-gray-200 rounded-2xl overflow-hidden bg-gray-100 shadow-xl">
+                            <div class="border-2 border-[#2A2A3A] rounded-2xl overflow-hidden bg-[#111118] shadow-2xl">
                                 <iframe x-ref="previewFrame" src="{{ route('storefront.preview') }}"
-                                    class="w-full h-[760px] bg-white" loading="lazy"></iframe>
+                                    class="w-full h-[760px] bg-[#0E0E16]" loading="lazy"></iframe>
                             </div>
 
-                            <p class="text-xs text-gray-500 mt-3 text-center">
-                                💡 Simpan konfigurasi terlebih dahulu, lalu klik <span class="font-medium">Reload
+                            <p class="text-xs text-[#7E7D9C] mt-3 text-center">
+                                💡 Simpan konfigurasi terlebih dahulu, lalu klik <span class="font-medium text-[#A9A8C3]">Reload
                                     Preview</span> untuk memuat perubahan terbaru.
                             </p>
                         </div>

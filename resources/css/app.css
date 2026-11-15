@@ -1,3 +1,150 @@
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+
+@import url('https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300;400;500;600;700&display=swap');
+
+@layer base {
+    :root {
+        --color-bg-primary: #0A0A0F;
+        --color-bg-secondary: #111118;
+        --color-bg-surface: #1A1A24;
+        --color-bg-elevated: #252535;
+        --color-border: #2A2A3A;
+        --color-text-primary: #F1F0FF;
+        --color-text-secondary: #A9A8C3;
+        --color-text-muted: #6B6A8A;
+        --color-accent: #A78BFA;
+        --color-accent-hover: #9333EA;
+        --color-accent-dark: #7C3AED;
+    }
+
+    html, body {
+        font-family: 'Space Grotesk', -apple-system, BlinkMacSystemFont, sans-serif !important;
+        background-color: #0A0A0F !important;
+        color: #F1F0FF !important;
+    }
+
+    /* Scrollbar styling for dark mode */
+    ::-webkit-scrollbar {
+        width: 6px;
+        height: 6px;
+    }
+    ::-webkit-scrollbar-track {
+        background: #111118;
+    }
+    ::-webkit-scrollbar-thumb {
+        background: #2A2A3A;
+        border-radius: 3px;
+    }
+    ::-webkit-scrollbar-thumb:hover {
+        background: #6B6A8A;
+    }
+
+    /* Universal Dark Overrides */
+    .bg-white {
+        background-color: #1A1A24 !important;
+    }
+    .bg-gray-50 {
+        background-color: #0A0A0F !important;
+    }
+    .bg-gray-100 {
+        background-color: #252535 !important;
+    }
+    .bg-gray-200 {
+        background-color: #2E2E42 !important;
+    }
+
+    .border-gray-100, .border-gray-200, .border-gray-300 {
+        border-color: #2A2A3A !important;
+    }
+
+    .text-gray-900, .text-gray-800 {
+        color: #F1F0FF !important;
+    }
+    .text-gray-700, .text-gray-600 {
+        color: #A9A8C3 !important;
+    }
+    .text-gray-500, .text-gray-400 {
+        color: #7E7D9C !important;
+    }
+
+    .hover\:bg-gray-50:hover, .hover\:bg-gray-100:hover {
+        background-color: #252535 !important;
+    }
+    .hover\:text-gray-900:hover, .hover\:text-gray-800:hover {
+        color: #FFFFFF !important;
+    }
+    .hover\:text-\[\#006BFF\]:hover {
+        color: #C4B5FD !important;
+    }
+
+    .text-\[\#006BFF\] {
+        color: #A78BFA !important;
+    }
+    .bg-\[\#006BFF\] {
+        background-color: #A78BFA !important;
+    }
+    .bg-\[\#006BFF\]\/10 {
+        background-color: rgba(167, 139, 250, 0.15) !important;
+    }
+    .bg-\[\#006BFF\]\/20 {
+        background-color: rgba(167, 139, 250, 0.25) !important;
+    }
+    .border-\[\#006BFF\]\/20, .border-\[\#006BFF\]\/30 {
+        border-color: rgba(167, 139, 250, 0.35) !important;
+    }
+
+    header, .dashboard-header {
+        background-color: #111118 !important;
+        border-bottom: 1px solid #2A2A3A !important;
+    }
+    header h1, header h2, header h3, .dashboard-header h1, .dashboard-header h2, .dashboard-header h3 {
+        color: #F1F0FF !important;
+    }
+
+    input:not([type="checkbox"]):not([type="radio"]), select, textarea {
+        background-color: #111118 !important;
+        border-color: #2A2A3A !important;
+        color: #F1F0FF !important;
+    }
+    input::placeholder, textarea::placeholder {
+        color: #5A5A7A !important;
+    }
+
+    table {
+        border-color: #2A2A3A !important;
+    }
+    thead tr, th {
+        background-color: #161622 !important;
+        color: #A9A8C3 !important;
+        border-color: #2A2A3A !important;
+    }
+    tbody tr {
+        background-color: #1A1A24 !important;
+        border-color: #2A2A3A !important;
+    }
+    tbody tr:hover {
+        background-color: #222232 !important;
+    }
+    td {
+        border-color: #2A2A3A !important;
+        color: #F1F0FF !important;
+    }
+
+    .bg-blue-50 {
+        background-color: rgba(167, 139, 250, 0.15) !important;
+    }
+    .bg-teal-50, .bg-green-50 {
+        background-color: rgba(16, 185, 129, 0.15) !important;
+    }
+    .bg-red-50 {
+        background-color: rgba(239, 68, 68, 0.15) !important;
+    }
+    .bg-yellow-50, .bg-amber-50 {
+        background-color: rgba(245, 158, 11, 0.15) !important;
+    }
+    .bg-violet-50, .bg-purple-50 {
+        background-color: rgba(167, 139, 250, 0.15) !important;
+    }
+}

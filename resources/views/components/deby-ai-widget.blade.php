@@ -34,30 +34,30 @@
         x-transition:leave="transition ease-in duration-300"
         x-transition:leave-start="opacity-100 transform translate-y-0 scale-100"
         x-transition:leave-end="opacity-0 transform translate-y-8 scale-90"
-        class="absolute bottom-24 right-0 w-full h-[600px] bg-white rounded-3xl shadow-2xl flex flex-col overflow-hidden border border-gray-100"
-        style="position: absolute; bottom: 100px; right: 0; width: 560px; height: 600px; z-index: 99998; box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.25), 0 0 0 1px rgba(0, 0, 0, 0.05);"
+        class="absolute bottom-24 right-0 w-full h-[600px] rounded-3xl shadow-2xl flex flex-col overflow-hidden"
+        style="position: absolute; bottom: 100px; right: 0; width: 560px; height: 600px; z-index: 99998; background-color: #1A1A24; border: 1px solid #2A2A3A; box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.7);"
     >
-        <!-- Header - Light Mode with Blue Accent -->
-        <div class="bg-gradient-to-r from-white to-blue-50 border-b border-gray-100 p-4 flex items-center justify-between">
+        <!-- Header - Dark Mode with Violet Accent -->
+        <div class="p-4 flex items-center justify-between" style="background-color: #111118; border-bottom: 1px solid #2A2A3A;">
             <div class="flex items-center gap-3">
-                <div class="w-10 h-10 rounded-full bg-gradient-to-br from-blue-600 to-indigo-600 ring-2 ring-blue-300/50 flex items-center justify-center text-white shadow-md">
+                <div class="w-10 h-10 rounded-full bg-gradient-to-br from-[#A78BFA] to-[#7C3AED] ring-2 ring-[#A78BFA]/30 flex items-center justify-center text-white shadow-md">
                     <svg class="w-6 h-6" viewBox="0 0 24 24" fill="none" stroke="currentColor">
                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 2v3M8 7h8a2 2 0 012 2v6a4 4 0 01-4 4h-4a4 4 0 01-4-4V9a2 2 0 012-2z" />
                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12h.01M15 12h.01" />
                     </svg>
                 </div>
                 <div>
-                    <h3 class="font-bold text-lg text-gray-800">DEBY AI</h3>
-                    <p class="text-xs text-gray-500">AI Business Assistant</p>
+                    <h3 class="font-bold text-lg" style="color: #F1F0FF;">DEBY AI</h3>
+                    <p class="text-xs" style="color: #7E7D9C;">AI Business Assistant</p>
                 </div>
             </div>
             <div class="flex items-center gap-2">
-                <button @click="showDeleteConfirm = true" class="hover:bg-red-100 p-2 rounded-lg transition text-red-600 hover:text-red-700" title="Hapus riwayat chat">
+                <button @click="showDeleteConfirm = true" class="hover:bg-red-900/30 p-2 rounded-lg transition text-red-400 hover:text-red-300" title="Hapus riwayat chat">
                     <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16" />
                     </svg>
                 </button>
-                <button @click="toggleChat()" class="hover:bg-gray-200 p-2 rounded-lg transition text-gray-600 hover:text-gray-800">
+                <button @click="toggleChat()" class="hover:bg-[#252535] p-2 rounded-lg transition text-[#A9A8C3] hover:text-[#F1F0FF]">
                     <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12" />
                     </svg>
@@ -66,70 +66,72 @@
         </div>
 
         <!-- Messages Container -->
-        <div class="flex-1 overflow-y-auto p-4 space-y-4 bg-white" id="messagesContainer">
+        <div class="flex-1 overflow-y-auto p-4 space-y-4" style="background-color: #1A1A24;" id="messagesContainer">
             <!-- Welcome Message -->
             <div class="flex gap-3">
-                <div class="w-8 h-8 rounded-full bg-gradient-to-br from-blue-600 to-indigo-600 ring-2 ring-blue-300/50 flex-shrink-0 flex items-center justify-center text-white shadow-md">
+                <div class="w-8 h-8 rounded-full bg-gradient-to-br from-[#A78BFA] to-[#7C3AED] ring-2 ring-[#A78BFA]/30 flex-shrink-0 flex items-center justify-center text-white shadow-md">
                     <svg class="w-5 h-5" viewBox="0 0 24 24" fill="none" stroke="currentColor">
                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 2v3M8 7h8a2 2 0 012 2v6a4 4 0 01-4 4h-4a4 4 0 01-4-4V9a2 2 0 012-2z" />
                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12h.01M15 12h.01" />
                     </svg>
                 </div>
-                <div class="bg-gray-100 rounded-lg p-3 max-w-xs">
-                    <p class="text-sm text-gray-800 font-medium">
+                <div class="rounded-lg p-3 max-w-xs" style="background-color: #252535; border: 1px solid #3A3A4A;">
+                    <p class="text-sm font-medium" style="color: #F1F0FF;">
                         Halo! 👋 Saya DEBY AI, asisten bisnis Anda.
                     </p>
-                    <p class="text-xs text-gray-600 mt-2">Saya siap membantu Anda dengan:</p>
-                    <ul class="text-xs text-gray-700 mt-2 space-y-1 ml-2">
+                    <p class="text-xs mt-2" style="color: #A9A8C3;">Saya siap membantu Anda dengan:</p>
+                    <ul class="text-xs mt-2 space-y-1 ml-2" style="color: #A9A8C3;">
                         <li>✓ Menambah produk dan mengatur stok</li>
                         <li>✓ Mencatat pengeluaran dan laporan</li>
                         <li>✓ Melihat statistik penjualan</li>
                         <li>✓ Menjawab pertanyaan fitur</li>
                     </ul>
-                    <p class="text-xs text-gray-500 mt-3 italic">💡 Coba tanya: "Bagaimana cara menambah produk?"</p>
+                    <p class="text-xs mt-3 italic" style="color: #7E7D9C;">💡 Coba tanya: "Bagaimana cara menambah produk?"</p>
                 </div>
             </div>
         </div>
 
         <!-- Quick Actions - Pure DB queries, no AI involvement -->
-        <div class="border-t border-gray-100 px-4 py-3 bg-white overflow-x-auto">
+        <div class="px-4 py-3 overflow-x-auto" style="background-color: #111118; border-top: 1px solid #2A2A3A;">
             <div class="flex gap-2 pb-2" style="min-width: min-content;">
-                <button @click="quickAction('revenue', '💰 Pemasukan hari ini')" class="px-3 py-1.5 bg-blue-100 hover:bg-blue-200 text-blue-700 text-xs rounded-full whitespace-nowrap transition-all active:scale-95 font-medium shadow-sm hover:shadow-md" title="Lihat total pendapatan hari ini">
+                <button @click="quickAction('revenue', '💰 Pemasukan hari ini')" class="px-3 py-1.5 text-xs rounded-full whitespace-nowrap transition-all active:scale-95 font-medium shadow-sm hover:shadow-md" style="background-color: rgba(167, 139, 250, 0.15); color: #A78BFA; border: 1px solid rgba(167, 139, 250, 0.3);" title="Lihat total pendapatan hari ini">
                     💰 Pemasukan
                 </button>
-                <button @click="quickAction('expenses', '💸 Pengeluaran hari ini')" class="px-3 py-1.5 bg-red-100 hover:bg-red-200 text-red-700 text-xs rounded-full whitespace-nowrap transition-all active:scale-95 font-medium shadow-sm hover:shadow-md" title="Lihat total pengeluaran hari ini">
+                <button @click="quickAction('expenses', '💸 Pengeluaran hari ini')" class="px-3 py-1.5 text-xs rounded-full whitespace-nowrap transition-all active:scale-95 font-medium shadow-sm hover:shadow-md" style="background-color: rgba(239, 68, 68, 0.15); color: #F87171; border: 1px solid rgba(239, 68, 68, 0.3);" title="Lihat total pengeluaran hari ini">
                     💸 Pengeluaran
                 </button>
-                <button @click="quickAction('stock', '📦 Posisi stok saat ini')" class="px-3 py-1.5 bg-green-100 hover:bg-green-200 text-green-700 text-xs rounded-full whitespace-nowrap transition-all active:scale-95 font-medium shadow-sm hover:shadow-md" title="Lihat status stok produk">
+                <button @click="quickAction('stock', '📦 Posisi stok saat ini')" class="px-3 py-1.5 text-xs rounded-full whitespace-nowrap transition-all active:scale-95 font-medium shadow-sm hover:shadow-md" style="background-color: rgba(16, 185, 129, 0.15); color: #34D399; border: 1px solid rgba(16, 185, 129, 0.3);" title="Lihat status stok produk">
                     📦 Stok
                 </button>
-                <button @click="quickAction('sales-today', '🛍️ Transaksi hari ini')" class="px-3 py-1.5 bg-purple-100 hover:bg-purple-200 text-purple-700 text-xs rounded-full whitespace-nowrap transition-all active:scale-95 font-medium shadow-sm hover:shadow-md" title="Lihat daftar penjualan hari ini">
+                <button @click="quickAction('sales-today', '🛍️ Transaksi hari ini')" class="px-3 py-1.5 text-xs rounded-full whitespace-nowrap transition-all active:scale-95 font-medium shadow-sm hover:shadow-md" style="background-color: rgba(167, 139, 250, 0.15); color: #A78BFA; border: 1px solid rgba(167, 139, 250, 0.3);" title="Lihat daftar penjualan hari ini">
                     🛍️ Transaksi
                 </button>
-                <button @click="quickAction('products', '📋 Daftar produk')" class="px-3 py-1.5 bg-indigo-100 hover:bg-indigo-200 text-indigo-700 text-xs rounded-full whitespace-nowrap transition-all active:scale-95 font-medium shadow-sm hover:shadow-md" title="Lihat semua produk yang tersedia">
+                <button @click="quickAction('products', '📋 Daftar produk')" class="px-3 py-1.5 text-xs rounded-full whitespace-nowrap transition-all active:scale-95 font-medium shadow-sm hover:shadow-md" style="background-color: rgba(99, 102, 241, 0.15); color: #818CF8; border: 1px solid rgba(99, 102, 241, 0.3);" title="Lihat semua produk yang tersedia">
                     📋 Produk
                 </button>
-                <button @click="quickAction('low-stock', '⚠️ Produk stok rendah')" class="px-3 py-1.5 bg-yellow-100 hover:bg-yellow-200 text-yellow-700 text-xs rounded-full whitespace-nowrap transition-all active:scale-95 font-medium shadow-sm hover:shadow-md" title="Lihat produk dengan stok rendah">
+                <button @click="quickAction('low-stock', '⚠️ Produk stok rendah')" class="px-3 py-1.5 text-xs rounded-full whitespace-nowrap transition-all active:scale-95 font-medium shadow-sm hover:shadow-md" style="background-color: rgba(245, 158, 11, 0.15); color: #FBBF24; border: 1px solid rgba(245, 158, 11, 0.3);" title="Lihat produk dengan stok rendah">
                     ⚠️ Alert
                 </button>
             </div>
         </div>
 
         <!-- Input Area - Modern Design -->
-        <div class="border-t border-gray-100 p-4 bg-gradient-to-t from-blue-50 to-white">
+        <div class="p-4" style="background-color: #111118; border-top: 1px solid #2A2A3A;">
             <div class="flex gap-2">
                 <input 
                     type="text"
                     id="messageInput"
                     placeholder="Ketik pertanyaan Anda..."
-                    class="flex-1 px-4 py-2 border border-gray-200 rounded-2xl focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent text-sm text-gray-800 placeholder-gray-400 transition-all"
+                    class="flex-1 px-4 py-2 rounded-2xl focus:outline-none focus:ring-2 focus:ring-[#A78BFA] text-sm placeholder-[#5A5A7A] transition-all"
+                    style="background-color: #0A0A0F; border: 1px solid #3A3A4A; color: #F1F0FF;"
                     @keydown.enter="sendMessage()"
                     :disabled="isLoading || isHistoryLoading"
                 />
                 <button 
                     @click="sendMessage()"
                     :disabled="isLoading || isHistoryLoading"
-                    class="px-4 py-2 bg-blue-600 hover:bg-blue-700 active:scale-95 text-white rounded-2xl transition-all disabled:opacity-50 disabled:cursor-not-allowed font-semibold text-sm shadow-md hover:shadow-lg flex items-center justify-center"
+                    class="px-4 py-2 active:scale-95 text-white rounded-2xl transition-all disabled:opacity-50 disabled:cursor-not-allowed font-semibold text-sm shadow-md hover:shadow-lg flex items-center justify-center"
+                    style="background: linear-gradient(135deg, #A78BFA 0%, #7C3AED 100%);"
                     title="Kirim pesan (Enter)"
                 >
                     <!-- Send Icon -->
@@ -143,21 +145,21 @@
                     </svg>
                 </button>
             </div>
-            <p class="text-xs text-gray-500 text-right mt-2">💡 Deby AI sudah otomatis tahu data bisnismu — tanyakan apa saja!</p>
+            <p class="text-xs text-right mt-2" style="color: #7E7D9C;">💡 Deby AI sudah otomatis tahu data bisnismu — tanyakan apa saja!</p>
         </div>
     </div>
 
     <!-- Delete Confirmation Modal -->
-    <div x-show="showDeleteConfirm" class="fixed inset-0 bg-black/50 flex items-center justify-center z-[100000]" style="display: none;">
-        <div class="bg-white rounded-2xl shadow-2xl p-6 max-w-sm mx-4" @click.stop>
+    <div x-show="showDeleteConfirm" class="fixed inset-0 bg-black/60 flex items-center justify-center z-[100000]" style="display: none;">
+        <div class="rounded-2xl shadow-2xl p-6 max-w-sm mx-4" style="background-color: #1A1A24; border: 1px solid #2A2A3A;" @click.stop>
             <div class="flex items-center gap-3 mb-4">
-                <div class="w-12 h-12 bg-red-100 rounded-full flex items-center justify-center">
-                    <svg class="w-6 h-6 text-red-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <div class="w-12 h-12 bg-red-900/30 rounded-full flex items-center justify-center">
+                    <svg class="w-6 h-6 text-red-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4m0 4v.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
                     </svg>
                 </div>
                 <div>
-                    <h3 class="font-bold text-lg text-gray-800">Hapus Riwayat Chat?</h3>
+                    <h3 class="font-bold text-lg" style="color: #F1F0FF;">Hapus Riwayat Chat?</h3>
                     <p class="text-sm text-gray-600">Tindakan ini tidak dapat dibatalkan</p>
                 </div>
             </div>

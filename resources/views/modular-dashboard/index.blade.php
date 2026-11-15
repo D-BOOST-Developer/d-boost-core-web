@@ -17,21 +17,25 @@
     <!-- Fonts -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300;400;500;600;700&display=swap" rel="stylesheet">
 
     <!-- TailwindCSS CDN -->
     <script src="https://cdn.tailwindcss.com"></script>
     <script>
         tailwind.config = {
+            darkMode: 'class',
             theme: {
                 extend: {
+                    fontFamily: {
+                        sans: ['Space Grotesk', 'sans-serif'],
+                    },
                     colors: {
-                        primary: '#006BFF',
+                        primary: '#A78BFA',
                     },
                     animation: {
                         glow: {
-                            '0%': { boxShadow: '0 0 5px #006BFF, 0 0 10px #006BFF, 0 0 15px #006BFF' },
-                            '100%': { boxShadow: '0 0 10px #006BFF, 0 0 20px #006BFF, 0 0 30px #006BFF' }
+                            '0%': { boxShadow: '0 0 5px #A78BFA, 0 0 10px #A78BFA, 0 0 15px #A78BFA' },
+                            '100%': { boxShadow: '0 0 10px #A78BFA, 0 0 20px #A78BFA, 0 0 30px #A78BFA' }
                         }
                     }
                 }
@@ -47,6 +51,101 @@
 
     <!-- Custom Styles for Sidebar -->
     <style>
+        /* ===================================================
+           GLOBAL DARK / BLACK THEME OVERRIDES
+           =================================================== */
+        html, body {
+            background-color: #0A0A0F !important;
+            color: #F1F0FF !important;
+            font-family: 'Space Grotesk', -apple-system, BlinkMacSystemFont, sans-serif !important;
+        }
+
+        /* Surfaces & Backgrounds */
+        .bg-white {
+            background-color: #1A1A24 !important;
+        }
+        .bg-gray-50 {
+            background-color: #0A0A0F !important;
+        }
+        .bg-gray-100 {
+            background-color: #252535 !important;
+        }
+        .bg-gray-200 {
+            background-color: #2E2E42 !important;
+        }
+
+        /* Borders */
+        .border-gray-100, .border-gray-200, .border-gray-300 {
+            border-color: #2A2A3A !important;
+        }
+
+        /* Typography */
+        .text-gray-900, .text-gray-800 {
+            color: #F1F0FF !important;
+        }
+        .text-gray-700, .text-gray-600 {
+            color: #A9A8C3 !important;
+        }
+        .text-gray-500, .text-gray-400 {
+            color: #7E7D9C !important;
+        }
+
+        /* Hover States */
+        .hover\:bg-gray-50:hover, .hover\:bg-gray-100:hover {
+            background-color: #252535 !important;
+        }
+        .hover\:text-gray-900:hover, .hover\:text-gray-800:hover {
+            color: #FFFFFF !important;
+        }
+        .hover\:text-\[\#006BFF\]:hover {
+            color: #C4B5FD !important;
+        }
+
+        /* Primary Colors & Accents (#006BFF -> #A78BFA) */
+        .text-\[\#006BFF\] {
+            color: #A78BFA !important;
+        }
+        .bg-\[\#006BFF\] {
+            background-color: #A78BFA !important;
+        }
+        .bg-\[\#006BFF\]\/10 {
+            background-color: rgba(167, 139, 250, 0.15) !important;
+        }
+        .bg-\[\#006BFF\]\/20 {
+            background-color: rgba(167, 139, 250, 0.25) !important;
+        }
+        .border-\[\#006BFF\]\/20, .border-\[\#006BFF\]\/30 {
+            border-color: rgba(167, 139, 250, 0.35) !important;
+        }
+        .bg-\[\#006BFF\]\/80 {
+            background-color: rgba(167, 139, 250, 0.8) !important;
+        }
+        .hover\:bg-\[\#006BFF\]:hover, .hover\:bg-\[\#006BFF\]\/80:hover {
+            background-color: #9333EA !important;
+        }
+        .focus\:ring-\[\#006BFF\]:focus {
+            --tw-ring-color: #A78BFA !important;
+        }
+        .focus\:border-\[\#006BFF\]:focus {
+            border-color: #A78BFA !important;
+        }
+
+        /* Header / Navbar Elements */
+        header, .dashboard-header {
+            background-color: #111118 !important;
+            border-bottom: 1px solid #2A2A3A !important;
+        }
+        header h1, header h2, header h3, .dashboard-header h1, .dashboard-header h2, .dashboard-header h3 {
+            color: #F1F0FF !important;
+        }
+
+        /* Module Popup Overrides */
+        .module-popup {
+            background-color: #1A1A24 !important;
+            border-color: #2A2A3A !important;
+            box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.7) !important;
+        }
+
         /* Global smooth scrolling */
         * {
             -webkit-tap-highlight-color: transparent;
@@ -302,11 +401,11 @@
 
             /* Mobile header with gradient */
             .mobile-header {
-                background: linear-gradient(135deg, #006BFF 0%, #02337eff 100%);
+                background: linear-gradient(135deg, #1E1B2E 0%, #111118 100%);
                 border-radius: 0 0 24px 24px;
                 padding: 1.5rem 1.25rem;
                 margin: 0;
-                box-shadow: 0 4px 20px rgba(0, 107, 255, 0.3);
+                box-shadow: 0 4px 20px rgba(167, 139, 250, 0.2);
             }
 
             .mobile-greeting {
@@ -325,11 +424,11 @@
 
             /* Account Balance Card */
             .account-balance-card {
-                background: rgba(255, 255, 255, 0.15);
+                background: rgba(26, 26, 36, 0.85);
                 backdrop-filter: blur(10px);
                 border-radius: 16px;
                 padding: 1.25rem;
-                border: 1px solid rgba(255, 255, 255, 0.2);
+                border: 1px solid #2A2A3A;
             }
 
             .balance-label {
@@ -364,8 +463,9 @@
             }
 
             .balance-action-btn {
-                background: rgba(255, 255, 255, 0.95);
-                color: #006BFF;
+                background: #252535;
+                color: #A78BFA;
+                border: 1px solid #3A3A4A;
                 border-radius: 12px;
                 padding: 0.75rem;
                 font-size: 0.875rem;
@@ -381,7 +481,7 @@
 
             .balance-action-btn:active {
                 transform: scale(0.95);
-                background: rgba(255, 255, 255, 0.85);
+                background: #2E2E42;
             }
 
             .balance-action-btn svg {
@@ -396,13 +496,13 @@
             }
 
             .financial-chart-card {
-                background: white;
+                background: #1A1A24;
                 border-radius: 16px;
                 padding: 1.25rem;
-                box-shadow: 0 2px 10px rgba(0, 0, 0, 0.05);
+                box-shadow: 0 4px 20px rgba(0, 0, 0, 0.5);
                 cursor: pointer;
                 transition: all 0.3s ease;
-                border: 1px solid #E5E7EB;
+                border: 1px solid #2A2A3A;
             }
 
             .financial-chart-card:active {
@@ -420,13 +520,13 @@
             .chart-title {
                 font-size: 1rem;
                 font-weight: 700;
-                color: #1F2937;
+                color: #F1F0FF;
             }
 
             .chart-period {
                 font-size: 0.75rem;
                 color: #6B7280;
-                background: #F3F4F6;
+                background: #252535;
                 padding: 0.25rem 0.75rem;
                 border-radius: 12px;
             }
@@ -442,7 +542,7 @@
                 grid-template-columns: 1fr 1fr;
                 gap: 0.75rem;
                 padding-top: 0.75rem;
-                border-top: 1px solid #F3F4F6;
+                border-top: 1px solid #2A2A3A;
             }
 
             .chart-stat-item {
@@ -471,7 +571,7 @@
             }
 
             .chart-stat-value.neutral {
-                color: #1F2937;
+                color: #F1F0FF;
             }
 
             /* Quick Actions Section */
@@ -482,7 +582,7 @@
             .section-title {
                 font-size: 1rem;
                 font-weight: 700;
-                color: #1F2937;
+                color: #F1F0FF;
                 margin-bottom: 1rem;
             }
 
@@ -503,7 +603,7 @@
             .quick-action-icon {
                 width: 3.5rem;
                 height: 3.5rem;
-                background: rgba(0, 107, 255, 0.1);
+                background: rgba(167, 139, 250, 0.15);
                 border-radius: 16px;
                 display: flex;
                 align-items: center;
@@ -513,19 +613,19 @@
 
             .quick-action-item:active .quick-action-icon {
                 transform: scale(0.9);
-                background: rgba(0, 107, 255, 0.2);
+                background: rgba(167, 139, 250, 0.25);
             }
 
             .quick-action-icon svg {
                 width: 1.5rem;
                 height: 1.5rem;
-                color: #006BFF;
+                color: #A78BFA;
             }
 
             .quick-action-label {
                 font-size: 0.75rem;
                 font-weight: 500;
-                color: #4B5563;
+                color: #A9A8C3;
                 text-align: center;
             }
 
@@ -544,7 +644,7 @@
 
             .transactions-filter {
                 background: white;
-                border: 1px solid #E5E7EB;
+                border: 1px solid #2A2A3A;
                 border-radius: 8px;
                 padding: 0.5rem 0.75rem;
                 font-size: 0.875rem;
@@ -562,13 +662,13 @@
                 display: flex;
                 align-items: center;
                 gap: 0.875rem;
-                border: 1px solid #F3F4F6;
+                border: 1px solid #2A2A3A;
                 transition: all 0.2s ease;
             }
 
             .transaction-item:active {
                 transform: scale(0.98);
-                background: #F9FAFB;
+                background: #0A0A0F;
             }
 
             .transaction-icon {
@@ -594,7 +694,7 @@
             .transaction-name {
                 font-size: 0.9375rem;
                 font-weight: 600;
-                color: #1F2937;
+                color: #F1F0FF;
                 margin-bottom: 0.25rem;
             }
 
@@ -636,7 +736,7 @@
                 background: rgba(255, 255, 255, 0.95);
                 backdrop-filter: blur(10px);
                 -webkit-backdrop-filter: blur(10px);
-                border-top: 1px solid #F3F4F6;
+                border-top: 1px solid #2A2A3A;
                 padding: 0.75rem 1.25rem;
                 padding-bottom: calc(0.75rem + env(safe-area-inset-bottom));
                 /* iOS safe area */
@@ -664,7 +764,7 @@
             }
 
             .bottom-nav-item.active {
-                background: rgba(0, 107, 255, 0.1);
+                background: rgba(167, 139, 250, 0.15);
             }
 
             .bottom-nav-icon {
@@ -675,7 +775,7 @@
             }
 
             .bottom-nav-item.active .bottom-nav-icon {
-                color: #006BFF;
+                color: #A78BFA;
             }
 
             .bottom-nav-label {
@@ -686,7 +786,7 @@
             }
 
             .bottom-nav-item.active .bottom-nav-label {
-                color: #006BFF;
+                color: #A78BFA;
                 font-weight: 600;
             }
 
@@ -775,16 +875,16 @@
     </script>
 </head>
 
-<body class="font-sans antialiased bg-gray-50 text-gray-900">
+<body class="font-sans antialiased" style="background-color: #0A0A0F; color: #F1F0FF;">
     <!-- Sidebar Navigation -->
-    <div x-data="navigationComponent()" x-init="init()" class="flex h-screen bg-gray-50 navigation-container"
+    <div x-data="navigationComponent()" x-init="init()" class="flex h-screen navigation-container" style="background-color: #0A0A0F;"
         :class="sidebarExpanded ? '' : 'sidebar-collapsed'" style="contain: layout style;">
         <!-- Sidebar -->
         <div :class="sidebarExpanded ? 'w-64' : 'w-16'"
-            class="bg-white border-r border-gray-200 sidebar-transition flex flex-col relative z-[1000] sidebar-container h-screen sticky top-0 overflow-hidden">
+            class="sidebar-transition flex flex-col relative z-[1000] sidebar-container h-screen sticky top-0 overflow-hidden" style="background-color: #0E0E16; border-right: 1px solid #2A2A3A;">
 
             <!-- Logo Section -->
-            <div class="flex items-center justify-center h-16 border-b border-gray-200">
+            <div class="flex items-center justify-center h-16" style="border-bottom: 1px solid #2A2A3A;">
                 <div class="flex items-center space-x-3">
                     @php
                         $sidebarProfile = Auth::user()->businessProfile;
@@ -797,22 +897,22 @@
                         class="w-8 h-8 rounded-lg object-cover shadow-sm ring-1 ring-gray-200/50">
 
                     <div x-show="sidebarExpanded" x-transition class="flex flex-col">
-                        <span class="text-gray-900 font-bold text-base leading-tight tracking-tight">D-BOOST</span>
+                        <span class="font-bold text-base leading-tight tracking-tight" style="color: #F1F0FF;">D-BOOST</span>
                         <span
-                            class="text-[#006BFF] font-semibold text-[10px] uppercase tracking-wider leading-none">Partners</span>
+                            class="text-[#A78BFA] font-semibold text-[10px] uppercase tracking-wider leading-none">Partners</span>
                     </div>
                 </div>
             </div>
 
             <!-- User Section -->
-            <div class="border-t border-gray-200 mt-auto" :class="sidebarExpanded ? 'p-4' : 'p-2'">
+            <div class="mt-auto" style="border-top: 1px solid #2A2A3A;" :class="sidebarExpanded ? 'p-4' : 'p-2'">
                 <div x-data="userMenuComponent()" class="relative">
                     <button @click="toggleUserMenu()"
                         class="w-full flex items-center text-sm font-medium text-gray-700 rounded-lg hover:bg-gray-100 hover:text-gray-900 transition-all duration-200"
                         :class="sidebarExpanded ? 'px-2 py-3 justify-start' : 'px-0 py-3 justify-center'">
                         <div class="flex items-center justify-center" :class="sidebarExpanded ? 'w-8 h-8' : 'w-full'">
                             <div
-                                class="w-8 h-8 bg-gradient-to-br from-[#006BFF] to-cyan-400 rounded-full flex items-center justify-center flex-shrink-0">
+                                class="w-8 h-8 bg-gradient-to-br from-[#A78BFA] to-[#7C3AED] rounded-full flex items-center justify-center flex-shrink-0">
                                 <span class="text-white text-sm font-bold">{{ substr(Auth::user()->name, 0, 1) }}</span>
                             </div>
                         </div>
@@ -834,14 +934,14 @@
                         x-transition:leave="transition ease-in duration-75"
                         x-transition:leave-start="transform opacity-100 scale-100"
                         x-transition:leave-end="transform opacity-0 scale-95"
-                        class="absolute bg-white backdrop-blur-sm rounded-lg shadow-2xl border border-gray-200 user-dropdown"
+                        class="absolute backdrop-blur-sm rounded-lg shadow-2xl user-dropdown" style="background-color: #1A1A24; border: 1px solid #2A2A3A;"
                         :class="sidebarExpanded ? 'bottom-full left-0 w-full mb-2' : 'fixed top-1/2 -translate-y-1/2 left-20 w-56'"
                         x-cloak style="z-index: 9999 !important;">
                         <!-- User Info Header (only when collapsed) -->
-                        <div x-show="!sidebarExpanded" class="px-4 py-3 border-b border-gray-200">
+                        <div x-show="!sidebarExpanded" class="px-4 py-3" style="border-bottom: 1px solid #2A2A3A;">
                             <div class="flex items-center space-x-3">
                                 <div
-                                    class="w-10 h-10 bg-gradient-to-br from-[#006BFF] to-cyan-400 rounded-full flex items-center justify-center flex-shrink-0">
+                                    class="w-10 h-10 bg-gradient-to-br from-[#A78BFA] to-[#7C3AED] rounded-full flex items-center justify-center flex-shrink-0">
                                     <span
                                         class="text-white text-sm font-bold">{{ substr(Auth::user()->name, 0, 1) }}</span>
                                 </div>
@@ -866,7 +966,7 @@
                                 <span>Profile Settings</span>
                             </a>
 
-                            <div class="border-t border-gray-200 my-1"></div>
+                            <div class="my-1" style="border-top: 1px solid #2A2A3A;"></div>
 
                             <form method="POST" action="{{ route('logout') }}">
                                 @csrf
@@ -887,9 +987,9 @@
             </div>
 
             <!-- Sidebar Toggle -->
-            <div class="border-t border-gray-200 p-2">
+            <div class="p-2" style="border-top: 1px solid #2A2A3A;">
                 <button @click="toggleSidebar()"
-                    class="w-full flex items-center justify-center px-2 py-2 text-gray-500 hover:text-[#006BFF] hover:bg-gray-100 rounded-lg transition-all duration-200">
+                    class="w-full flex items-center justify-center px-2 py-2 text-[#7E7D9C] hover:text-[#A78BFA] hover:bg-[#1A1A24] rounded-lg transition-all duration-200">
                     <svg class="w-5 h-5 transform transition-transform duration-200"
                         :class="sidebarExpanded ? 'rotate-180' : ''" fill="none" stroke="currentColor"
                         viewBox="0 0 24 24">
@@ -902,7 +1002,7 @@
         <!-- Main Content Area -->
         <div class="flex-1 flex flex-col h-screen">
             <!-- Top Header -->
-            <header class="bg-white border-b border-gray-200 shadow-sm flex-shrink-0 dashboard-header">
+            <header class="shadow-sm flex-shrink-0 dashboard-header" style="background-color: #111118; border-bottom: 1px solid #2A2A3A;">
                 <div class="px-6 py-4">
                     <div class="flex items-center justify-between">
                         @php
@@ -913,21 +1013,21 @@
 
                         <!-- Business Name with DBOOST Badge -->
                         <div class="flex items-center gap-2">
-                            <h2 class="font-bold text-2xl text-gray-900 leading-tight">
+                            <h2 class="font-bold text-2xl leading-tight" style="color: #F1F0FF;">
                                 {{ $businessName }}
                             </h2>
                             <div
-                                class="flex items-center gap-1 px-2.5 py-0.5 bg-gradient-to-r from-[#006BFF]/10 to-blue-500/10 border border-[#006BFF]/20 rounded-full">
-                                <span class="text-[10px] font-medium text-[#006BFF]">Powered by</span>
-                                <span class="text-[10px] font-bold text-[#006BFF] tracking-wide">D-BOOST</span>
+                                class="flex items-center gap-1 px-2.5 py-0.5 rounded-full" style="background: rgba(167, 139, 250, 0.15); border: 1px solid rgba(167, 139, 250, 0.3);">
+                                <span class="text-[10px] font-medium text-[#A78BFA]">Powered by</span>
+                                <span class="text-[10px] font-bold text-[#A78BFA] tracking-wide">D-BOOST</span>
                             </div>
                         </div>
 
                         <!-- Welcome Message with Owner Name -->
                         <div class="flex items-center gap-2">
                             <div class="text-right">
-                                <div class="text-sm text-gray-500">Welcome back,</div>
-                                <div class="text-base font-semibold text-gray-900">{{ $ownerName }}</div>
+                                <div class="text-sm" style="color: #7E7D9C;">Welcome back,</div>
+                                <div class="text-base font-semibold" style="color: #F1F0FF;">{{ $ownerName }}</div>
                             </div>
                         </div>
                     </div>
@@ -959,8 +1059,8 @@
                             <span class="absolute top-1 right-1 w-2 h-2 bg-red-500 rounded-full"></span>
                         </button>
                         <!-- Profile Avatar -->
-                        <div class="w-10 h-10 bg-white rounded-full flex items-center justify-center">
-                            <span class="text-[#006BFF] text-sm font-bold">{{ substr(Auth::user()->name, 0, 1) }}</span>
+                        <div class="w-10 h-10 rounded-full flex items-center justify-center bg-gradient-to-br from-[#A78BFA] to-[#7C3AED]">
+                            <span class="text-white text-sm font-bold">{{ substr(Auth::user()->name, 0, 1) }}</span>
                         </div>
                     </div>
                 </div>
@@ -1223,13 +1323,13 @@
             </div>
 
             <!-- Page Content -->
-            <main class="flex-1 overflow-y-auto bg-gray-50 min-h-0">
+            <main class="flex-1 overflow-y-auto min-h-0" style="background-color: #0A0A0F;">
                 <div class="py-8 px-4 sm:px-6 lg:px-8">
 
                     <!-- Quick Stats Section -->
                     @if(isset($moduleStats['dashboard']) || isset($moduleStats['finance']))
                         <div class="mb-12">
-                            <h3 class="text-lg font-semibold text-gray-900 mb-6">Quick Overview</h3>
+                            <h3 class="text-lg font-semibold mb-6" style="color: #F1F0FF;">Quick Overview</h3>
                             <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
                                 @php
                                     $overallStats = [];
@@ -1283,11 +1383,11 @@
 
                                 @foreach($overallStats as $stat)
                                     <div
-                                        class="bg-white rounded-xl border border-gray-200 p-6 hover:bg-gray-50 transition-all duration-300">
+                                        class="rounded-xl p-6 transition-all duration-300 hover:bg-[#252535]" style="background-color: #1A1A24; border: 1px solid #2A2A3A;">
                                         <div class="flex items-center justify-between">
                                             <div>
-                                                <p class="text-sm text-gray-600 mb-1">{{ $stat['label'] }}</p>
-                                                <p class="text-2xl font-bold text-gray-900">
+                                                <p class="text-sm mb-1" style="color: #A9A8C3;">{{ $stat['label'] }}</p>
+                                                <p class="text-2xl font-bold" style="color: #F1F0FF;">
                                                     {{ is_numeric($stat['value']) ? number_format($stat['value']) : $stat['value'] }}
                                                 </p>
                                             </div>
@@ -1313,7 +1413,7 @@
                             @php
                                 $stats = $moduleStats[$module['name']] ?? [];
                                 $primaryMenu = $module['menus']->first();
-                                $moduleColor = $module['color'] ?? '#006BFF';
+                                $moduleColor = $module['color'] ?? '#A78BFA';
 
                                 // Create tooltip content
                                 $tooltipStats = [];
@@ -1329,7 +1429,7 @@
                                 $tooltipContent = !empty($tooltipStats) ? implode(' • ', $tooltipStats) : $module['description'];
                             @endphp
 
-                            <div class="relative bg-white rounded-2xl border border-gray-200 hover:bg-gray-50 transition-all duration-500 hover:shadow-lg overflow-visible group"
+                            <div class="relative rounded-2xl transition-all duration-500 hover:shadow-lg overflow-visible group hover:bg-[#222230]" style="background-color: #1A1A24; border: 1px solid #2A2A3A;"
                                 x-data="modulePopup()" @mouseenter="setTimeout(() => showPopup = true, 150)"
                                 @mouseleave="setTimeout(() => showPopup = false, 100)"
                                 style="animation: fadeInUp 0.6s ease-out {{ $index * 0.1 }}s both; transform-origin: center bottom; box-shadow: 0 4px 20px rgba(0, 0, 0, 0.06);"
@@ -1343,7 +1443,7 @@
                                     x-transition:leave="transition ease-in duration-250"
                                     x-transition:leave-start="opacity-100 transform translate-y-0 scale-100 rotate-0"
                                     x-transition:leave-end="opacity-0 transform translate-y-6 scale-90 rotate-1"
-                                    class="absolute bottom-16 left-1/2 transform -translate-x-1/2 z-50 w-80 bg-white backdrop-blur-md border rounded-xl shadow-2xl p-4 module-popup"
+                                    class="absolute bottom-16 left-1/2 transform -translate-x-1/2 z-50 w-80 backdrop-blur-md rounded-xl shadow-2xl p-4 module-popup" style="background-color: #1A1A24; border: 1px solid #2A2A3A;"
                                     style="z-index: 1000; border-color: {{ $moduleColor }}30; box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.25), 0 0 0 1px {{ $moduleColor }}15;">
 
                                     <!-- Popup Header -->
@@ -1364,9 +1464,9 @@
                                             @endif
                                         </div>
                                         <div>
-                                            <h4 class="text-gray-900 font-semibold text-sm">{{ $module['display_name'] }}
+                                            <h4 class="font-semibold text-sm" style="color: #F1F0FF;">{{ $module['display_name'] }}
                                             </h4>
-                                            <p class="text-gray-500 text-xs">{{ $module['description'] }}</p>
+                                            <p class="text-xs" style="color: #7E7D9C;">{{ $module['description'] }}</p>
                                         </div>
                                         <div class="ml-auto flex flex-col items-end space-y-1">
                                             @php
@@ -1426,11 +1526,11 @@
                                             @endphp
                                             @foreach($displayStats as $key => $value)
                                                 @if(!in_array($key, ['recent_activities', 'status', 'health_score']))
-                                                    <div class="bg-gray-50 border border-gray-200 rounded-lg p-2">
-                                                        <p class="text-gray-600 text-xs font-medium">
+                                                    <div class="rounded-lg p-2" style="background-color: #111118; border: 1px solid #2A2A3A;">
+                                                        <p class="text-xs font-medium" style="color: #7E7D9C;">
                                                             {{ ucwords(str_replace('_', ' ', $key)) }}
                                                         </p>
-                                                        <p class="text-gray-900 text-sm font-semibold">
+                                                        <p class="text-sm font-semibold" style="color: #F1F0FF;">
                                                             @if(is_numeric($value))
                                                                 {{ number_format($value) }}
                                                             @else
@@ -1445,7 +1545,7 @@
 
                                     <!-- Last Updated -->
                                     <div class="flex items-center justify-between text-xs text-gray-500 border-top pt-2 popup-content-item"
-                                        style="border-top: 1px solid rgba(17,24,39,0.1)">
+                                        style="border-top: 1px solid #2A2A3A; color: #7E7D9C;">
                                         <div class="flex items-center space-x-1">
                                             <svg class="w-3 h-3" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
@@ -1470,7 +1570,7 @@
 
                                     <!-- Popup Arrow -->
                                     <div
-                                        class="absolute -bottom-1 left-1/2 transform -translate-x-1/2 w-0 h-0 border-l-4 border-r-4 border-b-4 border-transparent border-b-white">
+                                        class="absolute -bottom-1 left-1/2 transform -translate-x-1/2 w-0 h-0 border-l-4 border-r-4 border-b-4 border-transparent border-b-[#1A1A24]">
                                     </div>
                                 </div>
 
@@ -1494,12 +1594,12 @@
                                     </div>
 
                                     <!-- Module Title -->
-                                    <h3 class="text-lg font-semibold text-gray-900 mb-2">
+                                    <h3 class="text-lg font-semibold mb-2" style="color: #F1F0FF;">
                                         {{ $module['display_name'] }}
                                     </h3>
 
                                     <!-- Module Description -->
-                                    <p class="text-sm text-gray-600 mb-6 line-clamp-2">
+                                    <p class="text-sm mb-6 line-clamp-2" style="color: #A9A8C3;">
                                         {{ $module['description'] ?? 'Here has to be short description of this module. Some benefits.' }}
                                     </p>
 
@@ -1507,7 +1607,7 @@
                                     @if($module['name'] === 'dashboard')
                                         <!-- Dashboard Module - Show Analytics Button -->
                                         <a href="{{ route('analytics') }}"
-                                            class="w-full flex items-center justify-center px-4 py-3 bg-[#006BFF]/10 hover:bg-[#006BFF]/20 border border-[#006BFF]/30 rounded-lg transition-all duration-200 text-[#006BFF] text-sm font-medium">
+                                            class="w-full flex items-center justify-center px-4 py-3 rounded-lg transition-all duration-200 text-[#A78BFA] hover:text-[#C4B5FD]" style="background-color: rgba(167, 139, 250, 0.15); border: 1px solid rgba(167, 139, 250, 0.3); text-sm font-medium">
                                             <span>View Analytics</span>
                                             <svg class="w-4 h-4 ml-2 transition-transform duration-200 group-hover:translate-x-1"
                                                 fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -1518,7 +1618,7 @@
                                     @elseif($module['name'] === 'inventory')
                                         <!-- Inventory Module - Auto redirect to first menu -->
                                         <a href="{{ route('module.redirect', 'inventory') }}"
-                                            class="w-full flex items-center justify-center px-4 py-3 bg-[#006BFF]/10 hover:bg-[#006BFF]/20 border border-[#006BFF]/30 rounded-lg transition-all duration-200 text-[#006BFF] text-sm font-medium">
+                                            class="w-full flex items-center justify-center px-4 py-3 rounded-lg transition-all duration-200 text-[#A78BFA] hover:text-[#C4B5FD]" style="background-color: rgba(167, 139, 250, 0.15); border: 1px solid rgba(167, 139, 250, 0.3); text-sm font-medium">
                                             <span>Open Inventory</span>
                                             <svg class="w-4 h-4 ml-2 transition-transform duration-200 group-hover:translate-x-1"
                                                 fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -1529,7 +1629,7 @@
                                     @elseif($module['name'] === 'finance')
                                         <!-- Finance Module - Auto redirect to first menu -->
                                         <a href="{{ route('module.redirect', 'finance') }}"
-                                            class="w-full flex items-center justify-center px-4 py-3 bg-[#006BFF]/10 hover:bg-[#006BFF]/20 border border-[#006BFF]/30 rounded-lg transition-all duration-200 text-[#006BFF] text-sm font-medium">
+                                            class="w-full flex items-center justify-center px-4 py-3 rounded-lg transition-all duration-200 text-[#A78BFA] hover:text-[#C4B5FD]" style="background-color: rgba(167, 139, 250, 0.15); border: 1px solid rgba(167, 139, 250, 0.3); text-sm font-medium">
                                             <span>Open Finance</span>
                                             <svg class="w-4 h-4 ml-2 transition-transform duration-200 group-hover:translate-x-1"
                                                 fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -1540,7 +1640,7 @@
                                     @elseif($module['name'] === 'settings')
                                         <!-- Settings Module - Single Button to open settings area -->
                                         <a href="{{ route('settings.modules.index') }}"
-                                            class="w-full flex items-center justify-center px-4 py-3 bg-[#006BFF]/10 hover:bg-[#006BFF]/20 border border-[#006BFF]/30 rounded-lg transition-all duration-200 text-[#006BFF] text-sm font-medium">
+                                            class="w-full flex items-center justify-center px-4 py-3 rounded-lg transition-all duration-200 text-[#A78BFA] hover:text-[#C4B5FD]" style="background-color: rgba(167, 139, 250, 0.15); border: 1px solid rgba(167, 139, 250, 0.3); text-sm font-medium">
                                             <span>Open Settings</span>
                                             <svg class="w-4 h-4 ml-2 transition-transform duration-200 group-hover:translate-x-1"
                                                 fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -1552,7 +1652,7 @@
                                     @elseif($module['name'] === 'digital_storefront')
                                         <!-- Digital Storefront Module - Simple button to open storefront -->
                                         <a href="{{ route('storefront.index') }}"
-                                            class="w-full flex items-center justify-center px-4 py-3 bg-[#006BFF]/10 hover:bg-[#006BFF]/20 border border-[#006BFF]/30 rounded-lg transition-all duration-200 text-[#006BFF] text-sm font-medium">
+                                            class="w-full flex items-center justify-center px-4 py-3 rounded-lg transition-all duration-200 text-[#A78BFA] hover:text-[#C4B5FD]" style="background-color: rgba(167, 139, 250, 0.15); border: 1px solid rgba(167, 139, 250, 0.3); text-sm font-medium">
                                             <span>Open Digital Storefront</span>
                                             <svg class="w-4 h-4 ml-2 transition-transform duration-200 group-hover:translate-x-1"
                                                 fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -1564,7 +1664,7 @@
                                         <!-- Multiple Menus - Show as dropdown -->
                                         <div class="relative" x-data="{ menuOpen: false }">
                                             <button @click="menuOpen = !menuOpen"
-                                                class="w-full flex items-center justify-between px-4 py-3 bg-gray-100 hover:bg-gray-200 rounded-lg transition-all duration-200 text-gray-900 text-sm font-medium">
+                                                class="w-full flex items-center justify-between px-4 py-3 rounded-lg transition-all duration-200 text-sm font-medium hover:bg-[#2C2C40]" style="background-color: #252535; color: #F1F0FF; border: 1px solid #3A3A4A;">
                                                 <span>Explore Module</span>
                                                 <svg class="w-4 h-4 transition-transform duration-200"
                                                     :class="menuOpen ? 'rotate-180' : ''" fill="none" stroke="currentColor"
@@ -1581,10 +1681,10 @@
                                                 x-transition:leave="transition ease-in duration-75"
                                                 x-transition:leave-start="transform opacity-100 scale-100"
                                                 x-transition:leave-end="transform opacity-0 scale-95"
-                                                class="absolute top-full left-0 right-0 mt-2 bg-white border border-gray-200 rounded-lg shadow-xl z-50">
+                                                class="absolute top-full left-0 right-0 mt-2 rounded-lg shadow-2xl z-50" style="background-color: #1A1A24; border: 1px solid #2A2A3A;">
                                                 @foreach($module['menus'] as $menu)
                                                     <a href="{{ $menu['url'] }}"
-                                                        class="flex items-center px-4 py-3 text-sm text-gray-700 hover:bg-gray-100 hover:text-gray-900 transition-colors duration-200 first:rounded-t-lg last:rounded-b-lg">
+                                                        class="flex items-center px-4 py-3 text-sm hover:bg-[#252535] hover:text-[#F1F0FF] transition-colors duration-200 first:rounded-t-lg last:rounded-b-lg" style="color: #A9A8C3;">
                                                         @if($menu['icon'])
                                                             <svg class="w-4 h-4 mr-3 flex-shrink-0" fill="none" stroke="currentColor"
                                                                 viewBox="0 0 24 24">
@@ -1593,9 +1693,9 @@
                                                             </svg>
                                                         @endif
                                                         <div>
-                                                            <div class="font-medium text-gray-900">{{ $menu['display_name'] }}</div>
+                                                            <div class="font-medium" style="color: #F1F0FF;">{{ $menu['display_name'] }}</div>
                                                             @if($menu['description'])
-                                                                <div class="text-xs text-gray-500">{{ $menu['description'] }}</div>
+                                                                <div class="text-xs" style="color: #7E7D9C;">{{ $menu['description'] }}</div>
                                                             @endif
                                                         </div>
                                                     </a>
@@ -1606,7 +1706,7 @@
                                         <!-- Single Menu - Direct link -->
                                         @if($primaryMenu)
                                             <a href="{{ $primaryMenu['url'] }}"
-                                                class="w-full flex items-center justify-center px-4 py-3 bg-[#006BFF]/10 hover:bg-[#006BFF]/20 border border-[#006BFF]/30 rounded-lg transition-all duration-200 text-[#006BFF] text-sm font-medium">
+                                                class="w-full flex items-center justify-center px-4 py-3 rounded-lg transition-all duration-200 text-[#A78BFA] hover:text-[#C4B5FD]" style="background-color: rgba(167, 139, 250, 0.15); border: 1px solid rgba(167, 139, 250, 0.3); text-sm font-medium">
                                                 <span>Open {{ $module['display_name'] }}</span>
                                                 <svg class="w-4 h-4 ml-2 transition-transform duration-200 group-hover:translate-x-1"
                                                     fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -1723,7 +1823,7 @@
                             // Update arrow direction
                             const arrow = popup.querySelector('.absolute');
                             if (arrow) {
-                                arrow.className = 'absolute top-full left-1/2 transform -translate-x-1/2 -mt-px w-0 h-0 border-l-4 border-r-4 border-t-4 border-transparent border-t-white';
+                                arrow.className = 'absolute top-full left-1/2 transform -translate-x-1/2 -mt-px w-0 h-0 border-l-4 border-r-4 border-t-4 border-transparent border-t-[#1A1A24]';
                             }
                             this.popupPosition = 'top';
                         } else {
@@ -1733,7 +1833,7 @@
                             // Update arrow direction
                             const arrow = popup.querySelector('.absolute');
                             if (arrow) {
-                                arrow.className = 'absolute -bottom-1 left-1/2 transform -translate-x-1/2 w-0 h-0 border-l-4 border-r-4 border-b-4 border-transparent border-b-gray-800';
+                                arrow.className = 'absolute -bottom-1 left-1/2 transform -translate-x-1/2 w-0 h-0 border-l-4 border-r-4 border-b-4 border-transparent border-b-[#1A1A24]';
                             }
                             this.popupPosition = 'bottom';
                         }

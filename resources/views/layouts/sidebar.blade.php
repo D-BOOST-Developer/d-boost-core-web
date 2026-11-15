@@ -1,12 +1,12 @@
 <!-- Sidebar Navigation -->
 <div x-data="navigationComponent()" 
      x-init="init()"
-     class="bg-white border-r border-gray-200 sidebar-transition flex flex-col relative z-[1000] sidebar-container h-screen sticky top-0 overflow-hidden"
+     class="sidebar-transition flex flex-col relative z-[1000] sidebar-container h-screen sticky top-0 overflow-hidden"
      :class="sidebarExpanded ? 'w-64' : 'w-16'"
-     style="contain: layout style;">
+     style="background-color: #0E0E16; border-right: 1px solid #2A2A3A; contain: layout style;">
     
     <!-- Logo Section -->
-    <div class="flex items-center justify-center h-16 border-b border-gray-200">
+    <div class="flex items-center justify-center h-16" style="border-bottom: 1px solid #2A2A3A;">
         <div class="flex items-center space-x-3">
             @php
                 $sidebarProfile = Auth::user()->businessProfile;
@@ -17,11 +17,11 @@
             
             <img src="{{ $sidebarLogo }}" 
                  alt="Logo" 
-                 class="w-8 h-8 rounded-lg object-cover shadow-sm ring-1 ring-gray-200/50">
+                 class="w-8 h-8 rounded-lg object-cover shadow-sm ring-1 ring-white/10">
                  
             <div x-show="sidebarExpanded" x-transition class="flex flex-col">
-                <span class="text-gray-900 font-bold text-base leading-tight tracking-tight">D-BOOST</span>
-                <span class="text-[#006BFF] font-semibold text-[10px] uppercase tracking-wider leading-none">Partners</span>
+                <span class="font-bold text-base leading-tight tracking-tight" style="color: #F1F0FF;">D-BOOST</span>
+                <span class="font-semibold text-[10px] uppercase tracking-wider leading-none text-[#A78BFA]">Partners</span>
             </div>
         </div>
     </div>
@@ -79,7 +79,7 @@
             <div class="space-y-3">
                 <!-- Back to Dashboard -->
                 <a href="{{ route('dashboard') }}" 
-                   class="group flex items-center text-sm font-medium rounded-lg transition-all duration-200 text-gray-600 hover:bg-blue-50 hover:text-[#006BFF]"
+                   class="group flex items-center text-sm font-medium rounded-lg transition-all duration-200 text-[#A9A8C3] hover:bg-[#1A1A24] hover:text-[#A78BFA]"
                    :class="sidebarExpanded ? 'px-3 py-3 justify-start' : 'px-0 py-3 justify-center'">
                     <div class="flex items-center justify-center" :class="sidebarExpanded ? 'w-6 h-6' : 'w-full'">
                         <svg class="w-6 h-6 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -90,19 +90,19 @@
                 </a>
                 
                 <!-- Profile Info Card (when expanded) -->
-                <div x-show="sidebarExpanded" x-transition class="px-3 py-4 bg-gradient-to-br from-blue-50 to-blue-100/50 rounded-xl border border-blue-200/50 mt-4">
+                <div x-show="sidebarExpanded" x-transition class="px-3 py-4 rounded-xl border mt-4" style="background-color: #1A1A24; border-color: #2A2A3A;">
                     <div class="flex items-center gap-3 mb-3">
-                        <div class="w-10 h-10 bg-gradient-to-br from-blue-500 to-blue-600 rounded-full flex items-center justify-center flex-shrink-0 shadow-md">
+                        <div class="w-10 h-10 rounded-full flex items-center justify-center flex-shrink-0 shadow-md bg-gradient-to-br from-[#A78BFA] to-[#7C3AED]">
                             <svg class="w-5 h-5 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z"></path>
                             </svg>
                         </div>
                         <div class="flex-1 min-w-0">
-                            <div class="text-sm font-bold text-gray-900">Profile Settings</div>
-                            <div class="text-xs text-gray-600">Manage your account</div>
+                            <div class="text-sm font-bold" style="color: #F1F0FF;">Profile Settings</div>
+                            <div class="text-xs" style="color: #A9A8C3;">Manage your account</div>
                         </div>
                     </div>
-                    <div class="text-xs text-gray-500 leading-relaxed">
+                    <div class="text-xs leading-relaxed" style="color: #6B6A8A;">
                         Update your personal information, business details, payment methods, and security settings.
                     </div>
                 </div>
@@ -127,15 +127,15 @@
                         @endif
                     </div>
                     <div>
-                        <div class="text-sm font-semibold text-gray-900">{{ $currentModule->display_name }}</div>
-                        <div class="text-xs text-gray-500">Module</div>
+                        <div class="text-sm font-semibold" style="color: #F1F0FF;">{{ $currentModule->display_name }}</div>
+                        <div class="text-xs" style="color: #6B6A8A;">Module</div>
                     </div>
                 </div>
             </div>
 
             <!-- Back to Dashboard -->
             <a href="{{ route('dashboard') }}" 
-               class="group flex items-center text-sm font-medium rounded-lg transition-all duration-200 text-gray-600 hover:bg-gray-100 hover:text-[#006BFF] mb-4"
+               class="group flex items-center text-sm font-medium rounded-lg transition-all duration-200 text-[#A9A8C3] hover:bg-[#1A1A24] hover:text-[#A78BFA] mb-4"
                :class="sidebarExpanded ? 'px-2 py-3 justify-start' : 'px-0 py-3 justify-center'">
                 <div class="flex items-center justify-center" :class="sidebarExpanded ? 'w-6 h-6' : 'w-full'">
                     <svg class="w-6 h-6 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -150,7 +150,7 @@
                 @php
                     $isActive = request()->routeIs($menu->route . '*') ||
                                ($menu->route && request()->routeIs($menu->route));
-                    $activeClass = $isActive ? 'bg-[#006BFF]/10 text-[#006BFF] border border-[#006BFF]/20' : 'text-gray-600 hover:bg-gray-100 hover:text-[#006BFF]';
+                    $activeClass = $isActive ? 'bg-[#A78BFA]/15 text-[#A78BFA] border border-[#A78BFA]/25' : 'text-[#A9A8C3] hover:bg-[#1A1A24] hover:text-[#A78BFA]';
                     $showPendingBadge = $menu->route === 'finance.sales.index' && $pendingStorefrontCount > 0;
                 @endphp
 
@@ -163,13 +163,13 @@
                                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="{{ $menu->icon }}"></path>
                             </svg>
                         @else
-                            <div class="w-6 h-6 flex-shrink-0 bg-gray-200 rounded flex items-center justify-center">
-                                <span class="text-xs font-bold">{{ substr($menu->display_name, 0, 1) }}</span>
+                            <div class="w-6 h-6 flex-shrink-0 rounded flex items-center justify-center" style="background-color: #2A2A3A;">
+                                <span class="text-xs font-bold text-[#A9A8C3]">{{ substr($menu->display_name, 0, 1) }}</span>
                             </div>
                         @endif
                         @if($showPendingBadge)
                             <span x-show="!sidebarExpanded"
-                                  class="absolute -top-1 -right-1 inline-flex items-center justify-center px-1.5 py-0.5 text-[10px] font-bold leading-none text-white bg-red-500 rounded-full ring-2 ring-white">
+                                  class="absolute -top-1 -right-1 inline-flex items-center justify-center px-1.5 py-0.5 text-[10px] font-bold leading-none text-white bg-red-500 rounded-full ring-2 ring-[#0E0E16]">
                                 {{ $pendingStorefrontCount > 99 ? '99+' : $pendingStorefrontCount }}
                             </span>
                         @endif
@@ -195,7 +195,7 @@
                     <!-- Module Section -->
                     @if($menus->count() > 1)
                         <div x-show="sidebarExpanded" x-transition class="px-2 py-2">
-                            <div class="text-xs font-semibold text-gray-500 uppercase tracking-wider">
+                            <div class="text-xs font-semibold uppercase tracking-wider" style="color: #6B6A8A;">
                                 {{ $module->display_name }}
                             </div>
                         </div>
@@ -206,7 +206,7 @@
                         @php
                             $isActive = request()->routeIs($menu->route . '*') ||
                                        ($menu->route && request()->routeIs($menu->route));
-                            $activeClass = $isActive ? 'bg-[#006BFF]/10 text-[#006BFF] border border-[#006BFF]/20' : 'text-gray-600 hover:bg-gray-100 hover:text-[#006BFF]';
+                            $activeClass = $isActive ? 'bg-[#A78BFA]/15 text-[#A78BFA] border border-[#A78BFA]/25' : 'text-[#A9A8C3] hover:bg-[#1A1A24] hover:text-[#A78BFA]';
                             $showPendingBadge = $menu->route === 'finance.sales.index' && $pendingStorefrontCount > 0;
                         @endphp
 
@@ -219,13 +219,13 @@
                                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="{{ $menu->icon }}"></path>
                                     </svg>
                                 @else
-                                    <div class="w-6 h-6 flex-shrink-0 bg-gray-200 rounded flex items-center justify-center">
-                                        <span class="text-xs font-bold">{{ substr($menu->display_name, 0, 1) }}</span>
+                                    <div class="w-6 h-6 flex-shrink-0 rounded flex items-center justify-center" style="background-color: #2A2A3A;">
+                                        <span class="text-xs font-bold text-[#A9A8C3]">{{ substr($menu->display_name, 0, 1) }}</span>
                                     </div>
                                 @endif
                                 @if($showPendingBadge)
                                     <span x-show="!sidebarExpanded"
-                                          class="absolute -top-1 -right-1 inline-flex items-center justify-center px-1.5 py-0.5 text-[10px] font-bold leading-none text-white bg-red-500 rounded-full ring-2 ring-white">
+                                          class="absolute -top-1 -right-1 inline-flex items-center justify-center px-1.5 py-0.5 text-[10px] font-bold leading-none text-white bg-red-500 rounded-full ring-2 ring-[#0E0E16]">
                                         {{ $pendingStorefrontCount > 99 ? '99+' : $pendingStorefrontCount }}
                                     </span>
                                 @endif
@@ -245,13 +245,13 @@
             <!-- Settings Menu (Super Admin only) -->
             @if(Auth::user()->isSuperAdmin())
                 <div x-show="sidebarExpanded" x-transition class="px-2 py-2 mt-4">
-                    <div class="text-xs font-semibold text-gray-500 uppercase tracking-wider">
+                    <div class="text-xs font-semibold uppercase tracking-wider" style="color: #6B6A8A;">
                         System
                     </div>
                 </div>
                 
                 <a href="{{ route('settings.modules.index') }}" 
-                   class="group flex items-center text-sm font-medium rounded-lg transition-all duration-200 {{ request()->routeIs('settings.*') ? 'bg-[#006BFF]/10 text-[#006BFF] border border-[#006BFF]/20' : 'text-gray-600 hover:bg-gray-100 hover:text-[#006BFF]' }}"
+                   class="group flex items-center text-sm font-medium rounded-lg transition-all duration-200 {{ request()->routeIs('settings.*') ? 'bg-[#A78BFA]/15 text-[#A78BFA] border border-[#A78BFA]/25' : 'text-[#A9A8C3] hover:bg-[#1A1A24] hover:text-[#A78BFA]' }}"
                    :class="sidebarExpanded ? 'px-2 py-3 justify-start' : 'px-0 py-3 justify-center'">
                     <div class="flex items-center justify-center" :class="sidebarExpanded ? 'w-6 h-6' : 'w-full'">
                         <svg class="w-6 h-6 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -266,19 +266,19 @@
     </nav>
 
     <!-- User Section -->
-    <div class="border-t border-gray-200" :class="sidebarExpanded ? 'p-4' : 'p-2'">
+    <div :class="sidebarExpanded ? 'p-4' : 'p-2'" style="border-top: 1px solid #2A2A3A;">
         <div x-data="userMenuComponent()" class="relative">
             <button @click="toggleUserMenu()" 
-                    class="w-full flex items-center text-sm font-medium text-gray-700 rounded-lg hover:bg-gray-100 hover:text-gray-900 transition-all duration-200"
+                    class="w-full flex items-center text-sm font-medium rounded-lg transition-all duration-200 text-[#A9A8C3] hover:bg-[#1A1A24] hover:text-[#F1F0FF]"
                     :class="sidebarExpanded ? 'px-2 py-3 justify-start' : 'px-0 py-3 justify-center'">
                 <div class="flex items-center justify-center" :class="sidebarExpanded ? 'w-8 h-8' : 'w-full'">
-                    <div class="w-8 h-8 bg-gradient-to-br from-[#006BFF] to-cyan-400 rounded-full flex items-center justify-center flex-shrink-0">
+                    <div class="w-8 h-8 bg-gradient-to-br from-[#A78BFA] to-[#7C3AED] rounded-full flex items-center justify-center flex-shrink-0">
                         <span class="text-white text-sm font-bold">{{ substr(Auth::user()->name, 0, 1) }}</span>
                     </div>
                 </div>
                 <div x-show="sidebarExpanded" x-transition class="ml-3 flex-1 text-left">
-                    <div class="text-sm font-medium text-gray-900">{{ Auth::user()->name }}</div>
-                    <div class="text-xs text-gray-500">{{ Auth::user()->getPrimaryRoleName() }}</div>
+                    <div class="text-sm font-medium" style="color: #F1F0FF;">{{ Auth::user()->name }}</div>
+                    <div class="text-xs" style="color: #6B6A8A;">{{ Auth::user()->getPrimaryRoleName() }}</div>
                 </div>
                 <svg x-show="sidebarExpanded" x-transition class="w-4 h-4 ml-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path>
@@ -293,34 +293,34 @@
                  x-transition:leave="transition ease-in duration-75"
                  x-transition:leave-start="transform opacity-100 scale-100"
                  x-transition:leave-end="transform opacity-0 scale-95"
-                 class="absolute bg-white backdrop-blur-sm rounded-lg shadow-2xl border border-gray-200 user-dropdown"
+                 class="absolute backdrop-blur-sm rounded-lg shadow-2xl user-dropdown"
                  :class="sidebarExpanded ? 'bottom-full left-0 w-full mb-2' : 'fixed top-1/2 -translate-y-1/2 left-20 w-56'"
                  x-cloak
-                 style="z-index: 9999 !important;">
+                 style="z-index: 9999 !important; background-color: #1A1A24; border: 1px solid #2A2A3A;">
                 <!-- User Info Header (only when collapsed) -->
-                <div x-show="!sidebarExpanded" class="px-4 py-3 border-b border-gray-200">
+                <div x-show="!sidebarExpanded" class="px-4 py-3" style="border-bottom: 1px solid #2A2A3A;">
                     <div class="flex items-center space-x-3">
-                        <div class="w-10 h-10 bg-gradient-to-br from-[#006BFF] to-cyan-400 rounded-full flex items-center justify-center flex-shrink-0">
+                        <div class="w-10 h-10 bg-gradient-to-br from-[#A78BFA] to-[#7C3AED] rounded-full flex items-center justify-center flex-shrink-0">
                             <span class="text-white text-sm font-bold">{{ substr(Auth::user()->name, 0, 1) }}</span>
                         </div>
                         <div class="flex-1 min-w-0">
-                            <div class="text-sm font-medium text-gray-900 truncate">{{ Auth::user()->name }}</div>
-                            <div class="text-xs text-gray-500">{{ Auth::user()->getPrimaryRoleName() }}</div>
-                            <div class="text-xs text-gray-500 truncate">{{ Auth::user()->email }}</div>
+                            <div class="text-sm font-medium truncate" style="color: #F1F0FF;">{{ Auth::user()->name }}</div>
+                            <div class="text-xs" style="color: #6B6A8A;">{{ Auth::user()->getPrimaryRoleName() }}</div>
+                            <div class="text-xs truncate" style="color: #6B6A8A;">{{ Auth::user()->email }}</div>
                         </div>
                     </div>
                 </div>
 
                 <!-- Menu Items -->
                 <div class="py-1">
-                    <a href="{{ route('profile.edit') }}" class="flex items-center px-4 py-3 text-sm text-gray-700 hover:bg-gray-100 hover:text-gray-900 transition-colors">
+                    <a href="{{ route('profile.edit') }}" class="flex items-center px-4 py-3 text-sm transition-colors text-[#A9A8C3] hover:bg-[#252535] hover:text-[#F1F0FF]">
                         <svg class="w-4 h-4 mr-3 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z"></path>
                         </svg>
                         <span>Profile Settings</span>
                     </a>
                     
-                    <a href="{{ route('dashboard') }}" class="flex items-center px-4 py-3 text-sm text-gray-700 hover:bg-gray-100 hover:text-gray-900 transition-colors">
+                    <a href="{{ route('dashboard') }}" class="flex items-center px-4 py-3 text-sm transition-colors text-[#A9A8C3] hover:bg-[#252535] hover:text-[#F1F0FF]">
                         <svg class="w-4 h-4 mr-3 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 7v10a2 2 0 002 2h14a2 2 0 002-2V9a2 2 0 00-2-2H5a2 2 0 00-2-2z"></path>
                             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 5a2 2 0 012-2h4a2 2 0 012 2v6H8V5z"></path>
@@ -328,11 +328,11 @@
                         <span>Dashboard</span>
                     </a>
 
-                    <div class="border-t border-gray-200 my-1"></div>
+                    <div class="my-1" style="border-top: 1px solid #2A2A3A;"></div>
                     
                     <form method="POST" action="{{ route('logout') }}">
                         @csrf
-                        <button type="submit" class="w-full flex items-center px-4 py-3 text-sm text-red-600 hover:bg-red-50 hover:text-red-700 transition-colors">
+                        <button type="submit" class="w-full flex items-center px-4 py-3 text-sm transition-colors text-red-400 hover:bg-red-900/20 hover:text-red-300">
                             <svg class="w-4 h-4 mr-3 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 16l4-4m0 0l-4-4m4 4H7m6 4v1a3 3 0 01-3 3H6a3 3 0 01-3-3V7a3 3 0 013-3h4a3 3 0 013 3v1"></path>
                             </svg>
@@ -345,9 +345,9 @@
     </div>
 
     <!-- Sidebar Toggle -->
-    <div class="border-t border-gray-200 p-2">
+    <div class="p-2" style="border-top: 1px solid #2A2A3A;">
         <button @click="toggleSidebar()" 
-                class="w-full flex items-center justify-center px-2 py-2 text-gray-500 hover:text-[#006BFF] hover:bg-gray-100 rounded-lg transition-all duration-200">
+                class="w-full flex items-center justify-center px-2 py-2 rounded-lg transition-all duration-200 text-[#6B6A8A] hover:text-[#A78BFA] hover:bg-[#1A1A24]">
             <svg class="w-5 h-5 transform transition-transform duration-200" 
                  :class="sidebarExpanded ? 'rotate-180' : ''" 
                  fill="none" stroke="currentColor" viewBox="0 0 24 24">

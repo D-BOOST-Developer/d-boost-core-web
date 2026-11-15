@@ -13,8 +13,12 @@
         <link rel="apple-touch-icon" href="{{ asset('images/D-BOOST-removebg.png') }}">
 
         <!-- Fonts -->
-        <link rel="preconnect" href="https://fonts.bunny.net">
-        <link href="https://fonts.bunny.net/css?family=figtree:400,500,600&display=swap" rel="stylesheet" />
+        <link rel="preconnect" href="https://fonts.googleapis.com">
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+        <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+        <style>
+            body, * { font-family: 'Space Grotesk', sans-serif; }
+        </style>
         
         <!-- TailwindCSS -->
         <script src="https://cdn.tailwindcss.com"></script>
@@ -23,7 +27,7 @@
                 theme: {
                     extend: {
                         colors: {
-                            primary: '#006BFF',
+                            primary: '#A78BFA',
                         },
                     }
                 }
@@ -36,13 +40,13 @@
         <!-- Scripts -->
         @vite(['resources/css/app.css', 'resources/js/app.js'])
     </head>
-    <body class="font-sans antialiased bg-gray-50 text-gray-900">
+    <body class="font-sans antialiased" style="background-color: #0A0A0F; color: #F1F0FF;">
         <div class="min-h-screen flex items-center justify-center px-4 py-12 relative overflow-hidden">
             <!-- Background Pattern -->
             <div class="absolute inset-0 overflow-hidden pointer-events-none">
-                <div class="absolute -top-40 -right-32 w-96 h-96 bg-[#006BFF]/10 rounded-full blur-3xl"></div>
-                <div class="absolute -bottom-40 -left-32 w-96 h-96 bg-cyan-400/10 rounded-full blur-3xl"></div>
-                <div class="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 w-64 h-64 bg-[#006BFF]/5 rounded-full blur-3xl"></div>
+                <div class="absolute -top-40 -right-32 w-96 h-96 bg-[#A78BFA]/15 rounded-full blur-3xl"></div>
+                <div class="absolute -bottom-40 -left-32 w-96 h-96 bg-violet-500/10 rounded-full blur-3xl"></div>
+                <div class="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 w-64 h-64 bg-[#A78BFA]/8 rounded-full blur-3xl"></div>
             </div>
 
             <!-- Login Container -->
@@ -54,19 +58,19 @@
                              alt="D-BOOST Logo" 
                              class="w-16 h-16 rounded-xl object-cover shadow-lg">
                     </div>
-                    <h1 class="text-2xl font-bold text-gray-900 mb-2">D-BOOST</h1>
-                    <p class="text-gray-600 text-sm">Digital Empowerment Platform</p>
-                    <p class="text-gray-500 text-xs mt-1">Digitalize your business with intelligent insights</p>
+                    <h1 class="text-2xl font-bold mb-2" style="color: #F1F0FF;">D-BOOST</h1>
+                    <p class="text-sm" style="color: #A9A8C3;">Digital Empowerment Platform</p>
+                    <p class="text-xs mt-1" style="color: #6B6A8A;">Digitalize your business with intelligent insights</p>
                 </div>
 
                 <!-- Login Form Card -->
-                <div class="bg-white border border-gray-200 rounded-2xl p-8 shadow-xl">
+                <div class="rounded-2xl p-8 shadow-2xl" style="background-color: #1A1A24; border: 1px solid #2A2A3A;">
                     {{ $slot }}
                 </div>
 
                 <!-- Footer -->
                 <div class="text-center mt-6">
-                    <p class="text-gray-500 text-xs">
+                    <p class="text-xs" style="color: #6B6A8A;">
                         © {{ date('Y') }} D-BOOST. All rights reserved.
                     </p>
                 </div>

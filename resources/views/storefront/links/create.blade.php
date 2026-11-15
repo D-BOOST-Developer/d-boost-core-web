@@ -1,95 +1,95 @@
 <x-app-layout>
     <x-slot name="header">
-        <h2 class="font-semibold text-xl text-gray-800 leading-tight">
+        <h2 class="font-semibold text-xl text-[#F1F0FF] leading-tight">
             Add Marketplace Link
         </h2>
     </x-slot>
 
     <div class="py-6">
         <div class="max-w-3xl mx-auto px-6">
-            <div class="bg-white border border-gray-200 rounded-xl p-6">
+            <div class="bg-[#1A1A24] border border-[#2A2A3A] rounded-xl p-6 shadow-lg">
                 <form action="{{ route('storefront.links.store') }}" method="POST" enctype="multipart/form-data" x-data="linkForm()">
                     @csrf
 
                     <!-- Link Type -->
                     <div class="mb-6">
-                        <label class="block text-sm font-medium text-gray-700 mb-2">Link Type *</label>
+                        <label class="block text-sm font-medium text-[#A9A8C3] mb-2">Link Type *</label>
                         <div class="grid grid-cols-2 gap-4">
-                            <label class="flex items-center p-4 border-2 rounded-lg cursor-pointer" :class="linkType === 'product' ? 'border-[#006BFF] bg-blue-50' : 'border-gray-300'">
-                                <input type="radio" name="link_type" value="product" x-model="linkType" class="mr-3" checked>
+                            <label class="flex items-center p-4 border-2 rounded-lg cursor-pointer transition-colors" :class="linkType === 'product' ? 'border-[#A78BFA] bg-[#A78BFA]/10 text-[#F1F0FF]' : 'border-[#2A2A3A] bg-[#111118] text-[#A9A8C3]'">
+                                <input type="radio" name="link_type" value="product" x-model="linkType" class="mr-3 text-[#A78BFA] focus:ring-[#A78BFA]" checked>
                                 <div>
                                     <p class="font-medium">Specific Product</p>
-                                    <p class="text-sm text-gray-600">Link to specific product</p>
+                                    <p class="text-sm text-[#7E7D9C]">Link to specific product</p>
                                 </div>
                             </label>
-                            <label class="flex items-center p-4 border-2 rounded-lg cursor-pointer" :class="linkType === 'marketplace_profile' ? 'border-[#006BFF] bg-blue-50' : 'border-gray-300'">
-                                <input type="radio" name="link_type" value="marketplace_profile" x-model="linkType" class="mr-3">
+                            <label class="flex items-center p-4 border-2 rounded-lg cursor-pointer transition-colors" :class="linkType === 'marketplace_profile' ? 'border-[#A78BFA] bg-[#A78BFA]/10 text-[#F1F0FF]' : 'border-[#2A2A3A] bg-[#111118] text-[#A9A8C3]'">
+                                <input type="radio" name="link_type" value="marketplace_profile" x-model="linkType" class="mr-3 text-[#A78BFA] focus:ring-[#A78BFA]">
                                 <div>
                                     <p class="font-medium">Marketplace Profile</p>
-                                    <p class="text-sm text-gray-600">Link to store/profile</p>
+                                    <p class="text-sm text-[#7E7D9C]">Link to store/profile</p>
                                 </div>
                             </label>
                         </div>
                         @error('link_type')
-                            <p class="text-red-600 text-sm mt-1">{{ $message }}</p>
+                            <p class="text-red-400 text-sm mt-1">{{ $message }}</p>
                         @enderror
                     </div>
 
                     <!-- URL -->
                     <div class="mb-6">
-                        <label class="block text-sm font-medium text-gray-700 mb-2">Link URL *</label>
+                        <label class="block text-sm font-medium text-[#A9A8C3] mb-2">Link URL *</label>
                         <input type="url" name="url" value="{{ old('url') }}" required
                                placeholder="https://shopee.co.id/product-name" 
-                               class="w-full border border-gray-300 rounded-lg px-4 py-2 focus:ring-2 focus:ring-[#006BFF] focus:border-transparent @error('url') border-red-500 @enderror">
+                               class="w-full bg-[#111118] border border-[#2A2A3A] text-[#F1F0FF] rounded-lg px-4 py-2 focus:ring-2 focus:ring-[#A78BFA] focus:border-transparent placeholder-[#7E7D9C] @error('url') border-red-500 @enderror">
                         @error('url')
-                            <p class="text-red-600 text-sm mt-1">{{ $message }}</p>
+                            <p class="text-red-400 text-sm mt-1">{{ $message }}</p>
                         @enderror
-                        <p class="text-gray-500 text-sm mt-1">Platform will be detected automatically from URL</p>
+                        <p class="text-[#7E7D9C] text-sm mt-1">Platform will be detected automatically from URL</p>
                     </div>
 
                     <!-- Display Name -->
                     <div class="mb-6">
-                        <label class="block text-sm font-medium text-gray-700 mb-2">Display Name *</label>
+                        <label class="block text-sm font-medium text-[#A9A8C3] mb-2">Display Name *</label>
                         <input type="text" name="display_name" value="{{ old('display_name') }}" required
                                placeholder="Product or store name" 
-                               class="w-full border border-gray-300 rounded-lg px-4 py-2 focus:ring-2 focus:ring-[#006BFF] @error('display_name') border-red-500 @enderror">
+                               class="w-full bg-[#111118] border border-[#2A2A3A] text-[#F1F0FF] rounded-lg px-4 py-2 focus:ring-2 focus:ring-[#A78BFA] placeholder-[#7E7D9C] @error('display_name') border-red-500 @enderror">
                         @error('display_name')
-                            <p class="text-red-600 text-sm mt-1">{{ $message }}</p>
+                            <p class="text-red-400 text-sm mt-1">{{ $message }}</p>
                         @enderror
                     </div>
 
                     <!-- Description -->
                     <div class="mb-6">
-                        <label class="block text-sm font-medium text-gray-700 mb-2">Description</label>
+                        <label class="block text-sm font-medium text-[#A9A8C3] mb-2">Description</label>
                         <textarea name="description" rows="3" 
                                   placeholder="Brief description about product/store..."
-                                  class="w-full border border-gray-300 rounded-lg px-4 py-2 focus:ring-2 focus:ring-[#006BFF] @error('description') border-red-500 @enderror">{{ old('description') }}</textarea>
+                                  class="w-full bg-[#111118] border border-[#2A2A3A] text-[#F1F0FF] rounded-lg px-4 py-2 focus:ring-2 focus:ring-[#A78BFA] placeholder-[#7E7D9C] @error('description') border-red-500 @enderror">{{ old('description') }}</textarea>
                         @error('description')
-                            <p class="text-red-600 text-sm mt-1">{{ $message }}</p>
+                            <p class="text-red-400 text-sm mt-1">{{ $message }}</p>
                         @enderror
                     </div>
 
                     <!-- Price -->
                     <div class="mb-6">
-                        <label class="block text-sm font-medium text-gray-700 mb-2">Price (Optional)</label>
+                        <label class="block text-sm font-medium text-[#A9A8C3] mb-2">Price (Optional)</label>
                         <div class="relative">
-                            <span class="absolute left-3 top-2.5 text-gray-600">Rp</span>
+                            <span class="absolute left-3 top-2.5 text-[#7E7D9C]">Rp</span>
                             <input type="number" name="price" value="{{ old('price') }}" min="0" step="1000"
                                    placeholder="0"
-                                   class="w-full border border-gray-300 rounded-lg pl-12 pr-4 py-2 focus:ring-2 focus:ring-[#006BFF] @error('price') border-red-500 @enderror">
+                                   class="w-full bg-[#111118] border border-[#2A2A3A] text-[#F1F0FF] rounded-lg pl-12 pr-4 py-2 focus:ring-2 focus:ring-[#A78BFA] placeholder-[#7E7D9C] @error('price') border-red-500 @enderror">
                         </div>
                         @error('price')
-                            <p class="text-red-600 text-sm mt-1">{{ $message }}</p>
+                            <p class="text-red-400 text-sm mt-1">{{ $message }}</p>
                         @enderror
                     </div>
 
                     <!-- Image Upload -->
                     <div class="mb-6">
-                        <label class="block text-sm font-medium text-gray-700 mb-2">Product Image/Logo</label>
-                        <div class="mt-1 flex justify-center px-6 pt-5 pb-6 border-2 border-gray-300 border-dashed rounded-lg hover:border-[#006BFF] transition" 
+                        <label class="block text-sm font-medium text-[#A9A8C3] mb-2">Product Image/Logo</label>
+                        <div class="mt-1 flex justify-center px-6 pt-5 pb-6 border-2 border-dashed border-[#2A2A3A] bg-[#111118] rounded-xl hover:border-[#A78BFA] transition" 
                              x-data="imagePreview()">
                             <div class="space-y-1 text-center">
-                                <div x-show="!imageUrl" class="mx-auto h-12 w-12 text-gray-400">
+                                <div x-show="!imageUrl" class="mx-auto h-12 w-12 text-[#7E7D9C]">
                                     <svg fill="none" stroke="currentColor" viewBox="0 0 48 48">
                                         <path d="M28 8H12a4 4 0 00-4 4v20m32-12v8m0 0v8a4 4 0 01-4 4H12a4 4 0 01-4-4v-4m32-4l-3.172-3.172a4 4 0 00-5.656 0L28 28M8 32l9.172-9.172a4 4 0 015.656 0L28 28m0 0l4 4m4-24h8m-4-4v8m-12 4h.02" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" />
                                     </svg>
@@ -97,18 +97,18 @@
                                 <div x-show="imageUrl" class="mx-auto max-w-xs">
                                     <img :src="imageUrl" class="rounded-lg">
                                 </div>
-                                <div class="flex text-sm text-gray-600">
-                                    <label class="relative cursor-pointer bg-white rounded-md font-medium text-[#006BFF] hover:text-[#006BFF]/80">
+                                <div class="flex text-sm text-[#A9A8C3]">
+                                    <label class="relative cursor-pointer bg-transparent rounded-md font-medium text-[#A78BFA] hover:text-[#C4B5FD]">
                                         <span>Upload image</span>
                                         <input type="file" name="image" class="sr-only" accept="image/*" @change="previewImage($event)">
                                     </label>
                                     <p class="pl-1">or drag and drop</p>
                                 </div>
-                                <p class="text-xs text-gray-500">PNG, JPG, WEBP up to 2MB</p>
+                                <p class="text-xs text-[#7E7D9C]">PNG, JPG, WEBP up to 2MB</p>
                             </div>
                         </div>
                         @error('image')
-                            <p class="text-red-600 text-sm mt-1">{{ $message }}</p>
+                            <p class="text-red-400 text-sm mt-1">{{ $message }}</p>
                         @enderror
                     </div>
 
@@ -116,19 +116,19 @@
                     <div class="mb-6">
                         <label class="flex items-center">
                             <input type="checkbox" name="is_active" value="1" {{ old('is_active', true) ? 'checked' : '' }} 
-                                   class="rounded border-gray-300 text-[#006BFF] focus:ring-[#006BFF]">
-                            <span class="ml-2 text-sm text-gray-700">Activate this link</span>
+                                   class="rounded border-[#2A2A3A] bg-[#111118] text-[#A78BFA] focus:ring-[#A78BFA]">
+                            <span class="ml-2 text-sm text-[#A9A8C3]">Activate this link</span>
                         </label>
                     </div>
 
                     <!-- Actions -->
-                    <div class="flex justify-end space-x-3 pt-4 border-t">
+                    <div class="flex justify-end space-x-3 pt-4 border-t border-[#2A2A3A]">
                         <a href="{{ route('storefront.links.index') }}" 
-                           class="px-4 py-2 border border-gray-300 rounded-lg hover:bg-gray-50">
+                           class="px-4 py-2 border border-[#2A2A3A] rounded-lg text-[#A9A8C3] hover:bg-[#252535] hover:text-[#F1F0FF] transition-colors">
                             Cancel
                         </a>
                         <button type="submit" 
-                                class="px-6 py-2 bg-[#006BFF] hover:bg-[#006BFF]/80 text-white rounded-lg font-medium">
+                                class="px-6 py-2 bg-[#A78BFA] hover:bg-[#9333EA] text-[#0A0A0F] rounded-lg font-bold shadow-lg shadow-[#A78BFA]/20 transition-all">
                             Save Link
                         </button>
                     </div>

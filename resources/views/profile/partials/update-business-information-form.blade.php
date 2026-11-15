@@ -8,13 +8,13 @@
     <!-- Business Info Card -->
     <div class="profile-card p-6 mb-6">
         <header class="mb-6">
-            <h2 class="text-xl font-bold text-gray-900 flex items-center gap-2">
-                <svg class="w-5 h-5 text-[#006BFF]" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <h2 class="text-xl font-bold text-[#F1F0FF] flex items-center gap-2">
+                <svg class="w-5 h-5 text-[#A78BFA]" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 21V5a2 2 0 00-2-2H7a2 2 0 00-2 2v16m14 0h2m-2 0h-5m-9 0H3m2 0h5M9 7h1m-1 4h1m4-4h1m-1 4h1m-5 10v-5a1 1 0 011-1h2a1 1 0 011 1v5m-4 0h4"></path>
                 </svg>
                 {{ __('Business Information') }}
             </h2>
-            <p class="mt-1 text-sm text-gray-500">
+            <p class="mt-1 text-sm text-[#A9A8C3]">
                 {{ __('Update your business details, logo, and location.') }}
             </p>
         </header>
@@ -29,11 +29,11 @@
                 <div class="flex items-start gap-6">
                     <!-- Current Logo Preview -->
                     <div class="flex-shrink-0">
-                        <div class="w-24 h-24 rounded-xl border-2 border-gray-200 overflow-hidden bg-gray-50 flex items-center justify-center">
+                        <div class="w-24 h-24 rounded-xl border border-[#2A2A3A] overflow-hidden bg-[#111118] flex items-center justify-center">
                             @if($businessProfile && $businessProfile->business_logo_url)
                                 <img src="{{ $businessProfile->business_logo_url }}" alt="Business Logo" class="w-full h-full object-cover">
                             @else
-                                <svg class="w-10 h-10 text-gray-300" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <svg class="w-10 h-10 text-[#7E7D9C]" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14m-6-6h.01M6 20h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z"></path>
                                 </svg>
                             @endif
@@ -47,11 +47,11 @@
                              @dragleave.prevent="$el.classList.remove('dragover')"
                              @drop.prevent="handleLogoDrop($event)"
                              @click="triggerLogoUpload()">
-                            <svg class="w-10 h-10 mx-auto text-gray-400 mb-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <svg class="w-10 h-10 mx-auto text-[#7E7D9C] mb-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M7 16a4 4 0 01-.88-7.903A5 5 0 1115.9 6L16 6a5 5 0 011 9.9M15 13l-3-3m0 0l-3 3m3-3v12"></path>
                             </svg>
-                            <p class="text-sm text-gray-600 font-medium">Drop your logo here or click to browse</p>
-                            <p class="text-xs text-gray-400 mt-1">PNG, JPG, WEBP up to 2MB</p>
+                            <p class="text-sm text-[#A9A8C3] font-medium">Drop your logo here or click to browse</p>
+                            <p class="text-xs text-[#7E7D9C] mt-1">PNG, JPG, WEBP up to 2MB</p>
                         </div>
                     </div>
                 </div>
@@ -65,9 +65,9 @@
                            name="business_name" 
                            value="{{ old('business_name', $businessProfile->business_name ?? '') }}" 
                            required
-                           class="input-field w-full bg-white text-gray-900">
+                           class="input-field w-full">
                     @error('business_name')
-                        <p class="mt-2 text-sm text-red-600">{{ $message }}</p>
+                        <p class="mt-2 text-sm text-red-400">{{ $message }}</p>
                     @enderror
                 </div>
 
@@ -78,10 +78,10 @@
                            name="business_category" 
                            value="{{ old('business_category', $businessProfile->business_category ?? '') }}" 
                            required
-                           class="input-field w-full bg-white text-gray-900"
+                           class="input-field w-full"
                            placeholder="e.g., Food & Beverage, Fashion, Technology">
                     @error('business_category')
-                        <p class="mt-2 text-sm text-red-600">{{ $message }}</p>
+                        <p class="mt-2 text-sm text-red-400">{{ $message }}</p>
                     @enderror
                 </div>
 
@@ -92,9 +92,9 @@
                            name="owner_name" 
                            value="{{ old('owner_name', $businessProfile->owner_name ?? '') }}" 
                            required
-                           class="input-field w-full bg-white text-gray-900">
+                           class="input-field w-full">
                     @error('owner_name')
-                        <p class="mt-2 text-sm text-red-600">{{ $message }}</p>
+                        <p class="mt-2 text-sm text-red-400">{{ $message }}</p>
                     @enderror
                 </div>
 
@@ -105,9 +105,9 @@
                            name="contact_email" 
                            value="{{ old('contact_email', $businessProfile->contact_email ?? '') }}" 
                            required
-                           class="input-field w-full bg-white text-gray-900">
+                           class="input-field w-full">
                     @error('contact_email')
-                        <p class="mt-2 text-sm text-red-600">{{ $message }}</p>
+                        <p class="mt-2 text-sm text-red-400">{{ $message }}</p>
                     @enderror
                 </div>
 
@@ -117,22 +117,22 @@
                            id="contact_phone" 
                            name="contact_phone" 
                            value="{{ old('contact_phone', $businessProfile->contact_phone ?? '') }}" 
-                           class="input-field w-full bg-white text-gray-900"
+                           class="input-field w-full"
                            placeholder="+62 812 3456 7890">
                     @error('contact_phone')
-                        <p class="mt-2 text-sm text-red-600">{{ $message }}</p>
+                        <p class="mt-2 text-sm text-red-400">{{ $message }}</p>
                     @enderror
                 </div>
 
                 <!-- UMKM Category (Read Only) -->
                 <div>
                     <label class="info-label block">{{ __('UMKM Category') }}</label>
-                    <div class="input-field w-full bg-gray-50 text-gray-700 flex items-center gap-2">
+                    <div class="input-field w-full bg-[#111118] border border-[#2A2A3A] text-[#F1F0FF] flex items-center gap-2">
                         @if($businessProfile && $businessProfile->umkmCategory)
                             <span class="badge badge-primary">{{ $businessProfile->umkmCategory->code }}</span>
                             <span>{{ $businessProfile->umkmCategory->name }}</span>
                         @else
-                            <span class="text-gray-400">Not categorized</span>
+                            <span class="text-[#7E7D9C]">Not categorized</span>
                         @endif
                     </div>
                 </div>
@@ -144,10 +144,10 @@
                 <textarea id="business_address" 
                           name="business_address" 
                           rows="3"
-                          class="input-field w-full bg-white text-gray-900"
+                          class="input-field w-full"
                           placeholder="Enter your complete business address">{{ old('business_address', $businessProfile->business_address ?? '') }}</textarea>
                 @error('business_address')
-                    <p class="mt-2 text-sm text-red-600">{{ $message }}</p>
+                    <p class="mt-2 text-sm text-red-400">{{ $message }}</p>
                 @enderror
             </div>
 
@@ -161,33 +161,33 @@
                        x-model="mapsLink"
                        @change="handleManualInput()"
                        @paste="setTimeout(() => handleManualInput(), 100)"
-                       class="input-field w-full bg-white text-gray-900"
+                       class="input-field w-full"
                        placeholder="https://maps.google.com/?q=-6.2088,106.8456 atau klik pada map di bawah">
-                <p class="text-xs text-gray-400 mt-1">
+                <p class="text-xs text-[#7E7D9C] mt-1">
                     💡 <strong>Tip:</strong> Paste link Google Maps atau <strong>klik pada map</strong> untuk memilih lokasi
                 </p>
                 @error('google_maps_link')
-                    <p class="mt-2 text-sm text-red-600">{{ $message }}</p>
+                    <p class="mt-2 text-sm text-red-400">{{ $message }}</p>
                 @enderror
                 
                 <!-- Interactive Maps Preview -->
                 <div class="mt-4">
                     <div class="flex items-center justify-between mb-2">
-                        <span class="text-sm font-medium text-gray-700">📍 Business Location</span>
-                        <span x-show="!mapsLink || mapsLink.trim() === ''" class="text-xs text-gray-400">Default: Jakarta, Indonesia</span>
-                        <span x-show="mapsLink && mapsLink.trim() !== ''" class="text-xs text-green-600 flex items-center gap-1">
+                        <span class="text-sm font-medium text-[#A9A8C3]">📍 Business Location</span>
+                        <span x-show="!mapsLink || mapsLink.trim() === ''" class="text-xs text-[#7E7D9C]">Default: Jakarta, Indonesia</span>
+                        <span x-show="mapsLink && mapsLink.trim() !== ''" class="text-xs text-emerald-400 flex items-center gap-1">
                             <svg class="w-3 h-3" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path>
                             </svg>
                             <span x-text="getCoordinatesDisplay()"></span>
                         </span>
                     </div>
-                    <div class="maps-preview rounded-xl overflow-hidden border-2 border-gray-200 shadow-sm hover:border-blue-300 transition-colors" style="min-height: 400px;">
+                    <div class="maps-preview rounded-xl overflow-hidden border border-[#2A2A3A] shadow-md hover:border-[#A78BFA]/50 transition-colors" style="min-height: 400px;">
                         <div id="interactive-map" style="width: 100%; height: 400px;">
                             <!-- Loading indicator -->
-                            <div class="map-loading" style="display: flex; align-items: center; justify-content: center; height: 100%; background: linear-gradient(135deg, #EFF6FF 0%, #DBEAFE 100%); flex-direction: column; gap: 16px;">
-                                <div style="width: 48px; height: 48px; border: 4px solid #BFDBFE; border-top-color: #006BFF; border-radius: 50%; animation: spin 1s linear infinite;"></div>
-                                <p style="color: #006BFF; font-weight: 500; font-size: 14px;">Loading interactive map...</p>
+                            <div class="map-loading" style="display: flex; align-items: center; justify-content: center; height: 100%; background: linear-gradient(135deg, #111118 0%, #1A1A24 100%); flex-direction: column; gap: 16px;">
+                                <div style="width: 48px; height: 48px; border: 4px solid #2A2A3A; border-top-color: #A78BFA; border-radius: 50%; animation: spin 1s linear infinite;"></div>
+                                <p style="color: #A78BFA; font-weight: 500; font-size: 14px;">Loading interactive map...</p>
                             </div>
                             <style>
                                 @keyframes spin {
@@ -196,7 +196,7 @@
                             </style>
                         </div>
                     </div>
-                    <p class="text-xs text-gray-500 mt-2 flex items-center gap-1">
+                    <p class="text-xs text-[#7E7D9C] mt-2 flex items-center gap-1">
                         <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"></path>
                         </svg>
@@ -215,7 +215,7 @@
                        x-show="show"
                        x-transition
                        x-init="setTimeout(() => show = false, 3000)"
-                       class="text-sm text-green-600 font-medium flex items-center gap-1">
+                       class="text-sm text-emerald-400 font-medium flex items-center gap-1">
                         <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path>
                         </svg>
@@ -229,27 +229,27 @@
     <!-- Business Stats Card -->
     @if($businessProfile)
     <div class="profile-card p-6">
-        <h3 class="text-lg font-bold text-gray-900 mb-4">Business Metrics</h3>
+        <h3 class="text-lg font-bold text-[#F1F0FF] mb-4">Business Metrics</h3>
         <div class="grid grid-cols-2 md:grid-cols-4 gap-4">
-            <div class="bg-blue-50 rounded-xl p-4 text-center">
-                <div class="info-label text-blue-600">Business Age</div>
-                <div class="text-2xl font-bold text-blue-700">{{ round($businessProfile->business_age_month / 12, 1) }}</div>
-                <div class="text-xs text-blue-600">Years</div>
+            <div class="bg-[#111118] border border-[#2A2A3A] rounded-xl p-4 text-center">
+                <div class="info-label text-[#A78BFA]">Business Age</div>
+                <div class="text-2xl font-bold text-[#F1F0FF]">{{ round($businessProfile->business_age_month / 12, 1) }}</div>
+                <div class="text-xs text-[#A9A8C3]">Years</div>
             </div>
-            <div class="bg-green-50 rounded-xl p-4 text-center">
-                <div class="info-label text-green-600">Revenue Range</div>
-                <div class="text-lg font-bold text-green-700">{{ $businessProfile->monthly_revenue_range }}</div>
-                <div class="text-xs text-green-600">Monthly</div>
+            <div class="bg-[#111118] border border-[#2A2A3A] rounded-xl p-4 text-center">
+                <div class="info-label text-emerald-400">Revenue Range</div>
+                <div class="text-lg font-bold text-[#F1F0FF]">{{ $businessProfile->monthly_revenue_range }}</div>
+                <div class="text-xs text-[#A9A8C3]">Monthly</div>
             </div>
-            <div class="bg-purple-50 rounded-xl p-4 text-center">
-                <div class="info-label text-purple-600">Category</div>
-                <div class="text-lg font-bold text-purple-700">{{ $businessProfile->umkmCategory->code ?? 'N/A' }}</div>
-                <div class="text-xs text-purple-600">UMKM Type</div>
+            <div class="bg-[#111118] border border-[#2A2A3A] rounded-xl p-4 text-center">
+                <div class="info-label text-purple-400">Category</div>
+                <div class="text-lg font-bold text-[#F1F0FF]">{{ $businessProfile->umkmCategory->code ?? 'N/A' }}</div>
+                <div class="text-xs text-[#A9A8C3]">UMKM Type</div>
             </div>
-            <div class="bg-amber-50 rounded-xl p-4 text-center">
-                <div class="info-label text-amber-600">Status</div>
-                <div class="text-lg font-bold text-amber-700">{{ $businessProfile->onboarding_completed ? 'Complete' : 'Pending' }}</div>
-                <div class="text-xs text-amber-600">Onboarding</div>
+            <div class="bg-[#111118] border border-[#2A2A3A] rounded-xl p-4 text-center">
+                <div class="info-label text-amber-400">Status</div>
+                <div class="text-lg font-bold text-[#F1F0FF]">{{ $businessProfile->onboarding_completed ? 'Complete' : 'Pending' }}</div>
+                <div class="text-xs text-[#A9A8C3]">Onboarding</div>
             </div>
         </div>
     </div>
@@ -401,10 +401,65 @@
                     map = new google.maps.Map(document.getElementById('interactive-map'), {
                         center: { lat: initialLat, lng: initialLng },
                         zoom: coords ? 15 : 11,
-                        mapTypeControl: true,
-                        streetViewControl: true,
+                        mapTypeControl: false,
+                        streetViewControl: false,
                         fullscreenControl: true,
-                        zoomControl: true
+                        zoomControl: true,
+                        styles: [
+                            { elementType: "geometry", stylers: [{ color: "#1A1A24" }] },
+                            { elementType: "labels.text.stroke", stylers: [{ color: "#111118" }] },
+                            { elementType: "labels.text.fill", stylers: [{ color: "#A9A8C3" }] },
+                            {
+                                featureType: "administrative.locality",
+                                elementType: "labels.text.fill",
+                                stylers: [{ color: "#A78BFA" }],
+                            },
+                            {
+                                featureType: "poi",
+                                elementType: "labels.text.fill",
+                                stylers: [{ color: "#7E7D9C" }],
+                            },
+                            {
+                                featureType: "poi.park",
+                                elementType: "geometry",
+                                stylers: [{ color: "#162024" }],
+                            },
+                            {
+                                featureType: "road",
+                                elementType: "geometry",
+                                stylers: [{ color: "#252535" }],
+                            },
+                            {
+                                featureType: "road",
+                                elementType: "geometry.stroke",
+                                stylers: [{ color: "#1F1F2C" }],
+                            },
+                            {
+                                featureType: "road",
+                                elementType: "labels.text.fill",
+                                stylers: [{ color: "#9CA3AF" }],
+                            },
+                            {
+                                featureType: "road.highway",
+                                elementType: "geometry",
+                                stylers: [{ color: "#3B3355" }],
+                            },
+                            {
+                                featureType: "transit",
+                                elementType: "geometry",
+                                stylers: [{ color: "#242533" }],
+                            },
+                            {
+                                featureType: "water",
+                                elementType: "geometry",
+                                stylers: [{ color: "#0E131F" }],
+                            },
+                            {
+                                featureType: "water",
+                                elementType: "labels.text.fill",
+                                stylers: [{ color: "#4B5563" }],
+                            }
+                        ]
                     });
                     
                     // Add marker if we have coordinates
@@ -468,8 +523,8 @@
                                 const mapContainer = document.getElementById('interactive-map');
                                 if (mapContainer) {
                                     mapContainer.innerHTML = `
-                                        <div style="display: flex; align-items: center; justify-content: center; height: 100%; background: #f9fafb; color: #6b7280; flex-direction: column; gap: 12px;">
-                                            <svg class="w-12 h-12 text-red-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                        <div style="display: flex; align-items: center; justify-content: center; height: 100%; background: #111118; color: #A9A8C3; flex-direction: column; gap: 12px;">
+                                            <svg class="w-12 h-12 text-rose-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4m0 4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"></path>
                                             </svg>
                                             <p style="font-size: 14px;">Failed to load map. Please refresh the page.</p>
@@ -488,13 +543,13 @@
                             const mapContainer = document.getElementById('interactive-map');
                             if (mapContainer) {
                                 mapContainer.innerHTML = `
-                                    <div style="display: flex; align-items: center; justify-content: center; height: 100%; background: #fef2f2; color: #991b1b; flex-direction: column; gap: 12px; padding: 20px; text-align: center;">
+                                    <div style="display: flex; align-items: center; justify-content: center; height: 100%; background: #1A1A24; color: #FCA5A5; flex-direction: column; gap: 12px; padding: 20px; text-align: center; border: 1px solid rgba(239, 68, 68, 0.2);">
                                         <svg style="width: 48px; height: 48px;" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16c-.77 1.333.192 3 1.732 3z"></path>
                                         </svg>
                                         <div>
-                                            <p style="font-weight: 600; margin-bottom: 4px;">Unable to load Google Maps</p>
-                                            <p style="font-size: 14px;">Please check your internet connection and refresh the page.</p>
+                                            <p style="font-weight: 600; margin-bottom: 4px; color: #F87171;">Unable to load Google Maps</p>
+                                            <p style="font-size: 14px; color: #A9A8C3;">Please check your internet connection and refresh the page.</p>
                                         </div>
                                     </div>
                                 `;

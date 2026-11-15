@@ -1,6 +1,6 @@
 <x-app-layout>
     <x-slot name="header">
-        <h2 class="font-semibold text-xl text-gray-800 leading-tight">
+        <h2 class="font-semibold text-xl text-[#F1F0FF] leading-tight">
             {{ __('Profile Settings') }}
         </h2>
     </x-slot>
@@ -8,12 +8,14 @@
     <!-- Custom Styles -->
     <style>
         .profile-container {
-            background: linear-gradient(135deg, #F8FAFC 0%, #EFF6FF 100%);
+            background-color: #0A0A0F;
             min-height: calc(100vh - 80px);
         }
         
         .profile-header {
-            background: linear-gradient(135deg, #006BFF 0%, #4D94FF 50%, #0052CC 100%);
+            background: linear-gradient(135deg, #1E1B2E 0%, #161626 50%, #111118 100%);
+            border: 1px solid #2A2A3A;
+            border-top: none;
             border-radius: 0 0 24px 24px;
             position: relative;
             overflow: hidden;
@@ -26,57 +28,68 @@
             left: 0;
             right: 0;
             bottom: 0;
-            background: url("data:image/svg+xml,%3Csvg width='60' height='60' viewBox='0 0 60 60' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='none' fill-rule='evenodd'%3E%3Cg fill='%23ffffff' fill-opacity='0.05'%3E%3Cpath d='M36 34v-4h-2v4h-4v2h4v4h2v-4h4v-2h-4zm0-30V0h-2v4h-4v2h4v4h2V6h4V4h-4zM6 34v-4H4v4H0v2h4v4h2v-4h4v-2H6zM6 4V0H4v4H0v2h4v4h2V6h4V4H6z'/%3E%3C/g%3E%3C/g%3E%3C/svg%3E");
+            background: url("data:image/svg+xml,%3Csvg width='60' height='60' viewBox='0 0 60 60' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='none' fill-rule='evenodd'%3E%3Cg fill='%23ffffff' fill-opacity='0.03'%3E%3Cpath d='M36 34v-4h-2v4h-4v2h4v4h2v-4h4v-2h-4zm0-30V0h-2v4h-4v2h4v4h2V6h4V4h-4zM6 34v-4H4v4H0v2h4v4h2v-4h4v-2H6zM6 4V0H4v4H0v2h4v4h2V6h4V4H6z'/%3E%3C/g%3E%3C/g%3E%3C/svg%3E");
             opacity: 0.3;
         }
         
         .profile-card {
-            background: white;
+            background: #1A1A24;
+            border: 1px solid #2A2A3A;
             border-radius: 16px;
-            box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.4);
             transition: all 0.3s ease;
         }
         
         .profile-card:hover {
-            box-shadow: 0 10px 25px -5px rgba(0, 107, 255, 0.1), 0 8px 10px -5px rgba(0, 107, 255, 0.04);
+            border-color: rgba(167, 139, 250, 0.3);
+            box-shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.5);
         }
         
         .section-tab {
-            color: #6B7280;
+            color: #A9A8C3;
             border-bottom: 2px solid transparent;
             padding: 0.75rem 1.25rem;
             font-weight: 500;
+            font-family: 'Space Grotesk', sans-serif;
             transition: all 0.3s ease;
             cursor: pointer;
         }
         
         .section-tab:hover {
-            color: #006BFF;
+            color: #A78BFA;
         }
         
         .section-tab.active {
-            color: #006BFF;
-            border-bottom-color: #006BFF;
+            color: #A78BFA;
+            border-bottom-color: #A78BFA;
+            background: rgba(167, 139, 250, 0.08);
         }
         
         .input-field {
-            border: 1px solid #E5E7EB;
+            background: #111118;
+            border: 1px solid #2A2A3A;
+            color: #F1F0FF;
             border-radius: 12px;
             padding: 0.875rem 1rem;
             transition: all 0.3s ease;
             font-size: 0.9375rem;
         }
+
+        .input-field option {
+            background-color: #111118;
+            color: #F1F0FF;
+        }
         
         .input-field:focus {
             outline: none;
-            border-color: #006BFF;
-            box-shadow: 0 0 0 3px rgba(0, 107, 255, 0.1);
+            border-color: #A78BFA;
+            box-shadow: 0 0 0 3px rgba(167, 139, 250, 0.15);
         }
         
         .btn-primary {
-            background: linear-gradient(135deg, #006BFF 0%, #4D94FF 100%);
-            color: white;
-            font-weight: 600;
+            background: linear-gradient(135deg, #A78BFA 0%, #7C3AED 100%);
+            color: #0A0A0F;
+            font-weight: 700;
             padding: 0.875rem 1.5rem;
             border-radius: 12px;
             transition: all 0.3s ease;
@@ -86,60 +99,64 @@
         
         .btn-primary:hover {
             transform: translateY(-2px);
-            box-shadow: 0 4px 12px rgba(0, 107, 255, 0.4);
+            box-shadow: 0 4px 14px rgba(167, 139, 250, 0.4);
+            color: #000;
         }
         
         .btn-secondary {
-            background: #F3F4F6;
-            color: #374151;
+            background: #111118;
+            color: #A9A8C3;
             font-weight: 500;
             padding: 0.875rem 1.5rem;
             border-radius: 12px;
             transition: all 0.3s ease;
-            border: 1px solid #E5E7EB;
+            border: 1px solid #2A2A3A;
             cursor: pointer;
         }
         
         .btn-secondary:hover {
-            background: #E5E7EB;
+            background: #252535;
+            color: #F1F0FF;
+            border-color: #3A3A4E;
         }
         
         .upload-zone {
-            border: 2px dashed #D1D5DB;
+            border: 2px dashed #2A2A3A;
             border-radius: 16px;
             padding: 2rem;
             text-align: center;
             transition: all 0.3s ease;
             cursor: pointer;
-            background: #F9FAFB;
+            background: #111118;
+            color: #A9A8C3;
         }
         
         .upload-zone:hover {
-            border-color: #006BFF;
-            background: #EFF6FF;
+            border-color: #A78BFA;
+            background: #161622;
         }
         
         .upload-zone.dragover {
-            border-color: #006BFF;
-            background: #DBEAFE;
+            border-color: #A78BFA;
+            background: #1E1B2E;
         }
         
         .avatar-container {
             width: 120px;
             height: 120px;
             border-radius: 50%;
-            background: linear-gradient(135deg, #006BFF 0%, #4D94FF 100%);
+            background: linear-gradient(135deg, #A78BFA 0%, #7C3AED 100%);
             display: flex;
             align-items: center;
             justify-content: center;
-            border: 4px solid white;
-            box-shadow: 0 4px 14px rgba(0, 107, 255, 0.3);
+            border: 4px solid #1A1A24;
+            box-shadow: 0 4px 14px rgba(167, 139, 250, 0.3);
         }
         
         .info-label {
             font-size: 0.75rem;
             font-weight: 600;
-            color: #6B7280;
+            color: #A9A8C3;
             text-transform: uppercase;
             letter-spacing: 0.05em;
             margin-bottom: 0.375rem;
@@ -147,7 +164,7 @@
         
         .info-value {
             font-size: 0.9375rem;
-            color: #1F2937;
+            color: #F1F0FF;
             font-weight: 500;
         }
         
@@ -161,24 +178,26 @@
         }
         
         .badge-primary {
-            background: rgba(0, 107, 255, 0.1);
-            color: #006BFF;
+            background: rgba(167, 139, 250, 0.15);
+            color: #A78BFA;
+            border: 1px solid rgba(167, 139, 250, 0.3);
         }
         
         .badge-success {
-            background: rgba(16, 185, 129, 0.1);
-            color: #10B981;
+            background: rgba(16, 185, 129, 0.15);
+            color: #34D399;
+            border: 1px solid rgba(16, 185, 129, 0.3);
         }
         
         .danger-zone {
-            background: linear-gradient(135deg, #FEF2F2 0%, #FEE2E2 100%);
-            border: 1px solid #FECACA;
+            background: #1A1A24;
+            border: 1px solid rgba(239, 68, 68, 0.3);
         }
         
         .maps-preview {
             border-radius: 12px;
             overflow: hidden;
-            border: 1px solid #E5E7EB;
+            border: 1px solid #2A2A3A;
         }
         
         /* Success toast */
@@ -207,8 +226,8 @@
         <!-- Success Toasts -->
         @if (session('status'))
             <div class="fixed top-20 right-6 z-50 toast-success">
-                <div class="bg-green-500 text-white px-6 py-4 rounded-xl shadow-lg flex items-center gap-3">
-                    <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <div class="bg-[#162D24] border border-emerald-500/40 text-emerald-300 px-6 py-4 rounded-xl shadow-xl shadow-emerald-950/50 flex items-center gap-3">
+                    <svg class="w-5 h-5 text-emerald-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path>
                     </svg>
                     <span class="font-medium">
@@ -245,10 +264,10 @@
                         @if($businessProfile && $businessProfile->business_logo_url)
                             <img src="{{ $businessProfile->business_logo_url }}" alt="Business Logo" class="w-full h-full object-cover rounded-full">
                         @else
-                            <span class="text-white text-4xl font-bold">{{ substr($user->name, 0, 1) }}</span>
+                            <span class="text-[#0A0A0F] text-4xl font-extrabold">{{ substr($user->name, 0, 1) }}</span>
                         @endif
-                        <button @click="activeTab = 'business'" class="absolute bottom-0 right-0 w-8 h-8 bg-white rounded-full flex items-center justify-center shadow-lg hover:scale-110 transition-transform">
-                            <svg class="w-4 h-4 text-[#006BFF]" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <button @click="activeTab = 'business'" class="absolute bottom-0 right-0 w-8 h-8 bg-[#1A1A24] border border-[#2A2A3A] rounded-full flex items-center justify-center shadow-lg hover:scale-110 transition-transform">
+                            <svg class="w-4 h-4 text-[#A78BFA]" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 9a2 2 0 012-2h.93a2 2 0 001.664-.89l.812-1.22A2 2 0 0110.07 4h3.86a2 2 0 011.664.89l.812 1.22A2 2 0 0018.07 7H19a2 2 0 012 2v9a2 2 0 01-2 2H5a2 2 0 01-2-2V9z"></path>
                                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 13a3 3 0 11-6 0 3 3 0 016 0z"></path>
                             </svg>
@@ -258,42 +277,42 @@
                     <!-- User Info -->
                     <div class="text-center md:text-left text-white">
                         @if($businessProfile)
-                        <h1 class="text-2xl md:text-3xl font-bold mb-1">{{ $businessProfile->business_name }}</h1>
-                            <p class="text-white/90 text-lg mb-2">{{ $user->name }}</p>
+                        <h1 class="text-2xl md:text-3xl font-bold mb-1 text-[#F1F0FF]">{{ $businessProfile->business_name }}</h1>
+                            <p class="text-[#A9A8C3] text-lg mb-2">{{ $user->name }}</p>
                             <div class="flex flex-wrap items-center justify-center md:justify-start gap-2">
-                                <span class="badge" style="background: rgba(255,255,255,0.2); color: white;">
+                                <span class="badge" style="background: rgba(167, 139, 250, 0.2); color: #C4B5FD; border: 1px solid rgba(167, 139, 250, 0.3);">
                                     {{ $businessProfile->business_category }}
                                 </span>
                                 @if($businessProfile->umkmCategory)
-                                    <span class="badge" style="background: rgba(255,255,255,0.2); color: white;">
+                                    <span class="badge" style="background: rgba(255,255,255,0.1); color: #F1F0FF; border: 1px solid rgba(255,255,255,0.2);">
                                         {{ $businessProfile->umkmCategory->name }}
                                     </span>
                                 @endif
                             </div>
                         @else
-                            <p class="text-white/80">{{ $user->email }}</p>
+                            <p class="text-[#A9A8C3]">{{ $user->email }}</p>
                         @endif
                     </div>
                     
                     <!-- Quick Stats -->
                     <div class="md:ml-auto grid grid-cols-2 gap-4">
-                        <div class="bg-white rounded-xl px-4 py-3 shadow-lg hover:shadow-xl transition-all duration-300 hover:scale-105">
+                        <div class="bg-[#1A1A24] border border-[#2A2A3A] rounded-xl px-4 py-3 shadow-lg hover:shadow-xl transition-all duration-300 hover:scale-105">
                             <div class="flex items-center gap-2 mb-1">
-                                <svg class="w-4 h-4 text-blue-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <svg class="w-4 h-4 text-[#A78BFA]" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z"></path>
                                 </svg>
-                                <div class="text-xs font-semibold text-gray-500 uppercase tracking-wide">Member Since</div>
+                                <div class="text-xs font-semibold text-[#A9A8C3] uppercase tracking-wide">Member Since</div>
                             </div>
-                            <div class="text-lg font-bold text-gray-900">{{ $user->created_at->format('M Y') }}</div>
+                            <div class="text-lg font-bold text-[#F1F0FF]">{{ $user->created_at->format('M Y') }}</div>
                         </div>
-                        <div class="bg-gradient-to-br from-blue-500 to-blue-600 rounded-xl px-4 py-3 shadow-lg hover:shadow-xl transition-all duration-300 hover:scale-105">
+                        <div class="bg-[#1A1A24] border border-[#2A2A3A] rounded-xl px-4 py-3 shadow-lg hover:shadow-xl transition-all duration-300 hover:scale-105">
                             <div class="flex items-center gap-2 mb-1">
-                                <svg class="w-4 h-4 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <svg class="w-4 h-4 text-[#A78BFA]" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m5.618-4.016A11.955 11.955 0 0112 2.944a11.955 11.955 0 01-8.618 3.04A12.02 12.02 0 003 9c0 5.591 3.824 10.29 9 11.622 5.176-1.332 9-6.03 9-11.622 0-1.042-.133-2.052-.382-3.016z"></path>
                                 </svg>
-                                <div class="text-xs font-semibold text-white/90 uppercase tracking-wide">Role</div>
+                                <div class="text-xs font-semibold text-[#A9A8C3] uppercase tracking-wide">Role</div>
                             </div>
-                            <div class="text-lg font-bold text-white">{{ $user->getPrimaryRoleName() }}</div>
+                            <div class="text-lg font-bold text-[#A78BFA]">{{ $user->getPrimaryRoleName() }}</div>
                         </div>
                     </div>
                 </div>
@@ -301,7 +320,7 @@
 
             <!-- Navigation Tabs -->
             <div class="profile-card mb-6">
-                <div class="flex overflow-x-auto scrollbar-hide border-b border-gray-100">
+                <div class="flex overflow-x-auto scrollbar-hide border-b border-[#2A2A3A]">
                     <button @click="activeTab = 'personal'" 
                             :class="{ 'active': activeTab === 'personal' }" 
                             class="section-tab whitespace-nowrap flex items-center gap-2">
